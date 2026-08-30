@@ -387,3 +387,32 @@ article.post em { color: var(--text-dim); }
   body { transition: opacity .18s ease, transform .18s ease; }
   body.page-leave { opacity: 0; transform: translateY(-4px); }
 }
+
+/* ============================================================
+   Fila legal del pie y tablas (páginas legales)
+   ============================================================ */
+
+.site-footer .wrap.legal {
+  border-top: 1px solid var(--border);
+  padding-top: .85rem;
+  padding-bottom: 1rem;
+  font-size: .8rem;
+}
+
+.table-wrap { overflow-x: auto; margin: .8rem 0; }
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+
+.table-wrap th, .table-wrap td {
+  text-align: left;
+  padding: .55rem .7rem;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.table-wrap th { background: var(--card); color: var(--brand-soft); font-weight: 600; }
+.table-wrap td { background: var(--bg-soft); }

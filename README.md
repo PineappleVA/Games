@@ -21,6 +21,7 @@ a GitHub Pages.
 │   └── simulagoal/            → Página de SimulaGoal + game/ (jugable en la web)
 ├── iris-games/                → Página de iRiS Games + game/ (jugable en la web)
 ├── dev/                       → 🛠️ Panel interno del equipo (noindex)
+├── legal/                     → ⚖️ Legal: Términos, Privacidad, DMCA y Cookies
 ├── anuncios/                  → Canales de anuncios, escritos en Markdown
 │   ├── dopamina/posts/        → ✍️ Anuncios de Dopamina (.md)
 │   ├── trade-up/posts/        → ✍️ Anuncios de Trade Up (.md)
@@ -106,6 +107,13 @@ directamente en una pestaña nueva. Convención de publicación:
   (GitHub Pages) como en local (`python3 -m http.server`).
 - El formulario «Dopamina Player Review» sigue alojado en Google Forms y se
   enlaza desde el hub de Dopamina.
+- **Google Analytics 4** (`G-X56Z41NJLW`) con consentimiento RGPD: el banner de
+  cookies (`assets/js/analytics.js`, autocontenido) carga GA solo si el usuario
+  acepta; la elección se guarda en `localStorage` (`pg-cookie-consent`) y tiene
+  IP anonimizada. Se sirve en todas las páginas, incluidos los juegos.
+- Sección legal en `/legal/`: Términos y Condiciones del Sitio, Política de
+  Privacidad (RGPD), Protección DMCA (con aviso fan-made de FNAS) y Política de
+  Cookies, enlazadas desde el pie de todas las páginas.
 
 ---
 
