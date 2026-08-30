@@ -2439,6 +2439,17 @@ setInterval(()=>{
 // Load from local button
 const _loadLocalBtn = document.getElementById('loadLocalBtn'); if(_loadLocalBtn) { _loadLocalBtn.onclick = ()=>{const s = localStorage.getItem('dopamina_autosave'); if(!s){ showPopup('No hay guardado local'); return; } try{ const data = JSON.parse(s); loadFromObject(data,'guardado local'); }catch(err){console.error(err); showPopup('Guardado local inválido'); } } }
 
+// Autorestaurar el autoguardado nada más abrir (añadido por Pineapple Games).
+// Espera a que termine el loader de arranque (~2s) para no pisar su secuencia.
+setTimeout(()=>{
+  try{
+    const _autoRaw = localStorage.getItem('dopamina_autosave');
+    if(!_autoRaw) return;
+    const _autoData = JSON.parse(_autoRaw);
+    if(_autoData && typeof _autoData.p !== 'undefined') loadFromObject(_autoData,'autoguardado local');
+  }catch(_e){}
+}, 2100);
+
 // ===================== DISCLAIMER + LOADER (moved earlier) =====================
 // Global error handlers to surface runtime errors and avoid silent failures
 window.addEventListener('error', e=>{console.error('Runtime error',e.error||e.message); try{showPopup('Error en ejecución — mira la consola'); }catch(_){}});
@@ -3152,7 +3163,7 @@ document.getElementById("downloadSaveBtn").onclick=()=>{
       case 'setstreak': dailyState.streak = Math.max(0, Number(a)||0); log('Racha = '+dailyState.streak); break;
       case 'setcpm': { const count = Math.max(0, Number(a)||0); clicksInLastMinute = []; const now = Date.now(); for(let i=0;i<count;i++){ clicksInLastMinute.push(now - (i*300)); } log('Clicks simulados = '+clicksInLastMinute.length); break; }
       case 'outside': outsideClicks = Math.max(0, Number(a)||0); log('outsideClicks = '+outsideClicks); break;
-      case 'reset': if(confirm('¿Resetear todo el juego? Esta acción no se puede deshacer.')){ localStorage.clear(); log('Juego reseteado. Recargando...'); setTimeout(()=>location.reload(), 800); } else { log('Reset cancelado'); } break;
+      case 'reset': if(confirm('¿Resetear todo el juego? Esta acción no se puede deshacer.')){ localStorage.removeItem('dopamina_autosave'); localStorage.removeItem('blueStoreSeen'); log('Juego reseteado (solo datos de Dopamina). Recargando...'); setTimeout(()=>location.reload(), 800); } else { log('Reset cancelado'); } break;
       case 'save': document.getElementById('downloadSaveBtn').click(); log('Guardado forzado'); break;
       default: log('Comando desconocido: '+cmd); break;
     }

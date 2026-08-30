@@ -420,6 +420,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;b
   <div class="ghud">
     <div class="hstat"><div class="hlb" id="dScoreLbl">PUNTOS</div><div class="hv" id="dScore">0</div></div>
     <div class="hstat"><div class="hlb">RACHA</div><div class="hv" id="dCombo">x1</div></div>
+    <div class="hstat"><div class="hlb">RÉCORD</div><div class="hv" id="dBest">0</div></div>
     <div class="hbtns"><button class="hbtn" id="dReset">↺ Reset</button><button class="hbtn back" onclick="goHome()">← Inicio</button></div>
   </div>
   <canvas id="dartCanvas"></canvas>
@@ -697,9 +698,28 @@ function updateTexts(){document.getElementById('sloganTxt').textContent='Desata 
 let cur='disc',dartRAF=null,ragRAF=null,homeBgRAF=null,permTimer=null;
 let gamesCompleted=new Set(); // tracks which games reached 100%
 let lastPlayedGame='ragdoll';
+
+// ═══════ PERSISTENCIA LOCAL (localStorage) — guarda progreso en tu navegador, nunca sale de él ═══════
+const IRIS_SAVE='iris-save-v1';
+let irisSaveLoaded=false,forceSlotReset=false,dBest=0;
+function saveIris(){try{localStorage.setItem(IRIS_SAVE,JSON.stringify({v:1,games:[...gamesCompleted],rCompl:rCompletions,dBest:dBest,coins:sCoins,bigWins:sBigWins,shop:{luck:{lvl:shopUps.luck.lvl,cost:shopUps.luck.cost},mult:{lvl:shopUps.mult.lvl,cost:shopUps.mult.cost},cheap:{lvl:shopUps.cheap.lvl,cost:shopUps.cheap.cost}},last:lastPlayedGame}));}catch(e){}}
+function loadIris(){
+  let d=null;try{d=JSON.parse(localStorage.getItem(IRIS_SAVE));}catch(e){}
+  if(!d||d.v!==1)return false;
+  (d.games||[]).forEach(g=>gamesCompleted.add(g));
+  rCompletions=d.rCompl|0;
+  dBest=d.dBest|0;
+  if(typeof d.coins==='number')sCoins=d.coins;
+  if(typeof d.bigWins==='number')sBigWins=d.bigWins;
+  if(d.shop)['luck','mult','cheap'].forEach(k=>{const u=d.shop[k];if(u){shopUps[k].lvl=u.lvl|0;shopUps[k].cost=u.cost|0;}});
+  if(typeof d.last==='string')lastPlayedGame=d.last;
+  irisSaveLoaded=true;
+  return true;
+}
 function checkGameCompletion(game){
   if(gamesCompleted.has(game))return;
   gamesCompleted.add(game);
+  saveIris();
   const msg=`🏆 ¡${game.toUpperCase()} al 100%!${gamesCompleted.size===1?' Nuevo juego desbloqueado...':gamesCompleted.size===2?' ¡Sigue así!':' ¡Casi lo tienes todo!'}`;
   showUnlockToast(msg);
   setTimeout(()=>buildCards(),2000);
@@ -943,7 +963,7 @@ function dSz(){DS=Math.min(window.innerWidth*.92,window.innerHeight*.87,820);dar
 function dBuildOff(){if(!irisOK)return;dOffCv=document.createElement('canvas');dOffCv.width=DS;dOffCv.height=DS;dOffCtx=dOffCv.getContext('2d');dOffCtx.save();dOffCtx.beginPath();dOffCtx.arc(DS/2,DS/2,DS*.48,0,Math.PI*2);dOffCtx.clip();dOffCtx.drawImage(irisImg,0,0,DS,DS);dOffCtx.restore();}
 function dIsColored(x,y){if(!dOffCtx)return true;const xi=Math.round(x),yi=Math.round(y);if(xi<0||yi<0||xi>=DS||yi>=DS)return false;const d=dOffCtx.getImageData(xi,yi,1,1).data;return(d[0]+d[1]+d[2])>85;}
 function dOnBoard(x,y){return Math.hypot(x-DS/2,y-DS/2)<DS*.474;}
-function dInit(){dSz();dScore=0;stuckD=[];flyD=null;dThrowing=false;dBlood=[];dStains=[];dThrowCt=0;dStreak=0;dAimX=DS/2;dAimY=DS/2;dAimOn=false;dScEl.textContent='0';dComboEl.textContent='x1';dBuildOff();}
+function dInit(){dSz();dScore=0;stuckD=[];flyD=null;dThrowing=false;dBlood=[];dStains=[];dThrowCt=0;dStreak=0;dAimX=DS/2;dAimY=DS/2;dAimOn=false;dScEl.textContent='0';dComboEl.textContent='x1';const bEl=document.getElementById('dBest');if(bEl)bEl.textContent=dBest;dBuildOff();}
 function dReset(){dScore=0;stuckD=[];flyD=null;dThrowing=false;dBlood=[];dStains=[];dThrowCt=0;dStreak=0;dScEl.textContent='0';dComboEl.textContent='x1';}
 function dCalcPts(x,y){const d=Math.hypot(x-DS/2,y-DS/2),mR=DS*.47;if(d>mR)return 0;const p=1-d/mR;if(p>.97)return 500;if(p>.89)return 200;if(p>.77)return 100;if(p>.61)return 75;if(p>.43)return 50;if(p>.25)return 25;return 10;}
 
@@ -1024,7 +1044,7 @@ dartCv.addEventListener('mousemove',e=>{const r=dartCv.getBoundingClientRect();d
 dartCv.addEventListener('mouseleave',()=>{dAimOn=false;});
 function dLoop(){if(cur!=='darts'){dartRAF=null;return;}
   if(flyD){flyD.tick();
-    if(flyD.landed){const p={x:flyD.x,y:flyD.y};stuckD.push({x:p.x,y:p.y,a:flyD.ang()});const base=dCalcPts(p.x,p.y);if(base>0){dStreak++;const mult=1+Math.min(2,dStreak*.18);const pts=Math.round(base*mult);dScore+=pts;dComboEl.textContent=`x${mult.toFixed(mult<2?1:0)}`;dScEl.textContent=dScore;sfx.hit();dScEl.classList.add('fl');setTimeout(()=>dScEl.classList.remove('fl'),200);spawnDBlood(p.x,p.y,10);const r=dartCv.getBoundingClientRect();showPopup(r.left+p.x*(r.width/DS),r.top+p.y*(r.height/DS),`+${pts}`,pts>=320?'#ffd700':pts>=120?'#f47920':'#ccc');}else{dStreak=0;dComboEl.textContent='x1';const r=dartCv.getBoundingClientRect();showPopup(r.left+p.x*(r.width/DS),r.top+p.y*(r.height/DS),'MISS','#222');}flyD=null;dThrowing=false;dThrowCt++;if(dScore>=1000)checkGameCompletion('darts');if(dThrowCt>=50&&!eggTriggered)triggerEgg();}
+    if(flyD.landed){const p={x:flyD.x,y:flyD.y};stuckD.push({x:p.x,y:p.y,a:flyD.ang()});const base=dCalcPts(p.x,p.y);if(base>0){dStreak++;const mult=1+Math.min(2,dStreak*.18);const pts=Math.round(base*mult);dScore+=pts;dComboEl.textContent=`x${mult.toFixed(mult<2?1:0)}`;dScEl.textContent=dScore;sfx.hit();dScEl.classList.add('fl');setTimeout(()=>dScEl.classList.remove('fl'),200);spawnDBlood(p.x,p.y,10);const r=dartCv.getBoundingClientRect();showPopup(r.left+p.x*(r.width/DS),r.top+p.y*(r.height/DS),`+${pts}`,pts>=320?'#ffd700':pts>=120?'#f47920':'#ccc');}else{dStreak=0;dComboEl.textContent='x1';const r=dartCv.getBoundingClientRect();showPopup(r.left+p.x*(r.width/DS),r.top+p.y*(r.height/DS),'MISS','#222');}flyD=null;dThrowing=false;dThrowCt++;if(dScore>dBest){dBest=dScore;const bEl=document.getElementById('dBest');if(bEl)bEl.textContent=dBest;}if(dScore>=1000)checkGameCompletion('darts');if(dThrowCt>=50&&!eggTriggered)triggerEgg();saveIris();}
     else if(flyD&&flyD.done){dStreak=0;dComboEl.textContent='x1';flyD=null;dThrowing=false;}
   }
   tickDBlood();dRender();dartRAF=requestAnimationFrame(dLoop);
@@ -1258,6 +1278,7 @@ function rTick(){
       rDead=true;clearInterval(machineTimer);activeMachine=null;rStructure=null;
       const prevCompl=rCompletions;rCompletions++;
       checkGameCompletion('ragdoll'); // registro completado al 100%
+      saveIris(); // rCompletions actualizado: desbloquea máquinas
       // Check for new unlock
       const newMachine=MACHINES.find(m=>m.unlockAt===rCompletions);
       document.getElementById('destT').textContent='DESTRUIDO';
@@ -1374,7 +1395,7 @@ let sLeverDrag=false,sLeverStartY=0,sLeverPull=0;
 function getIC(){return .18+shopUps.luck.lvl*.05;}
 function getMult(){return 1+shopUps.mult.lvl*.5;}
 function getCost(){return Math.max(5,10-shopUps.cheap.lvl*2);}
-function updateCoinsUI(){sCoinsEl.textContent=sCoins;document.getElementById('sCoinsAlt').textContent=sCoins;spinBtn.textContent=`PALANCA (-${getCost()})`;spinBtn.disabled=sSpinning||sCoins<getCost();}
+function updateCoinsUI(){sCoinsEl.textContent=sCoins;document.getElementById('sCoinsAlt').textContent=sCoins;spinBtn.textContent=`PALANCA (-${getCost()})`;spinBtn.disabled=sSpinning||sCoins<getCost();saveIris();}
 function setLeverPull(p){
   sLeverPull=Math.max(0,Math.min(1,p));
   const feel=1-Math.pow(1-sLeverPull,1.55);
@@ -1493,8 +1514,8 @@ function openShop(){
   b.querySelectorAll('.shop-buy:not(:disabled)').forEach(btn=>{btn.onclick=()=>{const k=btn.dataset.k;const up=shopUps[k];if(sCoins>=up.cost&&up.lvl<up.max){sCoins-=up.cost;up.lvl++;up.cost=Math.floor(up.cost*1.5);updateCoinsUI();openShop();}};});
 }
 function closeShop(){document.getElementById('shopModal').classList.remove('open');}
-function sInit(){sCoins=100;sBigWins=0;sSpinning=false;shopUps={luck:{lvl:0,cost:80,max:5},mult:{lvl:0,cost:60,max:3},cheap:{lvl:0,cost:50,max:2}};slotMsg.className='slot-msg';slotMsg.textContent='· · ·';slotMsg.style.color='';winOv.style.display='none';bindSlotLever();resetLever();updateCoinsUI();buildReels();}
-document.getElementById('sReset').onclick=sInit;
+function sInit(){if(forceSlotReset||!irisSaveLoaded){sCoins=100;sBigWins=0;shopUps={luck:{lvl:0,cost:80,max:5},mult:{lvl:0,cost:60,max:3},cheap:{lvl:0,cost:50,max:2}};forceSlotReset=false;}sSpinning=false;slotMsg.className='slot-msg';slotMsg.textContent='· · ·';slotMsg.style.color='';winOv.style.display='none';bindSlotLever();resetLever();updateCoinsUI();buildReels();}
+document.getElementById('sReset').onclick=()=>{forceSlotReset=true;sInit();saveIris();};
 
 // ═══════════════════════ WIN98 — File Funeral
 const FILES=[
@@ -2228,6 +2249,7 @@ function meetInit(){
 window.addEventListener('load',()=>{
   loaderStart();startLogoRing();updateTexts();
   showDiscPhase(0);
+  if(loadIris())setTimeout(()=>showUnlockToast('💾 Progreso local restaurado'),1400);
   window.addEventListener('resize',()=>{if(cur==='darts')dSz();if(cur==='ragdoll')rSz();if(cur==='meetup'&&document.getElementById('meet-phase-fight').style.display!=='none'){const cv=document.getElementById('meetFightCv');if(cv){cv.width=window.innerWidth;cv.height=window.innerHeight;RW=cv.width;RH=cv.height;FLY=RH-FLRM;}}if(cur==='home'){const cv=document.getElementById('homeBg');if(cv){cv.width=window.innerWidth;cv.height=window.innerHeight;}}});
 });
 </script>

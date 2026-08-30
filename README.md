@@ -118,6 +118,11 @@ directamente en una pestaña nueva. Convención de publicación:
 - Estilo «Liquid Glass» sutil: cabecera, tarjetas, botones secundarios, avisos
   del banner de cookies y filas de directorio usan superficies translúcidas con
   `backdrop-filter` (con respaldo sólido para navegadores sin soporte).
+- Guardado de progreso en `localStorage` (todo local, nunca sale del navegador):
+  Dopamina (`dopamina_autosave`, se restaura sola al abrir el juego), iRiS Games
+  (`iris-save-v1`: juegos completados, máquinas desbloqueadas, economía de slots
+  y récord de dardos) y SimulaGoal (`sg-save-v2`: torneo en curso). El reset de
+  Dopamina solo borra sus propias claves.
 
 ---
 
