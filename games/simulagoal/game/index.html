@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-        
+
         :root {
             --primary: #00f2ff;
             --secondary: #7000ff;
@@ -16,9 +16,9 @@
             --surface: #0a0d14;
         }
 
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--bg); 
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
             color: #f1f5f9;
             overflow: hidden;
             height: 100vh;
@@ -61,6 +61,7 @@
             transition: all 0.3s ease;
         }
         .match-card.active { border-left-color: var(--primary); box-shadow: 0 4px 20px rgba(0,242,255,0.1); }
+        .match-card.final { border-left-color: #facc15; }
 
         /* Balon y Campo */
         #pitch {
@@ -82,6 +83,16 @@
 
         /* Modal Blur */
         .modal-overlay { background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); }
+
+        /* Pantalla de campeón: resplandor dorado sobrio */
+        #champion-view { background: radial-gradient(circle at 50% 32%, rgba(250,204,21,0.12), rgba(0,0,0,0.95) 55%); }
+
+        /* Botones de velocidad */
+        .spd-btn { width: 40px; height: 28px; border-radius: 8px; font-size: 10px; font-weight: 900;
+                   background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1);
+                   transition: all 0.15s ease; }
+        .spd-btn.on { background: rgba(0,242,255,0.15); color: var(--primary); border-color: rgba(0,242,255,0.3); }
+        .spd-btn:hover { color: white; }
     </style>
 <style>
 /* Transición de entrada — añadida por Pineapple Games (seguro de retirar) */
@@ -105,7 +116,7 @@
             <div class="flex justify-between items-start mb-8">
                 <div>
                     <h2 class="text-3xl font-black text-cyan-400 italic uppercase">Guía de Operaciones</h2>
-                    <p class="text-xs text-white/40 font-bold tracking-widest mt-1 uppercase">Simulagoal v2.5 Pro Edition</p>
+                    <p class="text-xs text-white/40 font-bold tracking-widest mt-1 uppercase">Simulagoal v3.0 Elite Edition</p>
                 </div>
                 <button onclick="toggleManual()" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-all">✕</button>
             </div>
@@ -123,21 +134,21 @@
                 <div class="space-y-4">
                     <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
                         <h4 class="text-cyan-400 text-xs font-black uppercase mb-2">1. Selección Global</h4>
-                        <p class="text-xs text-white/60 leading-relaxed">Dispones de 120 naciones soberanas reales. El sistema calibra su OVR según rendimiento histórico sugerido por la IA.</p>
+                        <p class="text-xs text-white/60 leading-relaxed">120 naciones reales con su OVR. Filtra por confederación, busca por nombre o usa «Llenar 120» para el torneo máximo.</p>
                     </div>
                     <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <h4 class="text-cyan-400 text-xs font-black uppercase mb-2">2. Mecánica de Grupos</h4>
-                        <p class="text-xs text-white/60 leading-relaxed">Simula partido a partido o usa el modo 'Flash' para resultados instantáneos. Los 2 mejores de cada zona avanzan.</p>
+                        <h4 class="text-cyan-400 text-xs font-black uppercase mb-2">2. Fase de Grupos</h4>
+                        <p class="text-xs text-white/60 leading-relaxed">Juega partido a partido con retransmisión en vivo o usa la Simulación Instantánea. Clasificación con PJ, diferencia de goles y puntos; los 2 primeros avanzan.</p>
                     </div>
                 </div>
                 <div class="space-y-4">
                     <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <h4 class="text-cyan-400 text-xs font-black uppercase mb-2">3. Navegación Visual</h4>
-                        <p class="text-xs text-white/60 leading-relaxed">En eliminatorias, arrastra el ratón para moverte por el cuadro. Usa los controles +/- para ajustar el zoom.</p>
+                        <h4 class="text-cyan-400 text-xs font-black uppercase mb-2">3. Cuadro Final</h4>
+                        <p class="text-xs text-white/60 leading-relaxed">Arrastra para navegar, regula el zoom con +/-, simula partidos sueltos o todo el cuadro de golpe. Empate = tanda de penaltis real. El campeón se celebra a lo grande.</p>
                     </div>
                     <div class="p-4 bg-white/5 rounded-2xl border border-white/5">
-                        <h4 class="text-cyan-400 text-xs font-black uppercase mb-2">4. Motor de Goles</h4>
-                        <p class="text-xs text-white/60 leading-relaxed">Probabilidad ajustada al 0.8% por minuto para asegurar marcadores técnicos y realistas.</p>
+                        <h4 class="text-cyan-400 text-xs font-black uppercase mb-2">4. Motor y Comodidades</h4>
+                        <p class="text-xs text-white/60 leading-relaxed">Probabilidad de gol dinámica según el OVR combinado. Velocidades x1/x2/x4, salto directo al final y guardado automático del torneo en tu navegador.</p>
                     </div>
                 </div>
             </div>
@@ -175,8 +186,31 @@
                 </div>
             </div>
 
-            <div class="mt-8 flex justify-center">
+            <div class="mt-6 flex items-center justify-center gap-2">
+                <span class="text-[9px] font-black uppercase tracking-widest text-white/40 mr-2">Velocidad</span>
+                <button id="spd-1" class="spd-btn on" onclick="setSpeed(1)">1x</button>
+                <button id="spd-2" class="spd-btn" onclick="setSpeed(2)">2x</button>
+                <button id="spd-4" class="spd-btn" onclick="setSpeed(4)">4x</button>
+                <button id="m-skip-btn" onclick="skipMatch()" class="ml-4 px-4 py-1.5 bg-white/10 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all">Saltar al final ⏭</button>
+            </div>
+
+            <div class="mt-6 flex justify-center">
                 <button onclick="closeMatch()" id="m-close-btn" class="hidden px-14 py-4 bg-white text-black font-black rounded-full hover:scale-110 transition-all uppercase text-xs tracking-[0.3em]">Cerrar Resumen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA DE CAMPEÓN -->
+    <div id="champion-view" class="fixed inset-0 z-[4000] hidden flex-col items-center justify-center p-6 text-center">
+        <div class="animate__animated animate__zoomIn">
+            <div class="text-[7rem] leading-none drop-shadow-2xl">🏆</div>
+            <div id="c-flag" class="text-8xl mt-4 drop-shadow-2xl"></div>
+            <h2 class="text-yellow-400 font-black text-4xl md:text-5xl italic uppercase tracking-tighter mt-6">Campeón del Mundo</h2>
+            <h3 id="c-name" class="text-3xl font-black uppercase mt-4"></h3>
+            <p id="c-stats" class="text-white/50 text-[10px] mt-4 tracking-[0.3em] uppercase"></p>
+            <div class="flex flex-wrap gap-4 justify-center mt-10">
+                <button onclick="closeChampion()" class="px-10 py-4 glass rounded-2xl font-black uppercase text-xs tracking-widest hover:scale-105 transition-all">Ver cuadro final</button>
+                <button onclick="resetTournament(true)" class="px-10 py-4 bg-cyan-400 text-black rounded-2xl font-black uppercase text-xs tracking-widest hover:scale-105 transition-all">Nuevo torneo ↺</button>
             </div>
         </div>
     </div>
@@ -194,14 +228,17 @@
                     <button id="nav-bracket" onclick="showTab('bracket')" disabled class="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest opacity-20 cursor-not-allowed transition-all">Eliminatorias</button>
                 </nav>
             </div>
-            <div id="engine-stats" class="hidden flex items-center gap-8 text-[10px] font-black">
-                <div class="flex flex-col items-end">
-                    <span class="text-white/30 uppercase">Naciones</span>
-                    <span id="stat-teams" class="text-cyan-400">0</span>
-                </div>
-                <div class="flex flex-col items-end">
-                    <span class="text-white/30 uppercase">Fase</span>
-                    <span id="stat-phase" class="text-cyan-400">ESPERANDO</span>
+            <div class="flex items-center gap-8">
+                <div id="engine-stats" class="hidden flex items-center gap-8 text-[10px] font-black">
+                    <button onclick="resetTournament(false)" class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest text-white/50 hover:text-cyan-400 hover:border-cyan-400/30 transition-all">↺ Nuevo torneo</button>
+                    <div class="flex flex-col items-end">
+                        <span class="text-white/30 uppercase">Goles</span>
+                        <span id="stat-goals" class="text-cyan-400">0</span>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <span class="text-white/30 uppercase">Fase</span>
+                        <span id="stat-phase" class="text-cyan-400">ESPERANDO</span>
+                    </div>
                 </div>
             </div>
         </header>
@@ -234,6 +271,9 @@
                         <h3 class="text-xl font-black uppercase italic">Inscritos</h3>
                         <div class="h-1 w-12 bg-cyan-400 mt-2 rounded-full"></div>
                     </div>
+                    <div class="mb-3 text-[9px] font-black uppercase tracking-widest text-white/30">
+                        <span id="selected-count" class="text-cyan-400">0</span> / 120 naciones
+                    </div>
                     <div id="selected-list" class="flex-1 overflow-y-auto custom-scroll space-y-2 pr-2"></div>
                     <div class="mt-8 border-t border-white/10 pt-8">
                         <button onclick="startTournament()" id="start-btn" disabled class="w-full py-5 bg-cyan-400 disabled:bg-white/5 disabled:text-white/10 text-black rounded-2xl font-black uppercase text-[10px] tracking-[0.3em] shadow-xl transition-all active:scale-95">Generar Torneo</button>
@@ -263,6 +303,9 @@
                     <button onclick="zoomBracket(0.1)" class="w-12 h-12 bg-white/10 glass rounded-full font-bold text-xl">+</button>
                     <button onclick="zoomBracket(-0.1)" class="w-12 h-12 bg-white/10 glass rounded-full font-bold text-xl">-</button>
                 </div>
+                <div class="fixed bottom-24 left-8 z-[100]">
+                    <button id="sim-rest-btn" onclick="simulateRest()" class="px-6 py-3 bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 font-black uppercase text-[9px] tracking-widest rounded-2xl hover:bg-yellow-400/20 transition-all">Simular hasta el final ⚡</button>
+                </div>
             </div>
         </main>
 
@@ -279,7 +322,7 @@
             </div>
             <div class="flex items-center gap-2">
                 <span class="text-white/10 uppercase">Simulation Engine</span>
-                <span class="text-white/20">REL_120_IA_G_01</span>
+                <span class="text-white/20">REL_120_V3_ELITE</span>
             </div>
         </footer>
     </div>
@@ -337,32 +380,101 @@
             {n:"Malasia", p:64, f:"🇲🇾", c:"AFC"}, {n:"Kuwait", p:66, f:"🇰🇼", c:"AFC"}, {n:"Mauritania", p:72, f:"🇲🇷", c:"CAF"},
             {n:"Guinea Ecuat.", p:74, f:"🇬🇶", c:"CAF"}, {n:"Uganda", p:71, f:"🇺🇬", c:"CAF"}, {n:"Benín", p:70, f:"🇧🇯", c:"CAF"},
             {n:"Togo", p:69, f:"🇹🇬", c:"CAF"}, {n:"Madagascar", p:68, f:"🇲🇬", c:"CAF"}, {n:"Libia", p:69, f:"🇱🇾", c:"CAF"},
-            {n:"Níger", p:66, f:"🇳🇪", c:"CAF"}, {n:"Etiopía", p:65, f:"🇪🇹", c:"CAF"}
+            {n:"Níger", p:66, f:"🇳🇪", c:"CAF"}, {n:"Etiopía", p:65, f:"🇪🇹", c:"CAF"}, {n:"Macedonia del N.", p:71, f:"🇲🇰", c:"UEFA"},
+            {n:"Chipre", p:66, f:"🇨🇾", c:"UEFA"}, {n:"Malta", p:61, f:"🇲🇹", c:"UEFA"}
         ];
+
+        const SAVE_KEY = 'sg-save-v2';
 
         let state = {
             selected: [],
+            filter: 'ALL',
             groups: [],
             bracket: [],
+            champion: null,
             zoom: 1,
+            speed: 1,
+            stats: { played: 0, goals: 0 },
+            live: null,          // estado del partido en vivo (no persistente)
             drag: { active: false, startX: 0, startY: 0, scrollLeft: 0, scrollTop: 0 }
         };
 
+        const $ = (id) => document.getElementById(id);
+
+        /* ============ ARRANQUE ============ */
         window.onload = () => {
             setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-                renderGrid();
+                $('loader').classList.add('hidden');
                 initDrag();
-                toggleManual(); // Mostrar manual al inicio con el aviso de IA
+                bindEsc();
+                const restored = restoreSave();
+                renderGrid();
+                if (!restored) toggleManual(); // Manual al primer inicio (aviso IA)
             }, 1200);
         };
 
-        function toggleManual() {
-            document.getElementById('manual-modal').classList.toggle('hidden');
+        function toggleManual() { $('manual-modal').classList.toggle('hidden'); }
+
+        function bindEsc() {
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                if (!$('manual-modal').classList.contains('hidden')) { toggleManual(); return; }
+                if (!$('match-view').classList.contains('hidden') && state.live && state.live.finished) closeMatch();
+            });
         }
 
+        /* ============ PERSISTENCIA (localStorage, nunca sale del navegador) ============ */
+        function saveState() {
+            try {
+                localStorage.setItem(SAVE_KEY, JSON.stringify({
+                    v: 2,
+                    selected: state.selected,
+                    groups: state.groups,
+                    bracket: state.bracket,
+                    champion: state.champion,
+                    stats: state.stats
+                }));
+            } catch (e) { /* almacenamiento no disponible: el juego sigue igual */ }
+        }
+
+        function clearSave() { try { localStorage.removeItem(SAVE_KEY); } catch (e) {} }
+
+        function restoreSave() {
+            let d = null;
+            try { d = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch (e) { return false; }
+            if (!d || d.v !== 2 || !Array.isArray(d.groups) || !d.groups.length) return false;
+
+            state.selected = d.selected || [];
+            state.groups = d.groups;
+            state.bracket = d.bracket || [];
+            state.champion = d.champion || null;
+            state.stats = d.stats || { played: 0, goals: 0 };
+
+            $('setup-screen').classList.add('hidden');
+            $('main-nav').classList.remove('hidden');
+            $('engine-stats').classList.remove('hidden');
+            $('stat-goals').innerText = state.stats.goals;
+
+            if (state.bracket.length) {
+                $('nav-bracket').disabled = false;
+                $('nav-bracket').classList.remove('opacity-20', 'cursor-not-allowed');
+                $('stat-phase').innerText = 'ELIMINATORIA';
+                $('footer-phase').innerText = state.champion ? 'TORNEO_FINALIZADO' : 'ELIMINATORIA_LIVE';
+                showTab('bracket');
+                renderBracket();
+            } else {
+                $('stat-phase').innerText = 'GRUPOS';
+                $('footer-phase').innerText = 'TORNEO RESTAURADO';
+                showTab('groups');
+                renderGroups();
+            }
+            if (state.champion) showChampion();
+            return true;
+        }
+
+        /* ============ NAVEGACIÓN DEL CUADRO (drag + zoom) ============ */
         function initDrag() {
-            const el = document.getElementById('bracket-screen');
+            const el = $('bracket-screen');
             el.addEventListener('mousedown', (e) => {
                 state.drag.active = true;
                 state.drag.startX = e.pageX - el.offsetLeft;
@@ -372,7 +484,7 @@
             });
             window.addEventListener('mouseup', () => state.drag.active = false);
             el.addEventListener('mousemove', (e) => {
-                if(!state.drag.active) return;
+                if (!state.drag.active) return;
                 const x = e.pageX - el.offsetLeft;
                 const y = e.pageY - el.offsetTop;
                 el.scrollLeft = state.drag.scrollLeft - (x - state.drag.startX);
@@ -381,29 +493,29 @@
         }
 
         function zoomBracket(val) {
-            state.zoom += val;
-            state.zoom = Math.max(0.2, Math.min(1.5, state.zoom));
-            document.getElementById('bracket-wrapper').style.transform = `scale(${state.zoom})`;
+            state.zoom = Math.max(0.2, Math.min(1.5, state.zoom + val));
+            $('bracket-wrapper').style.transform = `scale(${state.zoom})`;
         }
 
+        /* ============ SELECCIÓN DE NACIONES ============ */
         function filterCont(c) {
+            state.filter = c;
             document.querySelectorAll('.filter-btn').forEach(b => {
                 const isActive = b.dataset.c === c;
                 b.className = `px-4 py-2 rounded-lg text-[9px] font-black uppercase filter-btn ${isActive ? 'bg-cyan-400 text-black' : 'bg-white/5 text-white/40'}`;
             });
-            renderGrid(c);
+            renderGrid();
         }
 
-        function renderGrid(continent = 'ALL') {
-            const query = document.getElementById('search').value.toLowerCase();
-            const grid = document.getElementById('grid');
+        function renderGrid() {
+            const query = $('search').value.toLowerCase();
             const filtered = DB.filter(t => {
-                const mc = continent === 'ALL' || t.c === continent;
+                const mc = state.filter === 'ALL' || t.c === state.filter;  // BUG arreglado: el buscador ya no rompe el filtro
                 const ms = t.n.toLowerCase().includes(query);
                 return mc && ms;
             });
 
-            grid.innerHTML = filtered.map(t => {
+            $('grid').innerHTML = filtered.map(t => {
                 const isSel = state.selected.some(s => s.n === t.n);
                 return `
                     <div onclick="toggleTeam('${t.n}')" class="p-4 rounded-2xl glass cursor-pointer transition-all hover:scale-105 border ${isSel ? 'border-cyan-400 bg-cyan-400/10' : 'border-white/5'}">
@@ -412,21 +524,21 @@
                         <p class="text-[8px] text-cyan-400 text-center font-bold mt-1">OVR ${t.p}</p>
                     </div>
                 `;
-            }).join('');
+            }).join('') || '<p class="col-span-full text-center text-white/30 text-xs uppercase tracking-widest pt-10">Sin resultados para esa búsqueda</p>';
         }
 
         function toggleTeam(name) {
             const team = DB.find(t => t.n === name);
             const idx = state.selected.findIndex(s => s.n === name);
-            if(idx > -1) state.selected.splice(idx, 1);
-            else if(state.selected.length < 120) state.selected.push(team);
+            if (idx > -1) state.selected.splice(idx, 1);
+            else if (state.selected.length < 120) state.selected.push(team);
             updateSelected();
         }
 
         function updateSelected() {
-            document.getElementById('stat-teams').innerText = state.selected.length;
-            document.getElementById('start-btn').disabled = state.selected.length < 4;
-            document.getElementById('selected-list').innerHTML = state.selected.map(s => `
+            $('selected-count').innerText = state.selected.length;
+            $('start-btn').disabled = state.selected.length < 4;
+            $('selected-list').innerHTML = state.selected.map(s => `
                 <div class="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 animate__animated animate__fadeInRight">
                     <span class="text-[10px] font-bold uppercase">${s.f} ${s.n}</span>
                     <button onclick="toggleTeam('${s.n}')" class="text-red-500/40 hover:text-red-500 font-bold">×</button>
@@ -440,66 +552,156 @@
             updateSelected();
         }
 
+        function resetTournament(fromChampion) {
+            if (!fromChampion && state.groups.length && !state.champion &&
+                !confirm('¿Abandonar el torneo actual? Se borrará el progreso guardado.')) return;
+            state.groups = [];
+            state.bracket = [];
+            state.champion = null;
+            state.stats = { played: 0, goals: 0 };
+            state.zoom = 1;
+            clearSave();
+            $('champion-view').classList.add('hidden');
+            $('main-nav').classList.add('hidden');
+            $('engine-stats').classList.add('hidden');
+            $('nav-bracket').disabled = true;
+            $('nav-bracket').classList.add('opacity-20', 'cursor-not-allowed');
+            $('advance-btn').classList.add('hidden');
+            $('stat-phase').innerText = 'ESPERANDO';
+            $('footer-phase').innerText = 'ESPERANDO SELECCIÓN';
+            $('stat-goals').innerText = '0';
+            $('bracket-wrapper').style.transform = 'scale(1)';
+            ['groups', 'bracket'].forEach(id => $(id + '-screen').classList.add('hidden'));
+            $('setup-screen').classList.remove('hidden');
+            updateSelected();
+        }
+
+        /* ============ EL MOTOR (dinámico según OVR) ============ */
+        function goalChancePerMinute(t1, t2) {
+            // ~2 a 2.9 goles por partido según nivel combinado (entre 1.2% y 3.2% por minuto):
+            // partidos grandes = más ocasiones; el OVR decide quién las marca.
+            return Math.min(0.032, Math.max(0.012, 0.010 + (t1.p + t2.p) * 0.0001));
+        }
+
+        function simMinute(t1, t2) {
+            if (Math.random() < goalChancePerMinute(t1, t2)) {
+                // Pesos cuadráticos: el OVR manda, pero la sorpresa sigue siendo posible.
+                const w1 = t1.p * t1.p, w2 = t2.p * t2.p;
+                return (Math.random() * (w1 + w2) < w1) ? 1 : 2;
+            }
+            return 0;
+        }
+
+        function shootout() {
+            // Tanda real: 5 lanzamientos (70% de acierto) y muerte súbita si hay empate.
+            let a = 0, b = 0;
+            for (let i = 0; i < 5; i++) { if (Math.random() < 0.7) a++; if (Math.random() < 0.7) b++; }
+            while (a === b) { if (Math.random() < 0.7) a++; if (Math.random() < 0.7) b++; }
+            return [a, b];
+        }
+
+        function quickSim(t1, t2, knockout) {
+            let s1 = 0, s2 = 0, pen = null;
+            for (let i = 0; i < 90; i++) {
+                const g = simMinute(t1, t2);
+                if (g === 1) s1++; else if (g === 2) s2++;
+            }
+            if (knockout && s1 === s2) {
+                pen = shootout();
+                if (pen[0] > pen[1]) s1++; else s2++;
+            }
+            return { s1, s2, pen };
+        }
+
+        function flagOf(name) { const t = DB.find(x => x.n === name); return t ? t.f : '🏳️'; }
+        function teamOf(name) { return DB.find(x => x.n === name); }
+
+        /* ============ FASE DE GRUPOS ============ */
+        function groupName(i) {
+            // A-Z y luego AA-AZ: admite hasta 52 grupos sin caracteres raros
+            return i < 26 ? String.fromCharCode(65 + i) : 'A' + String.fromCharCode(65 + i - 26);
+        }
+
         function startTournament() {
             state.groups = [];
+            state.bracket = [];
+            state.champion = null;
+            state.stats = { played: 0, goals: 0 };
             const pool = [...state.selected].sort(() => 0.5 - Math.random());
             const numGroups = Math.ceil(pool.length / 4);
-            
-            for(let i=0; i < numGroups; i++) {
-                const teams = pool.slice(i*4, (i+1)*4).map(t => ({...t, pts:0, gf:0, gc:0}));
-                if(teams.length < 2) continue;
-                state.groups.push({ 
-                    id: i, 
-                    name: String.fromCharCode(65 + i), 
-                    teams, 
-                    matches: generateGroupMatches(teams) 
-                });
+
+            for (let i = 0; i < numGroups; i++) {
+                const teams = pool.slice(i * 4, (i + 1) * 4).map(t => ({ ...t, pts: 0, gf: 0, gc: 0, pj: 0 }));
+                if (teams.length < 2) continue;
+                state.groups.push({ id: i, name: groupName(i), teams, matches: generateGroupMatches(teams) });
             }
 
-            document.getElementById('setup-screen').classList.add('hidden');
-            document.getElementById('main-nav').classList.remove('hidden');
-            document.getElementById('engine-stats').classList.remove('hidden');
-            document.getElementById('stat-phase').innerText = "GRUPOS";
-            document.getElementById('footer-phase').innerText = "FASE_GRUPOS_LIVE";
+            $('setup-screen').classList.add('hidden');
+            $('main-nav').classList.remove('hidden');
+            $('engine-stats').classList.remove('hidden');
+            $('stat-phase').innerText = 'GRUPOS';
+            $('stat-goals').innerText = '0';
+            $('footer-phase').innerText = 'FASE_GRUPOS_LIVE';
             showTab('groups');
             renderGroups();
+            saveState();
         }
 
         function generateGroupMatches(teams) {
             let m = [];
-            for(let i=0; i<teams.length; i++) {
-                for(let j=i+1; j<teams.length; j++) {
+            for (let i = 0; i < teams.length; i++) {
+                for (let j = i + 1; j < teams.length; j++) {
                     m.push({ t1: teams[i].n, t2: teams[j].n, s1: '-', s2: '-', played: false });
                 }
             }
             return m;
         }
 
-        function renderGroups() {
-            const container = document.getElementById('groups-container');
-            let playedAll = true;
+        function standings(g) {
+            return [...g.teams].sort((a, b) =>
+                b.pts - a.pts || (b.gf - b.gc) - (a.gf - a.gc) || b.gf - a.gf || b.p - a.p);
+        }
 
-            container.innerHTML = state.groups.map((g, gi) => {
-                const sorted = [...g.teams].sort((a,b) => b.pts - a.pts || (b.gf-b.gc) - (a.gf-a.gc));
+        function registerGroupResult(g, m, res) {
+            m.s1 = res.s1; m.s2 = res.s2; m.played = true;
+            const t1 = g.teams.find(x => x.n === m.t1);
+            const t2 = g.teams.find(x => x.n === m.t2);
+            t1.gf += res.s1; t1.gc += res.s2; t1.pj++;
+            t2.gf += res.s2; t2.gc += res.s1; t2.pj++;
+            if (res.s1 > res.s2) t1.pts += 3;
+            else if (res.s2 > res.s1) t2.pts += 3;
+            else { t1.pts++; t2.pts++; }
+            state.stats.played++;
+            state.stats.goals += res.s1 + res.s2;
+            $('stat-goals').innerText = state.stats.goals;
+        }
+
+        function renderGroups() {
+            let playedAll = true;
+            $('groups-container').innerHTML = state.groups.map((g, gi) => {
+                const sorted = standings(g);
                 return `
                     <div class="glass p-6 rounded-3xl animate__animated animate__fadeIn">
                         <h3 class="text-cyan-400 font-black text-xs tracking-[0.3em] mb-4">GRUPO ${g.name}</h3>
+                        <div class="flex justify-between text-[7px] text-white/30 uppercase font-black tracking-widest px-2 pb-1">
+                            <span>Equipo</span><span>PJ · DG · PTS</span>
+                        </div>
                         <div class="space-y-1 mb-6">
                             ${sorted.map((t, idx) => `
                                 <div class="flex justify-between text-[10px] p-2 rounded-lg ${idx < 2 ? 'bg-cyan-400/10 text-cyan-400' : 'opacity-40'}">
                                     <span class="font-bold">${t.f} ${t.n}</span>
-                                    <span class="font-black">${t.pts} PTS</span>
+                                    <span class="font-black tabular-nums">${t.pj} · ${t.gf - t.gc >= 0 ? '+' : ''}${t.gf - t.gc} · ${t.pts}</span>
                                 </div>
                             `).join('')}
                         </div>
                         <div class="space-y-2">
                             ${g.matches.map((m, mi) => {
-                                if(!m.played) playedAll = false;
+                                if (!m.played) playedAll = false;
                                 return `
                                     <div class="flex items-center justify-between bg-black/40 p-3 rounded-xl border border-white/5 text-[9px] font-bold">
-                                        <span class="w-16 truncate">${m.t1}</span>
-                                        <span class="bg-black px-3 py-1 rounded text-cyan-400">${m.s1} - ${m.s2}</span>
-                                        <span class="w-16 truncate text-right">${m.t2}</span>
+                                        <span class="flex-1 truncate">${flagOf(m.t1)} ${m.t1}</span>
+                                        <span class="bg-black px-3 py-1 rounded text-cyan-400 tabular-nums mx-2">${m.s1} - ${m.s2}</span>
+                                        <span class="flex-1 truncate text-right">${m.t2} ${flagOf(m.t2)}</span>
                                         ${!m.played ? `<button onclick="playMatch(${gi}, ${mi})" class="ml-2 bg-white text-black px-2 py-1 rounded-lg">PLAY</button>` : ''}
                                     </div>
                                 `;
@@ -509,57 +711,31 @@
                 `;
             }).join('');
 
-            if(playedAll) document.getElementById('advance-btn').classList.remove('hidden');
+            if (playedAll && state.groups.length) $('advance-btn').classList.remove('hidden');
         }
 
         function playMatch(gi, mi) {
             const m = state.groups[gi].matches[mi];
-            const t1 = state.selected.find(x => x.n === m.t1);
-            const t2 = state.selected.find(x => x.n === m.t2);
-            
-            simulateMatchFlow(t1, t2, false, (res) => {
-                m.s1 = res.s1; m.s2 = res.s2; m.played = true;
-                const team1 = state.groups[gi].teams.find(x => x.n === m.t1);
-                const team2 = state.groups[gi].teams.find(x => x.n === m.t2);
-                
-                team1.gf += res.s1; team1.gc += res.s2;
-                team2.gf += res.s2; team2.gc += res.s1;
-                if(res.s1 > res.s2) team1.pts += 3;
-                else if(res.s2 > res.s1) team2.pts += 3;
-                else { team1.pts += 1; team2.pts += 1; }
-                renderGroups();
-            });
+            if (m.played) return;
+            simulateMatchFlow(teamOf(m.t1), teamOf(m.t2), { gi, mi, knockout: false });
         }
 
         function simulateAllGroups() {
             state.groups.forEach(g => {
                 g.matches.forEach(m => {
-                    if(!m.played) {
-                        const t1 = state.selected.find(x => x.n === m.t1);
-                        const t2 = state.selected.find(x => x.n === m.t2);
-                        let s1 = 0, s2 = 0;
-                        for(let i=0; i<90; i++) {
-                            if(Math.random() < 0.009) {
-                                (Math.random() * (t1.p + t2.p) < t1.p) ? s1++ : s2++;
-                            }
-                        }
-                        m.s1 = s1; m.s2 = s2; m.played = true;
-                        const te1 = g.teams.find(x => x.n === m.t1);
-                        const te2 = g.teams.find(x => x.n === m.t2);
-                        te1.gf += s1; te1.gc += s2;
-                        te2.gf += s2; te2.gc += s1;
-                        if(s1 > s2) te1.pts += 3; else if(s2 > s1) te2.pts += 3; else { te1.pts++; te2.pts++; }
-                    }
+                    if (!m.played) registerGroupResult(g, m, quickSim(teamOf(m.t1), teamOf(m.t2), false));
                 });
             });
             renderGroups();
+            saveState();
         }
 
         function advanceToBracket() {
             let winners = [];
             state.groups.forEach(g => {
-                const s = [...g.teams].sort((a,b) => b.pts - a.pts || (b.gf-b.gc) - (a.gf-a.gc));
-                winners.push(s[0], s[1]);
+                const s = standings(g);
+                if (s[0]) winners.push(s[0]);
+                if (s[1]) winners.push(s[1]);
             });
 
             const powers = [64, 32, 16, 8, 4, 2];
@@ -567,37 +743,44 @@
             winners = winners.slice(0, size);
 
             let matches = [];
-            for(let i=0; i<winners.length; i+=2) {
-                matches.push({ t1: winners[i], t2: winners[i+1], s1: '-', s2: '-', played: false });
+            for (let i = 0; i < winners.length; i += 2) {
+                matches.push({ t1: winners[i], t2: winners[i + 1], s1: '-', s2: '-', pen: null, played: false });
             }
 
-            const names = { 64: "64vos de Final", 32: "Dieciseisavos", 16: "Octavos", 8: "Cuartos", 4: "Semifinal", 2: "Gran Final" };
+            const names = { 64: '64vos de Final', 32: 'Dieciseisavos', 16: 'Octavos', 8: 'Cuartos', 4: 'Semifinal', 2: 'Gran Final' };
             state.bracket = [{ name: names[size], matches }];
-            
-            document.getElementById('nav-bracket').disabled = false;
-            document.getElementById('nav-bracket').classList.remove('opacity-20', 'cursor-not-allowed');
-            document.getElementById('stat-phase').innerText = "ELIMINATORIA";
+
+            $('nav-bracket').disabled = false;
+            $('nav-bracket').classList.remove('opacity-20', 'cursor-not-allowed');
+            $('stat-phase').innerText = 'ELIMINATORIA';
+            $('footer-phase').innerText = 'ELIMINATORIA_LIVE';
             showTab('bracket');
             renderBracket();
+            saveState();
+        }
+
+        /* ============ CUADRO FINAL ============ */
+        function roundName(numMatches) {
+            const names = { 32: 'Dieciseisavos', 16: 'Octavos', 8: 'Cuartos', 4: 'Semifinal', 2: 'Gran Final', 1: 'Gran Final' };
+            return names[numMatches * 2] || names[Math.max(1, numMatches)] || 'Eliminatoria';
         }
 
         function renderBracket() {
-            const container = document.getElementById('bracket-wrapper');
-            container.innerHTML = state.bracket.map((round, ri) => `
+            $('bracket-wrapper').innerHTML = state.bracket.map((round, ri) => `
                 <div class="round-col">
                     <div class="mb-8 text-center">
                         <span class="text-[9px] font-black text-cyan-400 tracking-[0.4em] uppercase">${round.name}</span>
                     </div>
                     ${round.matches.map((m, mi) => `
-                        <div class="match-card ${!m.played ? 'active' : 'opacity-60'}">
+                        <div class="match-card ${round.matches.length === 1 ? 'final' : ''} ${!m.played ? 'active' : 'opacity-60'}">
                             <div class="flex flex-col gap-2">
-                                <div class="flex justify-between items-center text-[10px] font-bold">
+                                <div class="flex justify-between items-center text-[10px] font-bold ${m.played && m.s1 > m.s2 ? 'text-cyan-400' : ''}">
                                     <span>${m.t1.f} ${m.t1.n}</span>
-                                    <span class="bg-black px-2 rounded">${m.s1}</span>
+                                    <span class="bg-black px-2 rounded tabular-nums">${m.s1}${m.pen ? ` <span class="text-yellow-400">(${m.pen[0]})</span>` : ''}</span>
                                 </div>
-                                <div class="flex justify-between items-center text-[10px] font-bold">
+                                <div class="flex justify-between items-center text-[10px] font-bold ${m.played && m.s2 > m.s1 ? 'text-cyan-400' : ''}">
                                     <span>${m.t2.f} ${m.t2.n}</span>
-                                    <span class="bg-black px-2 rounded">${m.s2}</span>
+                                    <span class="bg-black px-2 rounded tabular-nums">${m.s2}${m.pen ? ` <span class="text-yellow-400">(${m.pen[1]})</span>` : ''}</span>
                                 </div>
                             </div>
                             ${!m.played ? `
@@ -607,102 +790,203 @@
                     `).join('')}
                 </div>
             `).join('');
+
+            const allDone = state.bracket.length > 0 &&
+                state.bracket[state.bracket.length - 1].matches.every(m => m.played);
+            $('sim-rest-btn').classList.toggle('hidden', allDone || !state.bracket.length);
+        }
+
+        function applyBracketResult(ri, mi, res) {
+            const m = state.bracket[ri].matches[mi];
+            m.s1 = res.s1; m.s2 = res.s2; m.pen = res.pen; m.played = true;
+            state.stats.played++;
+            state.stats.goals += res.s1 + res.s2;
+            $('stat-goals').innerText = state.stats.goals;
+
+            const round = state.bracket[ri];
+            if (round.matches.every(x => x.played)) {
+                if (round.matches.length === 1) {
+                    // ¡El torneo tiene campeón!
+                    const win = m.s1 > m.s2 ? m.t1 : m.t2;
+                    state.champion = { n: win.n, f: win.f };
+                    m.championDecided = true;
+                    saveState();
+                    renderBracket();
+                    showChampion();
+                    return;
+                }
+                const winners = round.matches.map(x => x.s1 > x.s2 ? x.t1 : x.t2);
+                let next = [];
+                for (let i = 0; i < winners.length; i += 2) {
+                    next.push({ t1: winners[i], t2: winners[i + 1], s1: '-', s2: '-', pen: null, played: false });
+                }
+                state.bracket.push({ name: roundName(next.length), matches: next });
+            }
+            saveState();
+            renderBracket();
         }
 
         function playBracketMatch(ri, mi) {
             const m = state.bracket[ri].matches[mi];
-            window._bracketCallback = (res) => {
-                m.s1 = res.s1; m.s2 = res.s2; m.played = true;
-                if(state.bracket[ri].matches.every(x => x.played) && state.bracket[ri].matches.length > 1) {
-                    const winners = state.bracket[ri].matches.map(x => x.s1 > x.s2 ? x.t1 : x.t2);
-                    let next = [];
-                    for(let i=0; i<winners.length; i+=2) {
-                        next.push({ t1: winners[i], t2: winners[i+1], s1: '-', s2: '-', played: false });
-                    }
-                    const names = { 32: "Dieciseisavos", 16: "Octavos", 8: "Cuartos", 4: "Semifinal", 2: "Gran Final" };
-                    state.bracket.push({ name: names[next.length*2] || "Final", matches: next });
-                }
-                renderBracket();
-            };
-            simulateMatchFlow(m.t1, m.t2, true, null);
+            if (m.played) return;
+            simulateMatchFlow(m.t1, m.t2, { ri, mi, knockout: true });
         }
 
-        function simulateMatchFlow(t1, t2, isBracket, cb) {
-            const view = document.getElementById('match-view');
-            const ball = document.getElementById('ball');
-            const progress = document.getElementById('match-progress');
-            
-            document.getElementById('m-flag-1').innerText = t1.f;
-            document.getElementById('m-name-1').innerText = t1.n;
-            document.getElementById('m-flag-2').innerText = t2.f;
-            document.getElementById('m-name-2').innerText = t2.n;
-            document.getElementById('m-score').innerText = "0 - 0";
-            document.getElementById('m-commentary').innerText = "¡Los equipos saltan al campo!";
-            document.getElementById('m-close-btn').classList.add('hidden');
-            view.classList.remove('hidden');
-
-            let s1 = 0, s2 = 0, min = 0;
-            const comments = ["Posesión larga buscando huecos.", "Intervención crucial de la defensa.", "El centro del campo es una batalla.", "Ocasión clara que se va fuera.", "El seleccionador pide calma."];
-
-            const timer = setInterval(() => {
-                min += 1;
-                document.getElementById('m-min-val').innerText = min;
-                progress.style.width = `${(min/90)*100}%`;
-
-                ball.style.left = `${20 + Math.random()*60}%`;
-                ball.style.top = `${20 + Math.random()*60}%`;
-
-                if(min % 25 === 0) document.getElementById('m-commentary').innerText = comments[Math.floor(Math.random()*comments.length)];
-
-                if(Math.random() < 0.008) { 
-                    if(Math.random() * (t1.p + t2.p) < t1.p) { 
-                        s1++; ball.style.left = "95%"; 
-                        document.getElementById('m-commentary').innerText = `¡GOL de ${t1.n.toUpperCase()}! Explota la grada.`;
-                    } else { 
-                        s2++; ball.style.left = "5%"; 
-                        document.getElementById('m-commentary').innerText = `¡GOL de ${t2.n.toUpperCase()}! Silencio en el estadio.`;
-                    }
-                    document.getElementById('m-score').innerText = `${s1} - ${s2}`;
-                }
-
-                if(min >= 90) {
-                    clearInterval(timer);
-                    if(isBracket && s1 === s2) {
-                        const p1 = Math.floor(Math.random()*10);
-                        const p2 = Math.floor(Math.random()*10);
-                        s1 = p1 > p2 ? s1+1 : s1;
-                        s2 = p2 > p1 ? s2+1 : s2;
-                        if(s1 === s2) s1++; 
-                        document.getElementById('m-score').innerText = `${s1} - ${s2}`;
-                        document.getElementById('m-commentary').innerText = "¡Final dramático en los penaltis!";
-                    } else {
-                        document.getElementById('m-commentary').innerText = "¡Final del encuentro!";
-                    }
-                    window._lastRes = { s1, s2 };
-                    document.getElementById('m-close-btn').classList.remove('hidden');
-                    setTimeout(() => { closeMatch(); if(cb) cb(window._lastRes); }, 2000);
-                }
-            }, 40);
-        }
-
-        function closeMatch() {
-            document.getElementById('match-view').classList.add('hidden');
-            if(window._bracketCallback) {
-                window._bracketCallback(window._lastRes);
-                window._bracketCallback = null;
+        function simulateRest() {
+            let guard = 0;
+            while (!state.champion && guard++ < 40) {
+                const ri = state.bracket.length - 1;
+                if (ri < 0) break;
+                const round = state.bracket[ri];
+                if (round.matches.every(m => m.played)) break;
+                round.matches.forEach((m, mi) => {
+                    if (!m.played) applyBracketResult(ri, mi, quickSim(m.t1, m.t2, true));
+                });
             }
         }
 
+        /* ============ RETRANSMISIÓN EN VIVO ============ */
+        function setSpeed(v) {
+            state.speed = v;
+            [1, 2, 4].forEach(s => $('spd-' + s).classList.toggle('on', s === v));
+        }
+
+        function skipMatch() { if (state.live && !state.live.finished) state.live.skip = true; }
+
+        function simulateMatchFlow(t1, t2, ctx) {
+            const view = $('match-view');
+            const ball = $('ball');
+            const progress = $('match-progress');
+
+            $('m-flag-1').innerText = t1.f;
+            $('m-name-1').innerText = t1.n;
+            $('m-flag-2').innerText = t2.f;
+            $('m-name-2').innerText = t2.n;
+            $('m-score').innerText = '0 - 0';
+            $('m-min-val').innerText = '0';
+            progress.style.width = '0%';
+            $('m-commentary').innerText = '¡Los equipos saltan al campo!';
+            $('m-close-btn').classList.add('hidden');
+            $('m-skip-btn').classList.remove('hidden');
+            view.classList.remove('hidden');
+
+            const live = { s1: 0, s2: 0, min: 0, pen: null, skip: false, finished: false, applied: false, ctx, t1, t2, timer: null };
+            state.live = live;
+
+            const comments = ['Posesión larga buscando huecos.', 'Intervención crucial de la defensa.',
+                'El centro del campo es una batalla.', 'Ocasión clara que se va fuera.', 'El seleccionador pide calma.',
+                'La grada empuja sin parar.', 'Cambio de ritmo: atacan los dos equipos.', 'El árbitro tiene trabajo hoy.'];
+
+            function tick() {
+                if (live.skip) {
+                    // Drena los minutos restantes sin renderizar: salto instantáneo al desenlace
+                    while (live.min < 90) {
+                        live.min++;
+                        const g = simMinute(t1, t2);
+                        if (g === 1) live.s1++; else if (g === 2) live.s2++;
+                    }
+                } else {
+                    live.min++;
+                    $('m-min-val').innerText = live.min;
+                    progress.style.width = `${(live.min / 90) * 100}%`;
+
+                    ball.style.left = `${20 + Math.random() * 60}%`;
+                    ball.style.top = `${20 + Math.random() * 60}%`;
+
+                    if (live.min % 25 === 0) $('m-commentary').innerText = comments[Math.floor(Math.random() * comments.length)];
+
+                    const g = simMinute(t1, t2);
+                    if (g === 1) {
+                        live.s1++; ball.style.left = '95%'; ball.style.top = '50%';
+                        $('m-commentary').innerText = `¡GOL de ${t1.n.toUpperCase()}! Explota la grada.`;
+                    } else if (g === 2) {
+                        live.s2++; ball.style.left = '5%'; ball.style.top = '50%';
+                        $('m-commentary').innerText = `¡GOL de ${t2.n.toUpperCase()}! Silencio en el estadio.`;
+                    }
+                    if (g) $('m-score').innerText = `${live.s1} - ${live.s2}`;
+                }
+
+                if (live.min >= 90) {
+                    finishLive();
+                    return;
+                }
+                live.timer = setTimeout(tick, 40 / state.speed);
+            }
+
+            function finishLive() {
+                live.finished = true;
+                $('m-min-val').innerText = 90;
+                progress.style.width = '100%';
+
+                if (ctx.knockout && live.s1 === live.s2) {
+                    live.pen = shootout();
+                    if (live.pen[0] > live.pen[1]) live.s1++; else live.s2++;
+                    $('m-commentary').innerText = `¡Locura en los penaltis! Tanda: ${live.pen[0]} - ${live.pen[1]}.`;
+                    $('m-score').innerText = `${live.s1} - ${live.s2}`;
+                    ball.style.left = live.pen[0] > live.pen[1] ? '95%' : '5%';
+                } else {
+                    $('m-commentary').innerText = '¡Final del encuentro!';
+                }
+
+                $('m-score').innerText = `${live.s1} - ${live.s2}`;
+                $('m-skip-btn').classList.add('hidden');
+                $('m-close-btn').classList.remove('hidden');
+                live.timer = setTimeout(closeMatch, 2800);
+            }
+
+            tick();
+        }
+
+        function closeMatch() {
+            const live = state.live;
+            if (!live) return;
+            if (live.timer) clearTimeout(live.timer);
+            if (!live.finished) return; // no se puede cerrar un partido a mitad
+            $('match-view').classList.add('hidden');
+            if (!live.applied) {
+                live.applied = true;
+                const res = { s1: live.s1, s2: live.s2, pen: live.pen };
+                if (live.ctx.gi !== undefined) {
+                    registerGroupResult(state.groups[live.ctx.gi], state.groups[live.ctx.gi].matches[live.ctx.mi], res);
+                    renderGroups();
+                    saveState();
+                } else {
+                    applyBracketResult(live.ctx.ri, live.ctx.mi, res);
+                }
+            }
+            state.live = null;
+        }
+
+        /* ============ CAMPEÓN ============ */
+        function showChampion() {
+            const c = state.champion;
+            if (!c) return;
+            $('c-flag').innerText = c.f;
+            $('c-name').innerText = c.n;
+            $('c-stats').innerText = `Torneo de ${state.selected.length} naciones · ${state.stats.played} partidos · ${state.stats.goals} goles`;
+            const v = $('champion-view');
+            v.classList.remove('hidden');
+            v.classList.add('flex');
+            $('stat-phase').innerText = 'FINALIZADO';
+            $('footer-phase').innerText = 'TORNEO_FINALIZADO';
+        }
+
+        function closeChampion() {
+            $('champion-view').classList.add('hidden');
+            $('champion-view').classList.remove('flex');
+        }
+
+        /* ============ PESTAÑAS ============ */
         function showTab(t) {
             ['setup', 'groups', 'bracket'].forEach(id => {
-                const el = document.getElementById(id + '-screen');
-                if(el) el.classList.add('hidden');
-                const btn = document.getElementById('nav-' + id);
-                if(btn) btn.className = "px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-all";
+                const el = $(id + '-screen');
+                if (el) el.classList.add('hidden');
+                const btn = $('nav-' + id);
+                if (btn) btn.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-all';
             });
-            document.getElementById(t + '-screen').classList.remove('hidden');
-            const activeBtn = document.getElementById('nav-' + t);
-            if(activeBtn) activeBtn.className = "px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-cyan-400/10 text-cyan-400 border border-cyan-400/20";
+            $(t + '-screen').classList.remove('hidden');
+            const activeBtn = $('nav-' + t);
+            if (activeBtn) activeBtn.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest bg-cyan-400/10 text-cyan-400 border border-cyan-400/20';
         }
     </script>
   <script src="../../../assets/js/analytics.js" defer></script>
