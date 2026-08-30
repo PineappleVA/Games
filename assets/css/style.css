@@ -416,3 +416,98 @@ article.post em { color: var(--text-dim); }
 
 .table-wrap th { background: var(--card); color: var(--brand-soft); font-weight: 600; }
 .table-wrap td { background: var(--bg-soft); }
+
+/* ============================================================
+   Liquid Glass (sutil)
+   Superficies translúcidas con desenfoque y un fino borde de
+   luz interior. Estático: sin brillos animados ni movimiento.
+   ============================================================ */
+
+:root {
+  --glass-bg: linear-gradient(165deg, rgba(255,255,255,.055), rgba(255,255,255,.015) 55%, rgba(245,166,35,.03));
+  --glass-bg-hover: linear-gradient(165deg, rgba(255,255,255,.08), rgba(255,255,255,.02) 55%, rgba(245,166,35,.05));
+  --glass-border: rgba(255,255,255,.10);
+  --glass-blur: blur(14px) saturate(140%);
+  --glass-hl: inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* Cabecera: cristal puro fijado sobre el contenido */
+.site-header {
+  background: rgba(19, 16, 7, .72);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 1px 0 rgba(0,0,0,.25);
+}
+
+/* Tarjetas de cristal */
+.card {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-hl), 0 10px 30px rgba(0,0,0,.28);
+}
+
+.card:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(245,166,35,.55);
+  box-shadow: var(--glass-hl), 0 14px 34px rgba(0,0,0,.34);
+}
+
+/* Botones secundarios de cristal (el primario conserva el degradado) */
+.btn:not(.primary) {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-hl);
+}
+.btn:not(.primary):hover { border-color: rgba(245,166,35,.55); }
+
+/* Avisos, artículos y filas de directorio */
+.notice {
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-hl);
+}
+
+article.post {
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(28,24,16,.6));
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-hl), 0 12px 34px rgba(0,0,0,.25);
+}
+
+.dir-row {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-hl);
+}
+.dir-row:hover { border-color: rgba(245,166,35,.55); }
+
+/* Tablas: cristales ligeros para no perder legibilidad */
+.table-wrap th { background: rgba(33,28,17,.75); }
+.table-wrap td { background: rgba(255,255,255,.02); }
+
+/* Píldora de cristal para la página activa en la navegación */
+.main-nav a[aria-current="page"] {
+  background: rgba(245,166,35,.10);
+  box-shadow: var(--glass-hl);
+}
+
+/* Respaldo para navegadores sin backdrop-filter */
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+  .site-header { background: rgba(19,16,7,.96); }
+  .card { background: var(--card); }
+  .card:hover { background: var(--card-hover); }
+  .btn:not(.primary) { background: var(--card); }
+  article.post { background: var(--bg-soft); }
+  .dir-row { background: var(--card); }
+  .dir-row:hover { background: var(--card-hover); }
+  .table-wrap th { background: var(--card); }
+  .table-wrap td { background: var(--bg-soft); }
+}

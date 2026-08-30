@@ -113,7 +113,11 @@ directamente en una pestaña nueva. Convención de publicación:
   IP anonimizada. Se sirve en todas las páginas, incluidos los juegos.
 - Sección legal en `/legal/`: Términos y Condiciones del Sitio, Política de
   Privacidad (RGPD), Protección DMCA (con aviso fan-made de FNAS) y Política de
-  Cookies, enlazadas desde el pie de todas las páginas.
+  Cookies, enlazadas desde el pie de todas las páginas. Redactadas en estilo
+  narrado. Contacto legal: **pacorp@gmail.com**.
+- Estilo «Liquid Glass» sutil: cabecera, tarjetas, botones secundarios, avisos
+  del banner de cookies y filas de directorio usan superficies translúcidas con
+  `backdrop-filter` (con respaldo sólido para navegadores sin soporte).
 
 ---
 

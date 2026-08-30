@@ -44,16 +44,19 @@
   function injectStyles() {
     var css =
       "#pg-consent{position:fixed;right:16px;bottom:16px;z-index:9999;max-width:420px;" +
-      "background:#211c11;color:#f5f0e4;border:1px solid #3a3220;border-radius:14px;" +
-      "padding:16px 18px;box-shadow:0 14px 40px rgba(0,0,0,.5);" +
+      "background:linear-gradient(165deg,rgba(50,42,24,.72),rgba(33,28,17,.62));color:#f5f0e4;" +
+      "border:1px solid rgba(255,255,255,.14);border-radius:16px;" +
+      "-webkit-backdrop-filter:blur(16px) saturate(140%);backdrop-filter:blur(16px) saturate(140%);" +
+      "padding:16px 18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 14px 40px rgba(0,0,0,.5);" +
       "font:14px/1.5 system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}" +
       "#pg-consent h2{margin:0 0 6px;font-size:15px}" +
       "#pg-consent p{margin:0 0 12px;font-size:13px;color:#b8ad95}" +
       "#pg-consent a{color:#f8d348}" +
       "#pg-consent .row{display:flex;gap:8px;flex-wrap:wrap}" +
       "#pg-consent button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;" +
-      "border-radius:10px;cursor:pointer;border:1px solid #3a3220;background:#2a2415;color:#f5f0e4}" +
-      "#pg-consent button.primary{background:linear-gradient(135deg,#f5a623,#e8930c);border:none;color:#1a1206}" +
+      "border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,.14);" +
+      "background:rgba(255,255,255,.06);color:#f5f0e4;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}" +
+      "#pg-consent button.primary{background:linear-gradient(135deg,#f5a623,#e8930c);border:none;color:#1a1206;box-shadow:none}" +
       "#pg-consent button:hover{filter:brightness(1.1)}";
     var st = document.createElement("style");
     st.textContent = css;
