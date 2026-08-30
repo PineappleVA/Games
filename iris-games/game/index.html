@@ -335,6 +335,13 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;b
 #meet-credits .cred-item.vis{opacity:1;transform:none;}
 #meet-credits .cred-item.vis .cred-val,#meet-credits .cred-item.vis .cred-sub{opacity:1;transform:none;}
 </style>
+<style>
+/* Transición de entrada — añadida por Pineapple Games (seguro de retirar) */
+@media (prefers-reduced-motion: no-preference){
+  body::after{content:"";position:fixed;inset:0;background:#131007;z-index:2147483647;pointer-events:none;animation:pgintro .45s ease .03s forwards}
+  @keyframes pgintro{from{opacity:1}to{opacity:0;visibility:hidden}}
+}
+</style>
 </head>
 <body>
 

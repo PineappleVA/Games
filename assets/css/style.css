@@ -370,3 +370,20 @@ article.post em { color: var(--text-dim); }
 .md-post pre code { background: none; border: none; padding: 0; font-size: .85rem; }
 
 .md-post hr { border: none; border-top: 1px solid var(--border); margin: 1.2rem 0; }
+
+/* ============================================================
+   Transiciones entre páginas
+   ============================================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Entrada: el documento aparece suavemente al cargar */
+  @keyframes pg-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
+  }
+  body { animation: pg-in .3s ease; }
+
+  /* Salida: assets/js/site.js añade .page-leave al pulsar enlaces internos */
+  body { transition: opacity .18s ease, transform .18s ease; }
+  body.page-leave { opacity: 0; transform: translateY(-4px); }
+}

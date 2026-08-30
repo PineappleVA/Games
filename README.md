@@ -95,8 +95,10 @@ directamente en una pestaña nueva. Convención de publicación:
 - Sitio 100% estático (HTML + CSS + JS). El archivo `.nojekyll` evita el procesado
   Jekyll de GitHub Pages.
 - Movimiento sobrio en `assets/js/site.js` + `assets/css/style.css`
-  (entrada breve de bloques al hacer scroll y sombra de cabecera),
-  desactivado con `prefers-reduced-motion`.
+  (entrada breve de bloques al hacer scroll, sombra de cabecera y
+  **transiciones de página**: fundido al entrar/salir entre páginas internas,
+  y fundido de entrada al abrir un juego), desactivado con
+  `prefers-reduced-motion`.
 - Anuncios Markdown: `assets/js/markdown.js` (mini-renderizador propio, sin
   dependencias, con escape de HTML).
 - Directorio automático por juego en `assets/js/game-directory.js`.
