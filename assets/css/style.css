@@ -265,96 +265,21 @@ article.post em { color: var(--text-dim); }
 }
 
 /* ============================================================
-   Animaciones y efectos
+   Movimiento (sutil y profesional)
    ============================================================ */
 
-@keyframes floaty   { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-9px) rotate(3deg); } }
-@keyframes sheen    { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@keyframes pulse    { 0%,100% { box-shadow: 0 0 0 0 rgba(232,147,12,.45); } 50% { box-shadow: 0 0 0 7px rgba(232,147,12,0); } }
-@keyframes bgdrift  { from { transform: translateY(0); } to { transform: translateY(-16px); } }
-
+/*
+   Entrada breve al hacer scroll: las clases .reveal/.in las
+   gestiona assets/js/site.js con retardo escalonado mínimo.
+*/
 @media (prefers-reduced-motion: no-preference) {
-
-  /* Entrada escalonada (la clase .reveal la añade assets/js/site.js) */
   .reveal {
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity .6s cubic-bezier(.2,.65,.3,1), transform .6s cubic-bezier(.2,.65,.3,1);
+    transform: translateY(8px);
+    transition: opacity .35s ease, transform .35s ease;
     transition-delay: var(--d, 0s);
   }
   .reveal.in { opacity: 1; transform: none; }
-
-  /* Fondo ambiental animado */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(620px 320px at 12% -5%, rgba(245,166,35,.10), transparent 60%),
-      radial-gradient(520px 300px at 92% 108%, rgba(248,211,72,.08), transparent 60%);
-    animation: bgdrift 16s ease-in-out infinite alternate;
-  }
-
-  /* Hero */
-  .hero img.logo { animation: floaty 5.5s ease-in-out infinite; }
-  .hero h1 span {
-    background: linear-gradient(90deg, var(--brand), var(--brand-soft), #ffe9a8, var(--brand));
-    background-size: 250% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: sheen 6s ease-in-out infinite;
-  }
-
-  /* Tarjetas */
-  .card { position: relative; overflow: hidden; }
-  .card::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--brand), var(--brand-soft));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .35s ease;
-  }
-  .card:hover { box-shadow: 0 12px 34px rgba(245,166,35,.18); }
-  .card:hover::before { transform: scaleX(1); }
-  .card .icon { display: inline-block; transition: transform .3s ease; }
-  .card:hover .icon { transform: scale(1.22) rotate(-8deg); }
-
-  /* Insignias */
-  .badge.pending { animation: pulse 2.2s ease-in-out infinite; }
-
-  /* Botones con barrido de brillo */
-  .btn { position: relative; overflow: hidden; }
-  .btn::after {
-    content: "";
-    position: absolute;
-    top: 0; left: -70%;
-    width: 40%; height: 100%;
-    background: linear-gradient(105deg, transparent, rgba(255,255,255,.35), transparent);
-    transform: skewX(-20deg);
-    transition: left .55s ease;
-  }
-  .btn:hover::after { left: 130%; }
-
-  /* Navegación con subrayado animado */
-  .main-nav a { position: relative; }
-  .main-nav a::after {
-    content: "";
-    position: absolute;
-    left: .7rem; right: .7rem; bottom: 2px;
-    height: 2px;
-    background: var(--brand-soft);
-    border-radius: 2px;
-    transform: scaleX(0);
-    transition: transform .25s ease;
-  }
-  .main-nav a:hover::after,
-  .main-nav a[aria-current="page"]::after { transform: scaleX(1); }
 }
 
 /* Sombra de cabecera al hacer scroll (la clase la añade site.js) */
@@ -445,100 +370,3 @@ article.post em { color: var(--text-dim); }
 .md-post pre code { background: none; border: none; padding: 0; font-size: .85rem; }
 
 .md-post hr { border: none; border-top: 1px solid var(--border); margin: 1.2rem 0; }
-
-/* ============================================================
-   Zona de juego embebida (play-embed)
-   ============================================================ */
-
-.play-embed {
-  margin: 1.4rem 0 1.8rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: #050403;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
-}
-
-.play-bar {
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  padding: .55rem .9rem;
-  background: var(--card);
-  border-bottom: 1px solid var(--border);
-  flex-wrap: wrap;
-}
-
-.play-bar-title { font-size: .88rem; font-weight: 600; color: var(--text-dim); }
-
-.play-bar-actions { margin-left: auto; display: flex; gap: .9rem; align-items: center; }
-
-.play-bar-actions a,
-.play-bar-actions button {
-  font: inherit;
-  font-size: .85rem;
-  color: var(--brand-soft);
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  padding: .15rem .25rem;
-  border-radius: 6px;
-}
-
-.play-bar-actions a:hover,
-.play-bar-actions button:hover { background: var(--card-hover); }
-
-.play-stage {
-  position: relative;
-  height: 72vh;
-  min-height: 460px;
-  display: grid;
-  place-items: center;
-  background:
-    radial-gradient(600px 260px at 50% 115%, rgba(245,166,35,.14), transparent 65%),
-    #050403;
-}
-
-.play-stage iframe.game-iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-}
-
-.play-stage .play-start { z-index: 2; }
-
-/* ============================================================
-   Insignia «Jugable» pulsante y barra de progreso de scroll
-   ============================================================ */
-
-@keyframes pulse-ok { 0%,100% { box-shadow: 0 0 0 0 rgba(76,175,109,.5); } 50% { box-shadow: 0 0 0 7px rgba(76,175,109,0); } }
-
-@media (prefers-reduced-motion: no-preference) {
-  .badge.ok { animation: pulse-ok 2.6s ease-in-out infinite; }
-
-  .card, .btn { will-change: transform; }
-}
-
-#scroll-progress {
-  position: fixed;
-  top: 0; left: 0;
-  height: 3px;
-  width: 0;
-  background: linear-gradient(90deg, var(--brand), var(--brand-soft));
-  z-index: 100;
-  transition: width .08s linear;
-  pointer-events: none;
-}
-
-/* ============================================================
-   Efecto tilt en tarjetas (activado por JS si hay puntero fino)
-   ============================================================ */
-
-@media (prefers-reduced-motion: no-preference) {
-  body.tilt-on .card { transform-style: preserve-3d; transition: transform .18s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease; }
-  body.tilt-on .card:hover { transform: none; }
-}

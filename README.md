@@ -66,8 +66,8 @@ no hay que editar el HTML. Si la API no responde, usa como respaldo el manifiest
 ## 📁 Directorios por juego (cómo actualizar y añadir juegos)
 
 Cada juego tiene **su propia carpeta (directorio)** en el repositorio y una
-**página de información** con zona de juego embebida («Jugar aquí», pantalla
-completa y pestaña nueva). Convención de publicación:
+**página de detalles** (ficha) con un botón «Jugar» que abre el juego
+directamente en una pestaña nueva. Convención de publicación:
 
 - **Actualizar un juego publicado (Dopamina, SimulaGoal, iRiS Games):** sube o
   reemplaza el archivo `game/index.html` de su carpeta con la nueva versión.
@@ -94,9 +94,9 @@ completa y pestaña nueva). Convención de publicación:
 
 - Sitio 100% estático (HTML + CSS + JS). El archivo `.nojekyll` evita el procesado
   Jekyll de GitHub Pages.
-- Animaciones y efectos en `assets/js/site.js` + `assets/css/style.css`
-  (entradas escalonadas, brillo en botones, insignias animadas…), con respeto a
-  `prefers-reduced-motion`.
+- Movimiento sobrio en `assets/js/site.js` + `assets/css/style.css`
+  (entrada breve de bloques al hacer scroll y sombra de cabecera),
+  desactivado con `prefers-reduced-motion`.
 - Anuncios Markdown: `assets/js/markdown.js` (mini-renderizador propio, sin
   dependencias, con escape de HTML).
 - Directorio automático por juego en `assets/js/game-directory.js`.
