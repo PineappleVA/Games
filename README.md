@@ -18,8 +18,8 @@ a GitHub Pages.
 │   │   └── tos/               → Términos y Condiciones
 │   ├── trade-up/              → Página informativa (servidores cerrados)
 │   ├── fine-at-skibidi/       → Página de FNAS (las partidas se abren en su web oficial)
-│   └── simulagoal/            → ⏳ Migración pendiente
-├── iris-games/                → ⏳ Migración pendiente
+│   └── simulagoal/            → 🎮 SimulaGoal Pro — Elite Edition (jugable)
+├── iris-games/                → 🎮 iRiS Games — portal de minijuegos (jugable)
 ├── dev/                       → 🛠️ Panel interno del equipo (noindex)
 ├── anuncios/                  → Canales de anuncios, escritos en Markdown
 │   ├── dopamina/posts/        → ✍️ Anuncios de Dopamina (.md)
@@ -41,8 +41,8 @@ a GitHub Pages.
 | 🧠 Dopamina | ✅ Migrado | [`jaime-gaming/dopamina`](https://github.com/jaime-gaming/dopamina) (`dopamina.html`) |
 | 🎬 FNAS (Fine at Skibiry) | ✅ Migrado | Página propia aquí; el juego se sirve desde su web oficial ([repo](https://github.com/PineappleVA/FNAS)) |
 | 📈 Trade Up | 🔴 Servidores cerrados | Sin versión jugable; página informativa hasta su regreso |
-| ⚽ SimulaGoal | ⏳ Pendiente | Embebido en Google Sites (código no exportable desde la web) |
-| 🎮 iRiS Games | ⏳ Pendiente | Sin contenido público en la web original |
+| ⚽ SimulaGoal | ✅ Migrado | Archivos HTML aportados por el equipo (`SimulaGoal.html`) |
+| 🎮 iRiS Games | ✅ Migrado | Archivos HTML aportados por el equipo (`iRiS Games.html`) |
 
 Retirados a petición del equipo: **Novel Reader**, **Block Ñast** y la **Beta de FNAS**.
 
@@ -65,15 +65,20 @@ no hay que editar el HTML. Si la API no responde, usa como respaldo el manifiest
 
 ## 📁 Directorios por juego (cómo actualizar y añadir juegos)
 
-Cada juego tiene **su propia carpeta (directorio)** en el repositorio. Las páginas
-«placeholder» de los juegos pendientes (SimulaGoal, iRiS Games, Trade Up) incluyen
-una sección «📁 Archivos y versiones» que **lista automáticamente** los `.html`
-publicados en su carpeta. No hace falta editar ninguna página para que aparezcan.
+Cada juego tiene **su propia carpeta (directorio)** en el repositorio. La página
+«placeholder» de Trade Up incluye una sección «📁 Archivos y versiones» que
+**lista automáticamente** los `.html` publicados en su carpeta.
+No hace falta editar ninguna página para que aparezcan.
 
-- **Publicar un juego pendiente:** sube su `index.html` a su carpeta
-  (`games/simulagoal/`, `iris-games/` o `games/trade-up/`); ese `index.html`
-  **reemplazará automáticamente** a la página principal (placeholder) del juego.
-- **Actualizar un juego:** sube o reemplaza el archivo `.html` dentro de su carpeta.
+- **Publicar un juego pendiente (Trade Up):** sube su `index.html` a
+  `games/trade-up/`; ese archivo **reemplazará automáticamente** a la página
+  informativa provisional.
+- **Actualizar un juego publicado (Dopamina, SimulaGoal, iRiS Games):** sube o
+  reemplaza el `index.html` de su carpeta por la nueva versión; para conservar
+  versiones antiguas, súbelas con otro nombre (ej. `simulagoal-v1.html`) a la
+  misma carpeta.
+- **Actualizar FNAS:** se gestiona en su propio repositorio
+  [`PineappleVA/FNAS`](https://github.com/PineappleVA/FNAS).
 - **Dar de alta un juego nuevo:** crea su carpeta, copia dentro una página basada
   en cualquier placeholder existente (ajusta título, icono y los atributos
   `data-dir`/`data-prefix` del listado) y añade su tarjeta en `games/all/index.html`.
