@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dev · Panel del equipo · Pineapple Games</title>
+  <meta name="description" content="Panel interno del equipo Pineapple para gestionar la web de juegos.">
+  <link rel="icon" type="image/png" href="../assets/img/pineapple.png">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../">
+        <img src="../assets/img/pineapple.png" alt="Logo de Pineapple">
+        <span>Pineapple Games<small>Making things a little bit better</small></span>
+      </a>
+      <nav class="main-nav">
+        <a href="../">Inicio</a>
+        <a href="../games/all/">Todos los juegos</a>
+        <a href="../anuncios/">Anuncios</a>
+        <a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener">YouTube</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content">
+    <a class="back-link" href="../">← Volver al inicio</a>
+
+    <section class="hero">
+      <h1>🛠️ Panel <span>Dev</span></h1>
+      <p>Zona interna del equipo Pineapple para gestionar esta web</p>
+    </section>
+
+    <div class="notice info">
+      <h3>🔧 Uso interno</h3>
+      <p>Esta página no aparece en la navegación principal (solo en el pie de página) y lleva
+      <code>noindex</code> para que no la listen los buscadores. Desde aquí gestionas el contenido
+      del sitio sin tocar código: cada juego se actualiza subiendo archivos a su carpeta del repositorio.</p>
+    </div>
+
+    <h2 class="section-title">⚡ Gestión rápida</h2>
+    <div class="cards">
+      <a class="card" href="https://github.com/PineappleVA/Games" target="_blank" rel="noopener">
+        <span class="icon">📦</span>
+        <h3>Repositorio Games ↗</h3>
+        <p>Código fuente completo de esta web.</p>
+      </a>
+      <a class="card" href="https://github.com/PineappleVA/Games/pulls" target="_blank" rel="noopener">
+        <span class="icon">🔀</span>
+        <h3>Pull Requests ↗</h3>
+        <p>Revisa y fusiona cambios pendientes.</p>
+      </a>
+      <a class="card" href="https://github.com/PineappleVA/Games/settings/pages" target="_blank" rel="noopener">
+        <span class="icon">🌐</span>
+        <h3>GitHub Pages ↗</h3>
+        <p>Activa el despliegue: rama <code>main</code> y raíz <code>/</code>.</p>
+      </a>
+      <a class="card" href="https://github.com/PineappleVA/Games/actions" target="_blank" rel="noopener">
+        <span class="icon">🚀</span>
+        <h3>Despliegues ↗</h3>
+        <p>Estado de las publicaciones de la web.</p>
+      </a>
+    </div>
+
+    <h2 class="section-title">📁 Carpetas de los juegos (sube aquí los archivos)</h2>
+    <p class="dir-hint">Cualquier <code>.html</code> que subas a una carpeta aparece en la sección
+    «Archivos y versiones» de su página. Un <code>index.html</code> pasa a ser la página principal del juego
+    (así se publican los juegos pendientes). Enlaces a la rama <code>main</code>:</p>
+    <div class="dir-list">
+      <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/games/dopamina/game" target="_blank" rel="noopener"><span aria-hidden="true">🧠</span><span class="name">games/dopamina/game/</span><span class="size">Dopamina ↗</span></a>
+      <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/games/trade-up" target="_blank" rel="noopener"><span aria-hidden="true">📈</span><span class="name">games/trade-up/</span><span class="size">Trade Up ↗</span></a>
+      <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/games/simulagoal" target="_blank" rel="noopener"><span aria-hidden="true">⚽</span><span class="name">games/simulagoal/</span><span class="size">SimulaGoal ↗</span></a>
+      <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/iris-games" target="_blank" rel="noopener"><span aria-hidden="true">🎮</span><span class="name">iris-games/</span><span class="size">iRiS Games ↗</span></a>
+      <a class="dir-row" href="https://github.com/PineappleVA/FNAS" target="_blank" rel="noopener"><span aria-hidden="true">🎬</span><span class="name">PineappleVA/FNAS</span><span class="size">FNAS vive en su propio repo ↗</span></a>
+    </div>
+
+    <h2 class="section-title">✍️ Publicar un anuncio (Markdown)</h2>
+    <article class="post">
+      <p>Los canales de anuncios se alimentan de archivos <strong>Markdown</strong>. Para publicar uno:</p>
+      <ol>
+        <li>Crea un archivo llamado <code>AAAA-MM-DD-titulo.md</code> (la fecha ordena los anuncios: el más reciente sale primero).</li>
+        <li>Escríbelo en Markdown: <code># Título</code>, <code>**negrita**</code>, <code>*cursiva*</code>, listas con <code>-</code>, enlaces <code>[texto](https://…)</code>, citas con <code>&gt;</code> e imágenes <code>![alt](https://…)</code>.</li>
+        <li>Súbelo a la carpeta del canal y espera ~1 minuto al despliegue:</li>
+      </ol>
+    </article>
+    <div class="dir-list">
+      <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/anuncios/dopamina/posts" target="_blank" rel="noopener"><span aria-hidden="true">🧠</span><span class="name">anuncios/dopamina/posts/</span><span class="size">Canal Dopamina ↗</span></a>
+      <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/anuncios/trade-up/posts" target="_blank" rel="noopener"><span aria-hidden="true">📈</span><span class="name">anuncios/trade-up/posts/</span><span class="size">Canal Trade Up ↗</span></a>
+      <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/anuncios/otros/posts" target="_blank" rel="noopener"><span aria-hidden="true">📦</span><span class="name">anuncios/otros/posts/</span><span class="size">Canal Otros ↗</span></a>
+    </div>
+
+    <h2 class="section-title">🚀 Publicar un juego en 3 pasos</h2>
+    <article class="post">
+      <ol>
+        <li><strong>Sube los archivos</strong> del juego a su carpeta (enlaces de arriba): botón
+        <em>Add file → Upload files</em> en GitHub. Con un único <code>index.html</code> suele bastar.</li>
+        <li><strong>Espera al despliegue</strong> (~1 minuto): GitHub Pages republica la web
+        automáticamente tras cada cambio en <code>main</code>.</li>
+        <li><strong>Compruébalo</strong> en <a href="https://pineappleva.github.io/Games/" target="_blank" rel="noopener">pineappleva.github.io/Games</a>
+        y, si el juego deja de estar «pendiente», actualiza su insignia en
+        <code>games/all/index.html</code> (badge <code>pending</code> → <code>ok</code>).</li>
+      </ol>
+      <p><em>¿Un juego nuevo sin carpeta? Duplica la carpeta de un placeholder existente,
+      ajusta título/icono y el atributo <code>data-dir</code> del listado, y añade su tarjeta en el catálogo.</em></p>
+    </article>
+
+    <h2 class="section-title">📊 Estado de la migración</h2>
+    <div class="dir-list">
+      <div class="dir-row"><span aria-hidden="true">🧠</span><span class="name">Dopamina</span><span class="size">✅ Migrado (b0.45)</span></div>
+      <div class="dir-row"><span aria-hidden="true">🎬</span><span class="name">FNAS</span><span class="size">✅ Página propia; juegos en su web oficial ↗</span></div>
+      <div class="dir-row"><span aria-hidden="true">📈</span><span class="name">Trade Up</span><span class="size">🔴 Servidores cerrados</span></div>
+      <div class="dir-row"><span aria-hidden="true">⚽</span><span class="name">SimulaGoal</span><span class="size">⏳ Pendiente de archivos</span></div>
+      <div class="dir-row"><span aria-hidden="true">🎮</span><span class="name">iRiS Games</span><span class="size">⏳ Pendiente de archivos</span></div>
+      <div class="dir-row"><span aria-hidden="true">📢</span><span class="name">Anuncios + ToS + portada</span><span class="size">✅ Migrado</span></div>
+    </div>
+    <p class="dir-hint">Retirados a petición del equipo: Novel Reader, Block Ñast y la Beta de FNAS.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>Hecho con 🍍 en Valladolid · <em>Making things a little bit better</em></span>
+      <span class="spacer"></span>
+      <a href="https://github.com/PineappleVA" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://sites.google.com/view/pruebas-compartido" target="_blank" rel="noopener">Web original</a>
+
+      <a href="../dev/">🛠️ Dev</a>
+    </div>
+  </footer>
+
+  <script src="../assets/js/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,3206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>DOPAMINA</title>
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/minecraft-4">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+<style>
+html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;font-family:Arial;color:white;}
+body{
+  background:radial-gradient(circle at 20% 20%, rgba(255,64,129,0.1), transparent 32%),
+             radial-gradient(circle at 80% 10%, rgba(0,212,255,0.08), transparent 30%),
+             radial-gradient(circle at 50% 80%, rgba(120,40,255,0.12), transparent 34%),
+             linear-gradient(135deg, #0c0c12, #111725 35%, #0f0f18 65%, #101521);
+  background-size: 120% 120%;
+  animation: bgShift 28s ease-in-out infinite;
+}
+#loader{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:black;color:white;font-size:50px;z-index:9999;display:none; }
+#loader span{font-size:22px;animation:blink 1s infinite;}
+#loadProgress{width:300px;height:20px;background:#333;border-radius:10px;margin-top:20px;overflow:hidden;}
+#loadProgressBar{height:100%;background:linear-gradient(90deg,#9900ff,#ff00ff);width:0%;transition:width 0.3s ease;}
+#loadPhase{font-size:16px;color:#aaa;margin-top:10px;}
+@keyframes purchaseSuccess{0%{transform:scale(1);}50%{transform:scale(1.1);background:#00ff00;color:#000;}100%{transform:scale(1);}}
+@keyframes skinEquip{0%{transform:scale(1) rotate(0deg);opacity:0.5;}50%{transform:scale(1.2) rotate(5deg);opacity:1;}100%{transform:scale(1) rotate(0deg);opacity:1;}}
+@keyframes calendarClaim{0%{transform:scale(1);}30%{transform:scale(1.15);background:#ffd700;}100%{transform:scale(1);}}
+@keyframes blueCoinPulse{0%{transform:scale(1);}50%{transform:scale(1.12);}100%{transform:scale(1);}}
+@keyframes badgePulse{0%{transform:scale(1);}50%{transform:scale(1.18);}100%{transform:scale(1);}}
+@keyframes blueButtonGlow{0%{box-shadow:0 0 10px rgba(0,212,255,0.35);}50%{box-shadow:0 0 18px rgba(0,212,255,0.7);}100%{box-shadow:0 0 10px rgba(0,212,255,0.35);}}
+@keyframes rebirth{0%{transform:scale(1) rotate(0deg);opacity:1;filter:brightness(1);}15%{transform:scale(1.3) rotate(-15deg);opacity:0.9;filter:brightness(1.5);}30%{transform:scale(0.6) rotate(15deg);opacity:0.4;filter:brightness(2);}45%{transform:scale(1.4) rotate(-20deg);opacity:0.7;filter:brightness(1.8);}60%{transform:scale(0.5) rotate(25deg);opacity:0.3;filter:brightness(2.5);}75%{transform:scale(1.2) rotate(-10deg);opacity:0.8;filter:brightness(1.6);}90%{transform:scale(0.9);opacity:0.9;filter:brightness(1.2);}100%{transform:scale(1) rotate(0deg);opacity:1;filter:brightness(1);}}
+@keyframes fadeInOut{0%{opacity:0;background:radial-gradient(circle at 50% 50%, #e6f8ff 0%, #c8eeff 40%, #00d4ff 100%);}10%{opacity:1;background:radial-gradient(circle at 50% 50%, #e6f8ff 0%, #c8eeff 40%, #00d4ff 100%);}50%{background:radial-gradient(circle at 50% 50%, #e6f8ff 0%, #bfe7ff 40%, #00baff 100%);}80%{opacity:1;background:radial-gradient(circle at 50% 50%, #e6f8ff 0%, #c8eeff 40%, #00a0ff 100%);}100%{opacity:0;background:radial-gradient(circle at 50% 50%, #e6f8ff 0%, #c8eeff 40%, #00d4ff 100%);}}
+@keyframes rebirthText{0%{opacity:0;transform:translate(-50%,-60%) scale(0.5) rotateX(90deg);text-shadow:0 0 0px rgba(0,212,255,0);}15%{opacity:1;transform:translate(-50%,-50%) scale(1.2) rotateX(0deg);text-shadow:0 0 28px rgba(0,212,255,1), 0 0 52px rgba(0,172,255,0.8);}30%{transform:translate(-50%,-50%) scale(1) rotateX(0deg);}70%{opacity:1;transform:translate(-50%,-50%) scale(1) rotateX(0deg);text-shadow:0 0 28px rgba(0,212,255,1), 0 0 52px rgba(0,172,255,0.8);}85%{opacity:1;transform:translate(-50%,-50%) scale(1.1) rotateX(0deg);}100%{opacity:0;transform:translate(-50%,-45%) scale(0.8) rotateX(-90deg);text-shadow:0 0 0px rgba(0,212,255,0);}}
+@keyframes rebirth-wings{0%{opacity:0;transform:translate(-50%,-50%) scale(0) rotate(0deg);}10%{opacity:0.3;transform:translate(-50%,-50%) scale(0.5) rotate(180deg);}25%{opacity:1;transform:translate(-50%,-50%) scale(1.5) rotate(360deg);}50%{opacity:1;transform:translate(-50%,-50%) scale(2) rotate(540deg);}75%{opacity:0.8;transform:translate(-50%,-50%) scale(1.5) rotate(720deg);}90%{opacity:0.3;transform:translate(-50%,-50%) scale(0.5) rotate(900deg);}100%{opacity:0;transform:translate(-50%,-50%) scale(0) rotate(1080deg);}}
+@keyframes rebirthParticles{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--tx), var(--ty)) scale(0);}}
+@keyframes anomalyGlitch{0%{opacity:0;transform:scaleY(0);}50%{opacity:1;transform:scaleY(1);}100%{opacity:0;transform:scaleY(1);}}
+@keyframes anomalyScan{0%{background-position:0 0;}100%{background-position:200px 0;}}
+@keyframes anomalyShift{0%{background-position:0 0;}100%{background-position:14px 0;}}
+@keyframes anomalyGlitchMain{0%,92%{transform:translate(0,0);filter:hue-rotate(0deg);}93%{transform:translate(-1px,0);filter:hue-rotate(30deg);}94%{transform:translate(1px,0);filter:hue-rotate(-30deg);}95%,100%{transform:translate(0,0);filter:hue-rotate(0deg);}}
+@keyframes anomalyVerticalSweep{0%{transform:translateY(-100%);}100%{transform:translateY(0%);}}
+@keyframes anomalyPulse{0%{box-shadow:0 0 8px rgba(0,212,255,0.6),0 0 16px rgba(0,212,255,0.4);}50%{box-shadow:0 0 14px rgba(0,212,255,0.9),0 0 28px rgba(0,212,255,0.6);}100%{box-shadow:0 0 8px rgba(0,212,255,0.6),0 0 16px rgba(0,212,255,0.4);}}
+@keyframes orbCatch{0%{transform:scale(1) rotate(0deg);opacity:1;}30%{transform:scale(0.6) rotate(-15deg);opacity:0.8;}100%{transform:scale(0.1) rotate(360deg);opacity:0;}}
+#anomalyWarning{position:fixed;inset:0;pointer-events:none;z-index:1400;border:0px solid rgba(0,212,255,0);transition:border-width 0.3s ease;}
+#anomalyWarning.active{animation:warningPulse 2s ease-in-out infinite;border-style:solid;border-color:rgba(0,212,255,0.4);}
+#anomalyWarning::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 8px,rgba(0,212,255,0.05) 8px,rgba(0,212,255,0.05) 10px);animation:scanline 2s linear infinite;opacity:0;transition:opacity 0.3s;}
+#anomalyWarning.active::before{opacity:1;}
+#anomalyWarning::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(0,212,255,0.03) 48%,rgba(0,212,255,0.15) 50%,rgba(0,212,255,0.03) 52%,transparent 100%);background-size:100% 400%;animation:glitchSweep 3s ease-in-out infinite;opacity:0;pointer-events:none;}
+#anomalyWarning.active::after{opacity:1;}
+@keyframes glitchSweep{0%{background-position:0% 0%;transform:scaleX(1);}15%{background-position:0% 100%;transform:scaleX(1.01);}17%{transform:scaleX(0.99);}19%{transform:scaleX(1.005);}20%{transform:scaleX(1);background-position:0% 100%;}40%{background-position:0% 100%;}55%{background-position:0% 0%;transform:scaleX(1);}57%{transform:scaleX(0.995);}59%{transform:scaleX(1.008);}60%{transform:scaleX(1);}100%{background-position:0% 0%;transform:scaleX(1);}}
+@keyframes scanline{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+@keyframes warningPulse{0%{box-shadow:inset 0 0 15px rgba(0,212,255,0.15),0 0 20px rgba(0,212,255,0.1);filter:brightness(1);}50%{box-shadow:inset 0 0 40px rgba(0,212,255,0.3),0 0 50px rgba(0,212,255,0.2);filter:brightness(1.15);}100%{box-shadow:inset 0 0 15px rgba(0,212,255,0.15),0 0 20px rgba(0,212,255,0.1);filter:brightness(1);}}
+#anomalyAnnounce{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2500;pointer-events:none;text-align:center;opacity:0;transition:opacity 0.3s;}
+#anomalyAnnounce.show{opacity:1;animation:announceZoom 2s ease-out;}
+@keyframes announceZoom{0%{transform:translate(-50%,-50%) scale(0.3) rotate(-5deg);opacity:0;filter:blur(20px) hue-rotate(0deg);}10%{transform:translate(-50%,-50%) scale(1.3) rotate(2deg);opacity:1;filter:blur(0px) hue-rotate(30deg);}15%{transform:translate(-50%,-50%) scale(0.95) rotate(-1deg);filter:blur(0px) hue-rotate(60deg);}20%{transform:translate(-50%,-50%) scale(1.1) rotate(1deg);filter:blur(0px) hue-rotate(0deg);}25%{transform:translate(-50%,-50%) scale(1) rotate(0deg);filter:blur(0px) hue-rotate(0deg);}70%{transform:translate(-50%,-50%) scale(1) rotate(0deg);opacity:1;filter:blur(0px) hue-rotate(0deg);}85%{transform:translate(-50%,-50%) scale(1.05);opacity:1;}100%{transform:translate(-50%,-50%) scale(0.8);opacity:0;filter:blur(10px);}}
+#anomalyAnnounce .title{font-size:72px;font-weight:900;color:#00d4ff;text-shadow:0 0 30px rgba(0,212,255,1),0 0 60px rgba(0,212,255,0.8),0 0 90px rgba(0,212,255,0.6),0 4px 8px rgba(0,0,0,0.8);letter-spacing:8px;text-transform:uppercase;animation:titleGlitch 0.3s ease-in-out 3;}
+@keyframes titleGlitch{0%,100%{transform:translate(0,0);}25%{transform:translate(-3px,2px);text-shadow:0 0 30px rgba(255,0,212,1),0 0 60px rgba(0,212,255,0.8);}50%{transform:translate(3px,-2px);text-shadow:0 0 30px rgba(0,255,212,1),0 0 60px rgba(212,0,255,0.8);}75%{transform:translate(-2px,-2px);text-shadow:0 0 30px rgba(0,212,255,1),0 0 60px rgba(255,212,0,0.8);}}
+#anomalyAnnounce .subtitle{font-size:36px;color:#7cf3ff;text-shadow:0 0 15px rgba(124,243,255,0.8),0 0 30px rgba(124,243,255,0.4);margin-top:15px;font-weight:700;letter-spacing:4px;animation:subtitleSlide 0.6s ease-out 0.2s backwards;}
+@keyframes subtitleSlide{0%{opacity:0;transform:translateY(30px);filter:blur(10px);}100%{opacity:1;transform:translateY(0);filter:blur(0);}}
+#anomalyAnnounce::before{content:'';position:absolute;inset:-20px;background:radial-gradient(circle at center,rgba(0,212,255,0.2),transparent 70%);animation:auraExpand 2s ease-out;z-index:-1;}
+@keyframes auraExpand{0%{transform:scale(0);opacity:0;}20%{transform:scale(1.2);opacity:1;}100%{transform:scale(2);opacity:0;}}
+#version{position:absolute;bottom:10px;right:10px;font-size:16px;color:#fff;}
+#devConsole{position:fixed;bottom:12px;left:12px;width:420px;max-width:95vw;background:rgba(10,10,10,0.92);border:2px solid #00d4ff;border-radius:12px;box-shadow:0 0 20px rgba(0,212,255,0.3);z-index:2000;display:none;flex-direction:column;overflow:hidden;font-size:13px;backdrop-filter:blur(3px);}
+#devConsole header{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-weight:bold;background:linear-gradient(135deg,#00d4ff,#0066ff);color:#000;cursor:move;user-select:none;}
+#devConsole header button{background:transparent;border:none;color:#000;font-size:18px;font-weight:bold;cursor:pointer;}
+#devLog{height:120px;overflow:auto;padding:8px 10px;font-family:Consolas,monospace;background:#0d1117;color:#c9d1d9;border-top:1px solid #00d4ff;border-bottom:1px solid #00d4ff;}
+#devForm{display:flex;gap:6px;padding:8px 10px;}
+#devInput{flex:1;padding:8px 10px;border-radius:8px;border:1px solid #00d4ff;background:#0d1117;color:#e6f1ff;font-family:Consolas,monospace;}
+#devRunBtn{padding:8px 14px;border:none;border-radius:8px;background:#00d4ff;color:#000;font-weight:bold;cursor:pointer;}
+#devGuide{max-height:180px;overflow:auto;padding:8px 10px;background:#0b0f16;color:#a8c7ff;}
+#devGuide .cmd{display:flex;justify-content:space-between;border-bottom:1px solid rgba(0,212,255,0.15);padding:4px 0;gap:8px;}
+#devGuide .cmd span:first-child{font-family:Consolas,monospace;color:#7cf3ff;}
+#devActions{padding:8px 10px;background:#0b0f16;border-top:1px solid rgba(0,212,255,0.15);display:flex;flex-direction:column;gap:6px;}
+#devActions .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+#devActions button{padding:6px 10px;border-radius:8px;border:1px solid #00d4ff;background:#0d1117;color:#a8c7ff;cursor:pointer;font-size:12px;font-weight:700;transition:0.2s;}
+#devActions button:hover{background:#112032;color:#e6f1ff;transform:translateY(-1px);}
+#devActions input{width:100px;padding:6px 8px;border-radius:8px;border:1px solid #00d4ff;background:#0d1117;color:#e6f1ff;font-family:Consolas,monospace;}
+#devActions label{color:#7cf3ff;font-size:12px;font-weight:700;}
+/* Disable text selection globally, except interactive inputs */
+html, body, * {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+input, textarea, select, button, [contenteditable="true"] {
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Fuente pixel retro cuando se equipa la skin Retro */
+body.retro-font {
+  font-family: "Minecraft", "Minecraft Ten", "Press Start 2P", monospace;
+  letter-spacing: 0.2px;
+}
+body.retro-font * {
+  font-family: "Minecraft", "Minecraft Ten", "Press Start 2P", monospace !important;
+  letter-spacing: 0.2px;
+}
+.blueCoinIcon{display:inline-block;width:1em;height:1em;border-radius:50%;background:radial-gradient(circle at 35% 35%, #b6f0ff 0%, #4fc3ff 38%, #0b6bff 78%);box-shadow:0 0 0.35em rgba(0,212,255,0.8), inset 0 0 0.18em rgba(255,255,255,0.7);vertical-align:-0.12em;animation:blueCoinPulse 2.2s ease-in-out infinite;}
+.blueCoinIcon.inline{margin-right:6px;}
+.tab-store .blueCoinIcon{background:radial-gradient(circle at 35% 35%, #c9f7ff 0%, #64d6ff 40%, #008cff 78%);box-shadow:0 0 0.35em rgba(0,212,255,0.9), inset 0 0 0.18em rgba(255,255,255,0.7);}
+.tab-level .blueCoinIcon{background:radial-gradient(circle at 35% 35%, #d5fff0 0%, #7affdf 40%, #00c29a 78%);box-shadow:0 0 0.35em rgba(0,255,200,0.7), inset 0 0 0.18em rgba(255,255,255,0.7);}
+.blueStoreBadge{animation:badgePulse 1.4s ease-in-out infinite;}
+#blueStoreBtn{animation:blueButtonGlow 3s ease-in-out infinite;}
+@keyframes blink{0%,50%{opacity:1;}51%,100%{opacity:0;}}
+.rainbow-bg{animation:rainbow 6s linear infinite;background:linear-gradient(120deg,red,orange,yellow,green,cyan,blue,purple);background-size:300% 300%;}
+@keyframes rainbow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%;}}
+@keyframes bgShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+#stats{position:fixed;top:10px;left:15px;z-index:900;font-size:22px;line-height:30px;text-shadow:0 0 5px black;display:flex;flex-direction:column;gap:5px;transition:0.3s;}
+#multipliersDisplay{position:fixed;bottom:12px;right:15px;padding:10px 14px;background:rgba(0,0,0,0.55);border:1.5px solid rgba(255,235,59,0.6);border-radius:10px;color:#ffd700;font-weight:700;font-size:11px;box-shadow:0 0 10px rgba(255,235,59,0.2);display:none;z-index:1200;pointer-events:none;text-shadow:0 0 3px rgba(255,235,59,0.2);max-width:200px;max-height:300px;overflow-y:auto;backdrop-filter:blur(5px);}
+#multipliersDisplay .label{font-size:10px;font-weight:700;opacity:0.8;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;}
+#multipliersDisplay .value{font-size:13px;letter-spacing:0.2px;margin-bottom:3px;font-weight:700;}
+#multiplierList{display:flex;flex-direction:column;gap:4px;margin-top:4px;width:100%;}
+#multiplierList div{display:block;font-size:11px;opacity:0.95;padding:3px 0;line-height:1.3;font-weight:600;width:100%;word-break:break-word;}
+#stats.gameTab{font-size:32px;}
+#valentineModal>div::-webkit-scrollbar{width:10px;}
+#valentineModal>div::-webkit-scrollbar-track{background:rgba(255,255,255,0.05);border-radius:10px;}
+#valentineModal>div::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff4fa8,#ff94d8);border-radius:10px;box-shadow:0 0 8px rgba(255,79,168,0.5);}
+#valentineModal>div::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#ff2f92,#ff7ac4);}
+#tabs{display:flex;justify-content:center;align-items:center;margin-top:60px;} 
+.tabBtn{background:#333;color:white;border:none;padding:10px 15px;margin:0 10px;cursor:pointer;border-radius:5px;font-size:20px;transition:0.3s;}
+.tabBtn:hover{transform:scale(1.05);}
+#tabLabel{font-size:25px;margin:0 20px;transition:0.3s;}
+.tabContent{display:none;position:absolute;top:130px;left:0;width:100%;height:calc(100% - 130px);overflow-y:auto;text-align:center;transition:opacity 0.5s ease;}
+#clickIcon{width:250px;height:250px;border-radius:50%;background:#ff4081;box-shadow:0 0 50px #ff4081;cursor:pointer;margin:auto;margin-top:120px;transition:transform 0.15s,box-shadow 0.15s,background 0.15s;position:relative;overflow:visible;}
+#clickIcon::after{content:"";position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle, rgba(255,64,129,0.18), rgba(255,64,129,0));filter:blur(2px);opacity:0.8;animation:clickAura 2.2s ease-in-out infinite;pointer-events:none;}
+#clickIcon::before{content:"";position:absolute;inset:12px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);box-shadow:0 0 12px rgba(255,255,255,0.15) inset;}
+#clickIcon.no-circle-effects::after,
+#clickIcon.no-circle-effects::before{display:none;}
+#clickIcon:hover{transform:scale(1.1);box-shadow:0 0 70px #ff80ab,0 0 110px rgba(255,128,171,0.4);}
+#clickIcon:active{transform:scale(0.92);}
+
+@keyframes spin{100%{transform:rotate(360deg);}}
+.particle{position:absolute;width:20px;height:20px;border-radius:50%;pointer-events:none;animation:pop 0.8s ease-out forwards;}
+@keyframes pop{0%{opacity:1;transform:scale(1);}100%{opacity:0;transform:scale(0.1) translate(var(--tx),var(--ty));}}
+/* Burn particle for fireball continuous effect */
+.particle.burn{width:10px;height:10px;animation:burnMove 900ms linear forwards;filter:blur(0.4px);box-shadow:0 0 6px rgba(255,120,30,0.5);}
+@keyframes burnMove{0%{opacity:1;transform:translate(0,0) scale(1) rotate(0);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0.6) rotate(12deg);}}
+/* Trail particle for launched fireball (elongated streaks) */
+.particle.trail{width:18px;height:6px;border-radius:6px;pointer-events:none;background:linear-gradient(90deg,#ffb74d,#ff6e40);transform-origin:center;animation:trailMove 900ms linear forwards;}
+@keyframes trailMove{0%{opacity:1;transform:translate(0,0) scaleX(1);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scaleX(0.1);}}
+/* Absorb particle for blackhole click effect */
+.particle.absorb{width:10px;height:10px;background:radial-gradient(circle at 30% 30%, #666, #000);animation:absorbMove 900ms linear forwards;box-shadow:0 0 6px rgba(0,0,0,0.6);}
+@keyframes absorbMove{0%{opacity:1;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0.2);}}
+
+
+.storeGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:10px;}
+.upgItem{background:#222;border:1px solid #444;padding:10px;border-radius:6px;display:flex;flex-direction:column;align-items:center;}
+.upgHeader{font-size:20px;margin-bottom:5px;}
+.buyBtn{background:#2196f3;border:none;color:white;padding:8px 15px;border-radius:5px;cursor:pointer;font-size:16px;transition:background 0.2s, transform 0.2s;}
+.buyBtn:hover{background:#1e88e5;transform:scale(1.06);}
+/* Locked buttons should not appear blocked: keep same appearance and cursor */
+.buyBtn.locked{background:#2196f3;opacity:1;cursor:pointer;pointer-events:auto;}
+.buyBtn.success{background:#4caf50 !important;}
+.buyBtn.fail{background:#f44336 !important;}
+.discount{color:#ff0;margin-left:5px;font-weight:bold;} /* Skins (cosméticos para el círculo de puntos) */
+.skinItem{background:#222;border:1px solid #444;padding:8px;border-radius:8px;display:flex;flex-direction:column;align-items:center;width:150px;gap:6px}
+.skinPreview{width:60px;height:60px;border-radius:50%;margin-bottom:6px;box-shadow:0 0 8px rgba(0,0,0,0.6);}
+.skinItem small{font-size:12px;color:#ccc}#levelTab h2{margin-top:20px;font-size:40px;} 
+#expBarWrapper{width:70%;margin:auto;background:#333;height:30px;border-radius:15px;margin-top:20px;position:relative;}
+#expBar{background:#ff4081;height:100%;width:0%;border-radius:15px;transition:width 0.3s;}
+#levelNum.max-level{animation:rainbow 3s linear infinite;background:linear-gradient(120deg,red,orange,yellow,green,cyan,blue,purple);background-size:300% 300%;background-clip:text;-webkit-background-clip:text;color:transparent;text-shadow:0 0 10px rgba(255,255,255,0.35);}
+#expText{position:absolute;width:100%;top:0;left:0;text-align:center;line-height:30px;font-size:16px;}
+#critText{position:absolute;color:#ff0;font-size:24px;font-weight:bold;text-shadow:0 0 8px black;pointer-events:none;animation:critAnim 0.8s forwards;display:none;}
+@keyframes critAnim{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-50px);}}
+@keyframes clickAura{0%{transform:scale(0.96);opacity:0.75;}50%{transform:scale(1.02);opacity:1;}100%{transform:scale(0.98);opacity:0.75;}}
+#settingsIcon{position:fixed;top:10px;right:15px;width:40px;height:40px;background:#333;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;z-index:950;font-size:24px;transition:0.3s;}
+#settingsIcon:hover{transform:scale(1.2);background:#444;}
+#settingsModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:1000;}
+#settingsContent{background:#222;border:2px solid #444;border-radius:10px;padding:20px;display:flex;flex-direction:column;align-items:center;gap:15px;min-width:300px;}
+/* Skins Button (hanger) */
+#skinsBtn{position:fixed;top:60px;right:15px;width:40px;height:40px;background:#333;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;z-index:950;font-size:22px;transition:0.3s}
+#skinsBtn:hover{transform:scale(1.2);background:#444}
+
+/* Skins tab index boxes */
+.skinIndexBox{width:150px;height:150px;border-radius:14px;background:#111;border:2px solid #444;display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:12px;color:white;cursor:pointer;user-select:none;padding:6px}
+.skinIndexBox .previewInner{width:100%;height:100%;border-radius:50%;display:block;background-size:cover;background-position:center;overflow:hidden}
+.skinIndexBox.selected{border-color:#1e88e5;box-shadow:0 0 10px #1e88e5}
+.skinDetailPreview{width:140px;height:140px;border-radius:50%;margin:auto;box-shadow:0 0 30px rgba(0,0,0,0.6);} 
+.comingSoon{width:80px;height:80px;border-radius:50%;background:#222;border:2px dashed #666;display:flex;justify-content:center;align-items:center;color:#ccc}
+@keyframes deform{0%{border-radius:50% 50% 50% 50%;transform:scale(1);}50%{border-radius:40% 60% 50% 50%;transform:scale(0.95);}100%{border-radius:50% 50% 50% 50%;transform:scale(1);}}
+.comingSoon .deformer{width:48px;height:48px;background:#333;border-radius:50%;display:block;box-shadow:0 0 10px rgba(255,255,255,0.05)}
+.deformer.play{animation:deform 1s ease-in-out;} 
+#closeSettingsBtn{cursor:pointer;font-size:24px;position:absolute;top:10px;right:10px;}
+#settingsContent button{background:#2196f3;border:none;color:white;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:16px;}
+#settingsContent button:hover{background:#1e88e5;transform:scale(1.05);}
+#popupContainer{position:fixed;top:10px;right:10px;z-index:1001;display:flex;flex-direction:column;gap:8px;}
+.popup{background:linear-gradient(135deg,rgba(30,30,30,0.95),rgba(50,50,50,0.95));backdrop-filter:blur(10px);border:2px solid rgba(255,64,129,0.6);padding:14px 20px;border-radius:12px;font-size:18px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);pointer-events:auto;opacity:0;transition:opacity 0.4s, transform 0.4s;transform:translateX(30px) scale(0.95);margin-bottom:6px;box-shadow:0 4px 20px rgba(0,0,0,0.4),0 0 30px rgba(255,64,129,0.2);}
+.popup.show{opacity:1;transform:translateX(0) scale(1);} 
+
+/* Daily Calendar floating button and panel */
+#dailyCalendarBtn{position:fixed;bottom:15px;left:15px;width:48px;height:48px;border-radius:10px;background:#333;color:white;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,0.6);cursor:pointer;z-index:1002;font-size:22px}
+#dailyCalendarBtn.attentionGreen{animation:blinkGreen 1000ms ease-in-out infinite; border:2px solid #4caf50}
+#dailyCalendarBtn .flame{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);width:12px;height:18px;border-radius:50% 50% 40% 40%;background:radial-gradient(circle at 50% 30%, #fff 0%, #ffeb3b 20%, #ff8c00 50%, #d84315 80%);opacity:0;pointer-events:none;filter:blur(0.2px);transform-origin:center}
+#dailyCalendarBtn.fireAnim .flame{opacity:1;animation:flameBurst 1000ms ease-out forwards}
+@keyframes flameBurst{0%{transform:translateX(-50%) translateY(0) scale(0.6);opacity:0.9}40%{transform:translateX(-50%) translateY(-8px) scale(1.2);opacity:1}100%{transform:translateX(-50%) translateY(-28px) scale(0.8);opacity:0}}
+#dailyCalendarBtn:hover{transform:scale(1.06);background:#444}
+#dailyCalendar{position:fixed;bottom:75px;left:15px;width:340px;background:linear-gradient(135deg,#1a1a1a 0%,#222 100%);border:2px solid #ff4081;padding:15px;border-radius:12px;z-index:1002;display:none;box-shadow:0 0 30px rgba(255,64,129,0.3)}
+#dailyCalendar #calendarHeader{font-weight:bold;margin-bottom:10px;text-align:center;font-size:16px;color:#ff4081}
+#dailyCalendar .calendarStreak{font-size:14px;text-align:center;margin-bottom:8px;color:#ffeb3b}
+#dailyCalendar .calendarGrid{display:grid;grid-template-columns:repeat(7,40px);gap:6px;justify-content:center;margin-top:10px}
+#dailyCalendar .dayCell{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#2a2a2a;border:1px solid #555;border-radius:8px;color:#ccc;font-size:13px;transition:all 0.2s;cursor:default}
+#dailyCalendar .dayCell:hover{border-color:#ff4081}
+#dailyCalendar .dayCell.claimed{background:#ff4081;color:#000;border-color:#ff4081;font-weight:bold;box-shadow:0 0 15px rgba(255,64,129,0.5)}
+#dailyCalendar .dayCell.today{box-shadow:0 0 12px #ff4081;border-color:#ffeb3b;border-width:2px}
+#dailyCalendar #claimTodayBtn{margin-top:12px;width:100%;background:#ff4081;border:none;color:white;padding:10px;border-radius:8px;cursor:pointer;font-weight:bold;transition:all 0.2s;box-shadow:0 0 15px rgba(255,64,129,0.3)}
+#dailyCalendar #claimTodayBtn:hover:not(:disabled){background:#ff1e7e;box-shadow:0 0 25px rgba(255,64,129,0.6);transform:scale(1.02)}
+#dailyCalendar #claimTodayBtn:disabled{opacity:0.6;cursor:not-allowed}
+
+/* Spark (fire) particles */
+.spark{position:absolute;border-radius:2px;opacity:1;transform-origin:center;animation:sparkRise 700ms linear forwards;z-index:1003}
+@keyframes sparkRise{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-80px) rotate(360deg);opacity:0}}
+/* Claim animations */
+.claimedAnim{animation:claimBurst 800ms ease-out forwards}
+@keyframes claimBurst{0%{transform:scale(1);opacity:1}30%{transform:scale(1.25);opacity:1}60%{transform:translateY(-12px) scale(1.15);opacity:1}100%{transform:translateY(-32px) scale(0.6);opacity:0}}
+.streakPulse{animation:pulse 700ms ease-out}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+.dayCell.claimedAnim{animation:popClaim 900ms ease-out forwards}
+@keyframes popClaim{0%{transform:scale(0.6) rotate(-15deg);opacity:0}50%{transform:scale(1.2) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+/* Confetti */
+.confetti{position:absolute;border-radius:2px;opacity:1;transform-origin:center;animation:confettiFall 900ms linear forwards;z-index:1003}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(140px) rotate(720deg);opacity:0}}
+ 
+.statAnim{animation:statZoom 0.3s forwards;}
+@keyframes statZoom{0%{transform:scale(1);}50%{transform:scale(1.3);}100%{transform:scale(1);}}
+/* Daily Calendar styles */
+.calendarGrid{display:grid;grid-template-columns:repeat(7,40px);gap:6px;justify-content:center;margin-top:8px}
+.dayCell{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#222;border:1px solid #444;border-radius:6px;color:#ccc}
+.dayCell.claimed{background:#2e7d32;color:#fff;border-color:#2e7d32}
+.dayCell.today{box-shadow:0 0 8px #ff4081;border-color:#ff4081}
+#calendarHeader{font-weight:bold;margin-bottom:6px;text-align:center}
+#dailyCalendar{display:none;margin-top:8px}
+#claimTodayBtn{margin-top:6px}
+
+/* Stock table removed */
+
+</style>
+</head>
+<body>
+<div id="loader" class="rainbow-bg">DOPAMINA<span>Generando placer...</span><div id="loadProgress"><div id="loadProgressBar"></div></div><div id="loadPhase"></div><div id="version">b0.45</div></div> 
+
+<div id="stats"><div id="counter">0</div><div id="pps">PXS: 0</div><div id="levelStat">Nivel: 1</div><div id="blueCoinStat" style="color:#00d4ff;font-weight:bold;display:none;">🔷 0</div></div>
+<div id="multipliersDisplay">
+  <span class="label">Multiplicadores</span>
+  <span class="value" id="multiplierTotal">x1.00 total</span>
+  <div id="multiplierList"></div>
+</div>
+<div id="settingsIcon">⚙️</div>
+<div id="skinsBtn">🎩</div>
+<div id="tabs"><button class="tabBtn" id="prevTab">&lt;</button><span id="tabLabel">Juego</span><button class="tabBtn" id="nextTab">&gt;</button></div>
+
+<!-- Consola de desarrollador (Ctrl+Shift+D) -->
+<div id="devConsole">
+  <header>
+    <span>Dev Console b0.45-dev</span>
+    <button id="devClose" aria-label="Cerrar">×</button>
+  </header>
+  <div id="devActions">
+    <div class="row">
+      <button type="button" data-cmd="addpoints" data-args="1000">+1k pts</button>
+      <button type="button" data-cmd="addpoints" data-args="100000">+100k pts</button>
+      <button type="button" data-cmd="setlevel" data-args="10">Nivel 10</button>
+      <button type="button" data-cmd="addxp" data-args="5000">+5k XP</button>
+      <button type="button" data-cmd="setmult" data-args="10 60">x10 (60s)</button>
+      <button type="button" data-cmd="unlockallskins">Skins all</button>
+      <button type="button" data-cmd="addblue" data-args="100">+100 🔷</button>
+      <button type="button" data-cmd="save">Guardar</button>
+    </div>
+    <div class="row">
+      <label for="devDateInput">Fecha (DDMMAAAA HHMM[SS])</label>
+      <input id="devDateInput" placeholder="10022026" maxlength="8">
+      <input id="devTimeInput" placeholder="0000" maxlength="4">
+      <button type="button" id="devSetDateBtn">Aplicar</button>
+      <button type="button" id="devClearDateBtn">Fecha real</button>
+    </div>
+  </div>
+  <div id="devGuide"></div>
+  <div id="devLog"></div>
+  <form id="devForm">
+    <input id="devInput" type="text" placeholder="Escribe un comando y Enter (ej: addpoints 1000)">
+    <button id="devRunBtn" type="submit">Run</button>
+  </form>
+</div>
+
+<div id="gameTab" class="tabContent"><div id="clickIcon" style="border-radius:50%;"></div></div>
+<div id="storeTab" class="tabContent"><h2>Tienda</h2>
+<div style="display:flex;gap:10px;justify-content:center;margin-bottom:15px;">
+  <button id="normalStoreBtn" class="storeSubtab" style="padding:10px 20px;background:#ff4081;border:2px solid #ff80ab;border-radius:8px;color:#fff;cursor:pointer;font-weight:bold;">Tienda Normal</button>
+  <button id="blueStoreBtn" class="storeSubtab" style="padding:10px 20px;background:linear-gradient(135deg,#00d4ff,#0099ff);border:2px solid #00ffff;border-radius:8px;color:#fff;cursor:pointer;font-weight:bold;display:none;">Tienda Azul</button>
+</div>
+<div class="storeGrid" id="storeGrid"></div>
+<div class="storeGrid" id="blueStoreGrid" style="display:none;"></div>
+</div>
+<div id="skinsTab" class="tabContent"><h2>Skins</h2>
+  <div id="skinsIndex" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:18px"></div>
+  <div id="skinDetail" style="margin-top:18px;text-align:center;min-height:120px"></div>
+</div>
+<div id="levelTab" class="tabContent"><h2>Nivel <span id="levelNum">1</span></h2> 
+<div id="expBarWrapper"><div id="expBar"></div><div id="expText"></div></div>
+<div id="rebirthSection" style="margin-top:15px;text-align:center;">
+  <button id="rebirthBtn" class="buyBtn" style="background:linear-gradient(135deg,#00d4ff,#0099ff);border:2px solid #00ffff;display:none;display:inline-block;margin:8px auto 0;">Renacer</button>
+  <div id="rebirthHint" style="color:#888;font-size:12px;margin-top:6px;">Disponible al nivel 10</div>
+  <div id="pendingBlueUpgrades" style="margin-top:10px;display:none;color:#a8f0ff;font-size:12px;line-height:1.4;"></div>
+</div>
+<div id="nextUnlocksSection" style="margin-top:30px;padding:15px;background:#1a1a1a;border-radius:10px;border:2px solid #444;">
+  <h3 style="color:#ff4081;margin:0 0 15px 0;font-size:20px;">Próximos Desbloqueos</h3>
+  <div id="nextUnlocksList" style="color:#ccc;font-size:14px;line-height:1.8;"></div>
+</div>
+</div>
+
+<div id="critText">CRÍTICO!</div>
+
+<div id="settingsModal"><div id="settingsContent">
+<div id="closeSettingsBtn">❌</div>
+<div style="text-align:center;margin-bottom:10px;color:#888;font-size:14px;">Versión: b0.45</div>
+<button id="downloadSaveBtn">Descargar Guardado</button>
+<input type="file" id="loadSaveInput" accept=".dopamina,application/json" style="display:none;">
+<button id="loadSaveBtn">Cargar Guardado</button>
+<label><input type="checkbox" id="performanceToggle"> Modo Rendimiento</label> 
+</div></div> 
+
+<div id="updateModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:10000;justify-content:center;align-items:center;">
+  <div style="background:linear-gradient(135deg,#1a1a1a 0%,#2d1a2d 100%);border:3px solid #ff4081;border-radius:15px;padding:30px;max-width:720px;width:90%;box-shadow:0 0 50px #ff4081,0 0 100px rgba(255,64,129,0.3);max-height:90vh;overflow-y:auto;">
+    <div style="text-align:right;cursor:pointer;font-size:24px;margin-top:-15px;margin-right:-10px;" id="closeUpdateModal">❌</div>
+    <h1 style="text-align:center;color:#ff4081;font-size:36px;margin:0 0 10px 0;">🎉 Actualización b0.45 🎉</h1>
+    <div style="color:#fff;font-size:18px;line-height:1.6;">
+      <h3 style="color:#ff80ab;margin-top:20px;">Renacimientos</h3>
+      <p>Al llegar al Nivel 10, consigues la posibilidad de renacer, que resetea todos tus datos (excepto skins y mejoras azules) para cambiarlo por Blue Coins, la nueva moneda del juego.</p>
+
+      <h3 style="color:#ff80ab;margin-top:20px;">Anomalías</h3>
+      <p>Estas anomalías pueden aparecer en cualquier momento: multiplicadores y eventos aleatorios con bonificaciones temporales.</p>
+
+      <h3 style="color:#ff80ab;margin-top:20px;">Niveles</h3>
+      <p>En esta actualización, el contador de niveles disponibles será de 50 (antes 20). Al alcanzar el máximo se muestra el estado “MAX”.</p>
+
+      <div id="updateEventSection">
+        <h3 style="color:#ff80ab;margin-top:20px;">Eventos</h3>
+        <p>Para empezar los eventos, hay uno programado del 10–20 de Febrero (termina el 21 a las 00:00): San Valentín, con interfaz tematizada, buffs temporales y una skin para conseguir (corazón). Es una barra en la que tienes que conseguir 100.000 puntos (no clicks, por lo que influencian las mejoras).</p>
+      </div>
+
+      <button id="closeUpdateModalBtn" style="width:100%;margin-top:25px;padding:15px;background:#ff4081;border:none;color:white;font-size:20px;border-radius:8px;cursor:pointer;box-shadow:0 0 20px #ff4081;">¡Entendido!</button>
+    </div>
+  </div>
+</div>
+ 
+
+<!-- Event Modal -->
+<div id="eventModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:10000;justify-content:center;align-items:center;">
+  <div style="background:linear-gradient(135deg, #1a1a1a 0%, #2a1a2a 100%);border:3px solid #ff4081;border-radius:15px;padding:30px;max-width:600px;width:90%;box-shadow:0 0 50px #ff4081, 0 0 100px rgba(255,64,129,0.5);max-height:90vh;overflow-y:auto;">
+    <div style="text-align:right;cursor:pointer;font-size:24px;margin-top:-15px;margin-right:-10px;" id="closeEventModal">❌</div>
+    <h1 style="text-align:center;color:#ff4081;font-size:36px;margin:0 0 10px 0;text-shadow:0 0 20px rgba(255,64,129,0.8);">🎉 ¡Feliz Actualización y Año! 🎉</h1>
+    <div style="color:#fff;font-size:18px;line-height:1.6;">
+      <div style="text-align:center;margin:20px 0;padding:15px;background:rgba(255,64,129,0.1);border-radius:10px;border:2px solid #ff4081;">
+        <div style="font-size:24px;font-weight:bold;color:#ff4081;margin-bottom:5px;">📅 15 de Enero de 2026</div>
+        <div style="font-size:20px;color:#ffeb3b;">⏰ 17:00 - 18:00 (1 hora)</div>
+      </div>
+      
+      <div style="text-align:center;margin:10px 0 18px 0;font-size:18px;color:#ccc;">Estamos preparando un nuevo evento de actualización.</div>
+      <div style="text-align:center;margin:8px 0 12px 0;font-size:16px;color:#ff80ab;">Vuelve pronto para ver los detalles.</div>
+      <button id="closeEventModalBtn" style="width:100%;margin-top:10px;padding:15px;background:linear-gradient(135deg, #ff4081, #ff8c00);border:none;color:white;font-size:20px;border-radius:8px;cursor:pointer;box-shadow:0 0 20px #ff4081;font-weight:bold;">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Event Timer (bottom-right corner) -->
+<div id="eventTimer" style="display:none;position:fixed;bottom:75px;right:15px;background:rgba(20,20,20,0.95);border:2px solid #ff0000;padding:8px 12px;border-radius:10px;z-index:1003;box-shadow:0 0 15px rgba(255,0,0,0.6);">
+  <div style="color:#ff0000;font-size:11px;font-weight:bold;text-align:center;margin-bottom:3px;text-shadow:0 0 5px rgba(255,0,0,0.8);">🎉 EVENTO</div>
+  <div id="eventTimerText" style="color:#fff;font-size:13px;font-weight:bold;text-align:center;font-family:monospace;">--:--:--</div>
+</div>
+
+<div id="popupContainer"></div>
+
+<!-- Advertencia de anomalía (borde azul progresivo) -->
+<div id="anomalyWarning"></div>
+
+<!-- Anuncio de anomalía (pantalla completa) -->
+<div id="anomalyAnnounce">
+  <div class="title">ANOMALÍA EMPEZADA</div>
+  <div class="subtitle" id="anomalyType"></div>
+</div>
+
+<!-- Event Info Button (a la derecha del calendario) -->
+<div id="eventInfoBtn" title="Información del evento" style="display:none;position:fixed;bottom:15px;right:70px;width:48px;height:48px;border-radius:10px;background:#ff4081;color:white;justify-content:center;align-items:center;box-shadow:0 4px 10px rgba(255,64,129,0.6);cursor:pointer;z-index:1003;font-size:22px;">🎉</div>
+
+<!-- Floating Daily Calendar Button and Panel -->
+<div id="dailyCalendarBtn" title="Calendario diario">📅<div class="flame"></div></div>
+<div id="dailyCalendar" aria-hidden="true">
+  <div id="calendarHeader">Racha: <span id="calendarStreak">0</span> días</div>
+  <div id="calendarGrid" class="calendarGrid"></div>
+  <div style="margin-top:8px;text-align:center;"><button id="claimTodayBtn" class="buyBtn">Reclamar hoy</button></div>
+  <small id="calendarNote">Reclama una vez por día. Mantén racha para mejores recompensas.</small>
+</div> 
+
+<script>
+// ===================== VARIABLES =====================
+const MAX_LEVEL = 51;
+let puntos=0,incremento=1,autoClicks=0,multiplicadorTemporal=1,dopaActivo=false,nivel=1,experiencia=0,xpMult=1,critChance=0,baseClickXP=1; /* Crits disabled until purchased; baseClickXP stays at 1 even if incremento increases */
+let activeMultipliers=[]; // [{id,label,amount,expiresAt}]
+let rebirthLevel=0,blueCoinBalance=0,blueCoinsEarned=0,pointsForBlueCoins=0;
+let purchasedBlueItems=[];
+let pendingBlueItems=[];
+let blueFeaturesUnlocked=false; // Una vez desbloqueado (nivel>=10 o rebirth), no se oculta
+let previewParticleEffectId=null; // Para controlar el efecto de partículas en previsualizaciones
+let performanceMode=false;
+let blueStoreSeen = localStorage.getItem('blueStoreSeen') === '1';
+const xpTarget=[0,130,450,1070,2080,3600,5720,8530,12150,16670,22180,28800,36620,45730,56250,68270,81880,97200,114330,133330,153330,175330,199000,224500,252000,281500,313000,346500,382000,419500,459000,500500,544000,589500,637000,686500,738000,791500,847000,904500,964000,1025500,1089000,1154500,1222000,1291500,1363000,1436500,1512000,1589500,1669000,1750500];
+const formatNum = (v)=>Math.round(Number(v)||0).toLocaleString('es-ES');
+// Deformer interval id needs to be declared early to avoid TDZ when renderSkinsTab calls startDeformer
+let deformerIntervalId = null;
+
+
+// ===================== MULTIPLIERS HELPERS =====================
+function recalcMultipliers(){
+  const total = activeMultipliers.reduce((acc,m)=>acc * (m.amount||1), 1);
+  multiplicadorTemporal = Math.max(1, total || 1);
+}
+function addMultiplier(id,label,amount,durationMs){
+  const now=Date.now();
+  const expiresAt = durationMs && durationMs>0 ? now + durationMs : null;
+  const amt = Math.max(1, Number(amount)||1);
+  const existing = activeMultipliers.findIndex(m=>m.id===id);
+  if(existing>=0) activeMultipliers.splice(existing,1);
+  activeMultipliers.push({id,label:label||'Multiplicador',amount:amt,expiresAt});
+  recalcMultipliers();
+}
+function removeMultiplier(id){
+  const idx = activeMultipliers.findIndex(m=>m.id===id);
+  if(idx>=0){ activeMultipliers.splice(idx,1); recalcMultipliers(); }
+}
+function pruneExpiredMultipliers(){
+  const now=Date.now();
+  const before=activeMultipliers.length;
+  activeMultipliers = activeMultipliers.filter(m=>!m.expiresAt || m.expiresAt>now);
+  if(activeMultipliers.length!==before) recalcMultipliers();
+}
+let skinsTimerIntervalId = null;
+let fireballEffectId = null; // interval for continuous burn effect
+let fireballGradientClicks = 0; // tracking para degradado rojo progresivo
+let fireballGradientTimer = null; // temporizador para desaparecer el degradado
+let multiplierExpiration = null; // timestamp (ms) de expiración del multiplicador temporal
+let loadedFromOldFormat = false; // set true when a legacy save is loaded
+
+// ===================== ANOMALÍAS (FEBRERO-MARZO) =====================
+const anomalyCalendar = {
+  '02/02': { start: 9*60+13, end: 9*60+23 },    // 09:13 a 09:23
+  '02/03': { start: 20*60+41, end: 20*60+49 },  // 20:41 a 20:49
+  '02/04': { start: 14*60+7, end: 14*60+19 },   // 14:07 a 14:19
+  '02/05': { start: 11*60+32, end: 11*60+39 },  // 11:32 a 11:39
+  '02/06': { start: 18*60+54, end: 19*60+5 },   // 18:54 a 19:05
+  '02/07': { start: 8*60+46, end: 8*60+52 },    // 08:46 a 08:52
+  '02/08': { start: 21*60+10, end: 21*60+25 },  // 21:10 a 21:25
+  '02/09': { start: 13*60+28, end: 13*60+38 },  // 13:28 a 13:38
+  '02/10': { start: 16*60+2, end: 16*60+14 },   // 16:02 a 16:14
+  '02/11': { start: 9*60+57, end: 10*60+5 },    // 09:57 a 10:05
+  '02/12': { start: 19*60+21, end: 19*60+29 },  // 19:21 a 19:29
+  '02/13': { start: 15*60+44, end: 15*60+55 },  // 15:44 a 15:55
+  '02/14': { start: 10*60+11, end: 10*60+26 },  // 10:11 a 10:26 (San Valentín)
+  '02/15': { start: 17*60+33, end: 17*60+41 },  // 17:33 a 17:41
+  '02/16': { start: 8*60+19, end: 8*60+27 },    // 08:19 a 08:27
+  '02/17': { start: 21*60+2, end: 21*60+12 },   // 21:02 a 21:12
+  '02/18': { start: 12*60+48, end: 13*60+0 },   // 12:48 a 13:00
+  '02/19': { start: 18*60+7, end: 18*60+15 },   // 18:07 a 18:15
+  '02/20': { start: 14*60+36, end: 14*60+47 },  // 14:36 a 14:47
+  '02/21': { start: 9*60+4, end: 9*60+10 },     // 09:04 a 09:10
+  '02/22': { start: 20*60+18, end: 20*60+33 },  // 20:18 a 20:33
+  '02/23': { start: 16*60+55, end: 17*60+5 },   // 16:55 a 17:05
+  '02/24': { start: 11*60+27, end: 11*60+36 },  // 11:27 a 11:36
+  '02/25': { start: 19*60+42, end: 19*60+52 },  // 19:42 a 19:52
+  '02/26': { start: 13*60+9, end: 13*60+24 },   // 13:09 a 13:24
+  '02/27': { start: 8*60+58, end: 9*60+6 },     // 08:58 a 09:06
+  '02/28': { start: 17*60+21, end: 17*60+33 },  // 17:21 a 17:33
+  '03/01': { start: 10*60+45, end: 10*60+52 },  // 10:45 a 10:52
+  '03/02': { start: 21*60+7, end: 21*60+18 },   // 21:07 a 21:18
+  '03/03': { start: 15*60+14, end: 15*60+25 },  // 15:14 a 15:25
+  '03/04': { start: 9*60+31, end: 9*60+41 },    // 09:31 a 09:41
+  '03/05': { start: 18*60+26, end: 18*60+35 },  // 18:26 a 18:35
+  '03/06': { start: 12*60+3, end: 12*60+18 },   // 12:03 a 12:18
+  '03/07': { start: 20*60+49, end: 20*60+55 }   // 20:49 a 20:55
+};
+
+let anomalyActive = false;
+let anomalyMultiplier = 1;
+let anomalyTimer = null;
+let anomalyCritBoost = 0;
+let anomalyXpBoost = 1;
+let anomalyAutoBoost = 0;
+let anomalyIncBoost = 0;
+let anomalyState = { type:null, orbsRemaining:0 };
+
+function getDateStr(){
+  const now = new Date();
+  const m = String(now.getMonth()+1).padStart(2,'0');
+  const d = String(now.getDate()).padStart(2,'0');
+  return m+'/'+d;
+}
+
+function getMinutesSinceMidnight(){
+  const now = new Date();
+  return now.getHours()*60 + now.getMinutes();
+}
+
+function pickAnomalyEffect(){
+  const effects = ['multiplier','orbHunt','critRush','xpRush','autoRush','clickRush'];
+  return effects[Math.floor(Math.random()*effects.length)];
+}
+
+function spawnAnomalyOrbs(count=3){
+  const containers = ['gameTab','storeTab','skinsTab','levelTab'];
+  let placed = 0;
+  anomalyState.orbsRemaining = count;
+  anomalyState.orbsTotal = count;
+  anomalyState.orbsFoundTime = Date.now();
+  containers.sort(()=>Math.random()-0.5);
+  containers.slice(0,count).forEach(id=>{
+    const target = document.getElementById(id);
+    if(!target) return;
+    const orb = document.createElement('div');
+    orb.className='anomalyOrb';
+    // Orbs más grandes y brillantes con efectos mejorados
+    orb.style.cssText='width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #00ffff, #00d4ff, #0066ff);border:3px solid #7cf3ff;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:20px;cursor:pointer;box-shadow:0 0 25px rgba(0,212,255,0.9), 0 0 40px rgba(0,255,255,0.6), inset -2px -2px 8px rgba(0,0,0,0.3);animation:anomalyPulse 1.2s infinite ease-in-out;position:relative;margin:12px auto;transition:transform 0.15s, box-shadow 0.15s;';
+    orb.textContent='🧿';
+    orb.onmouseover=()=>orb.style.transform='scale(1.15)';
+    orb.onmouseout=()=>orb.style.transform='scale(1)';
+    orb.onclick=()=>{
+      try{ orb.style.animation='orbCatch 0.5s ease-out forwards'; }
+      catch(_e){}
+      setTimeout(()=>{
+        try{ orb.remove(); }catch(_e){}
+      }, 200);
+      anomalyState.orbsRemaining = Math.max(0, anomalyState.orbsRemaining-1);
+      const found = count - anomalyState.orbsRemaining;
+      showPopup(`✨ Orbe encontrado (${found}/${count})`);
+      if(anomalyState.orbsRemaining===0){
+        const bonus = 0.50; // Aumentado de 0.35 a 0.50 (50% vs 35%)
+        const amt = 1+bonus;
+        addMultiplier(`orbBonus_${Date.now()}`,'Orbes',amt,null);
+        showPopup('⚡ ¡BONIFICACIÓN COMPLETADA! x'+amt.toFixed(2)+' 🎉');
+      }
+    };
+    target.appendChild(orb);
+    placed++;
+  });
+  if(placed===0){ anomalyState.orbsRemaining=0; }
+  // Notificación al aparecer los orbes
+  if(placed > 0) showPopup(`🧿 ${count} orbes aparecieron. ¡Encuéntralos!`);
+}
+
+function checkAnomalyStatus(){
+  const dateStr = getDateStr();
+  const minutesSinceMidnight = getMinutesSinceMidnight();
+  
+  const anomalyTime = anomalyCalendar[dateStr];
+  if(!anomalyTime) {
+    // Limpiar advertencia si no hay evento hoy
+    const warning = document.getElementById('anomalyWarning');
+    if(warning) {
+      warning.classList.remove('active');
+      warning.style.setProperty('--warning-size', '0px');
+    }
+    return;
+  }
+  
+  const isActive = minutesSinceMidnight >= anomalyTime.start && minutesSinceMidnight <= anomalyTime.end;
+  const minutesUntilStart = anomalyTime.start - minutesSinceMidnight;
+  
+  // Advertencia 3 minutos antes (180 segundos = 3 minutos)
+  const warning = document.getElementById('anomalyWarning');
+  if(minutesUntilStart > 0 && minutesUntilStart <= 3 && !anomalyActive){
+    if(warning){
+      warning.classList.add('active');
+      // Calcular el ancho del borde (0-15px basado en cuánto falta)
+      const progress = 1 - (minutesUntilStart / 3); // 0.0 a 1.0
+      const size = Math.floor(progress * 15); // 0px a 15px
+      warning.style.borderWidth = size + 'px';
+    }
+  } else if(warning && minutesUntilStart > 3){
+    warning.classList.remove('active');
+    warning.style.borderWidth = '0px';
+  }
+  
+  if(isActive && !anomalyActive){
+    // Limpiar advertencia al empezar
+    if(warning){
+      warning.classList.remove('active');
+      warning.style.borderWidth = '0px';
+    }
+    triggerAnomaly();
+  } else if(!isActive && anomalyActive){
+    endAnomaly();
+  }
+}
+
+function triggerAnomaly(){
+  anomalyActive = true;
+  const effect = pickAnomalyEffect();
+  anomalyState.type = effect;
+  
+  // Determinar el nombre del efecto para mostrar
+  let effectName = '';
+  
+  // Mostrar popup ANTES del overlay para evitar que el efecto visual lo afecte
+  if(effect==='multiplier'){
+    anomalyMultiplier = 1.6 + Math.random()*0.6; // 1.6x - 2.2x
+    effectName = '⚡ MULTIPLICADOR x'+anomalyMultiplier.toFixed(2);
+    showPopup('⚡ ¡Anomalía: Multiplicador x'+anomalyMultiplier.toFixed(2)+'!');
+  } else if(effect==='orbHunt') {
+    anomalyMultiplier = 1;
+    effectName = '🧿 CAZA DE ORBES';
+    showPopup('🧿 Anomalía: Busca los orbes azules en las pestañas');
+  } else if(effect==='critRush'){
+    anomalyCritBoost = 0.25;
+    critChance += anomalyCritBoost;
+    effectName = '💥 CRÍTICOS +25%';
+    showPopup('💥 Anomalía: Críticos +25%');
+  } else if(effect==='xpRush'){
+    anomalyXpBoost = 1.5;
+    xpMult *= anomalyXpBoost;
+    effectName = '📘 XP x1.5';
+    showPopup('📘 Anomalía: XP x1.5');
+  } else if(effect==='autoRush'){
+    anomalyAutoBoost = Math.max(1, Math.floor(autoClicks*0.5)+1);
+    autoClicks += anomalyAutoBoost;
+    update();
+    effectName = '🤖 AUTO-CLICKERS TURBO';
+    showPopup('🤖 Anomalía: Auto-clickers turbo');
+  } else if(effect==='clickRush'){
+    anomalyIncBoost = Math.max(1, Math.floor(incremento*0.5)+1);
+    incremento += anomalyIncBoost;
+    update();
+    effectName = '🖱️ CLICS POTENTES';
+    showPopup('🖱️ Anomalía: Clics potentes');
+  }
+  
+  // Mostrar anuncio grande en pantalla
+  try{
+    const announce = document.getElementById('anomalyAnnounce');
+    const typeEl = document.getElementById('anomalyType');
+    if(announce && typeEl){
+      typeEl.textContent = effectName;
+      announce.classList.add('show');
+      setTimeout(() => {
+        announce.classList.remove('show');
+      }, 2000);
+    }
+  }catch(_e){}
+  
+  // Esperar 100ms antes de aplicar el overlay para que el popup se renderice sin el efecto
+  setTimeout(() => {
+    // Efecto visual continuo mientras dure la anomalía
+    try{
+      const prev = document.getElementById('anomalyOverlay');
+      if(prev && prev.parentNode) prev.remove();
+      const overlay = document.createElement('div');
+      overlay.id='anomalyOverlay';
+      overlay.style.cssText='position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1500;backdrop-filter:blur(0.5px);animation:anomalyGlitchMain 0.8s infinite;';
+      overlay.innerHTML=`
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,212,255,0.06),rgba(0,255,255,0.02));mix-blend-mode:screen;animation:anomalyScan 1.5s linear infinite;"></div>
+        <div style="position:absolute;top:-50%;left:0;right:0;height:200%;background:repeating-linear-gradient(90deg,rgba(0,212,255,0.15) 0px,rgba(0,212,255,0.15) 2px,transparent 2px,transparent 14px);mix-blend-mode:screen;animation:anomalyShift 2.5s linear infinite;"></div>
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0px,transparent 3px,rgba(0,212,255,0.05) 3px,rgba(0,212,255,0.05) 4px);mix-blend-mode:screen;"></div>
+        <div style="position:absolute;width:100%;height:200%;background:linear-gradient(180deg,transparent 0%,rgba(0,212,255,0.12) 49%,rgba(0,212,255,0.25) 50%,rgba(0,212,255,0.12) 51%,transparent 100%);animation:anomalyVerticalSweep 4s ease-in-out infinite;"></div>
+      `;
+      document.body.appendChild(overlay);
+    }catch(_e){}
+    
+    // Spawear orbes después del overlay (solo para orbHunt)
+    if(effect==='orbHunt') {
+      spawnAnomalyOrbs(4 + Math.floor(Math.random()*3)); // 4-6 orbes
+    }
+  }, 100);
+
+  // Programar fin exacto hasta el final de la ventana programada
+  try{
+    const now = new Date();
+    const dateStrNow = getDateStr();
+    const anomalyTime = anomalyCalendar[dateStrNow];
+    if(anomalyTime){
+      const nowSec = now.getHours()*3600 + now.getMinutes()*60 + now.getSeconds();
+      const endSec = anomalyTime.end*60;
+      const ms = Math.max(10000, (endSec - nowSec)*1000);
+      if(anomalyTimer) clearTimeout(anomalyTimer);
+      anomalyTimer = setTimeout(endAnomaly, ms);
+      if(anomalyState.type==='multiplier'){
+        addMultiplier('anomaly','Anomalía',anomalyMultiplier,ms);
+      }
+    }
+  }catch(_e){}
+}
+
+function endAnomaly(){
+  anomalyActive = false;
+  try{ const overlay=document.getElementById('anomalyOverlay'); if(overlay && overlay.parentNode) overlay.remove(); }catch(_e){}
+  // Revertir multiplicador si se aplicó
+  if(anomalyState.type === 'multiplier' && anomalyMultiplier !== 1){
+    removeMultiplier('anomaly');
+  }
+  if(anomalyCritBoost){ critChance = Math.max(0, critChance - anomalyCritBoost); anomalyCritBoost=0; }
+  if(anomalyXpBoost !== 1){ xpMult = Math.max(0.1, xpMult / anomalyXpBoost); anomalyXpBoost = 1; }
+  if(anomalyAutoBoost){ autoClicks = Math.max(0, autoClicks - anomalyAutoBoost); anomalyAutoBoost = 0; }
+  if(anomalyIncBoost){ incremento = Math.max(1, incremento - anomalyIncBoost); anomalyIncBoost = 0; }
+  // Limpia orbes si seguían presentes
+  document.querySelectorAll('.anomalyOrb').forEach(el=>{ try{el.remove();}catch(_e){} });
+  anomalyMultiplier = 1;
+  anomalyState = {type:null, orbsRemaining:0};
+  if(anomalyTimer) try{clearTimeout(anomalyTimer);}catch(_e){}
+  anomalyTimer = null;
+  showPopup('Anomalía finalizada');
+}
+
+// Verificar anomalías con arranque inmediato y frecuencia mayor
+setTimeout(checkAnomalyStatus, 1000);
+setInterval(checkAnomalyStatus, 30000);
+
+const blueStoreItems = [
+  {id:'bu1',name:'Multiplicador Permanente +1.06x',desc:'Multiplica permanentemente tus clics',baseCost:8,costMult:1.5,func:()=>{incremento=Math.floor(incremento*1.06);},multi:true,icon:'✨'},
+  {id:'bu2',name:'Auto-Click Permanente +2',desc:'Auto-clickers +2 permanente',baseCost:10,costMult:1.6,func:()=>{autoClicks+=2;},multi:true,icon:'🤖'},
+  {id:'bu3',name:'Críticos Permanentes +1%',desc:'Probabilidad de crítico +1% permanente',baseCost:7,costMult:1.7,func:()=>{critChance+=0.01;},multi:true,icon:'⚡'},
+  {id:'bu4',name:'Inicio Mejorado +100',desc:'Comienzas cada renacimiento con +100 pts',baseCost:5,costMult:1.9,func:()=>{puntos+=100;},multi:true,icon:'🚀'}
+];
+
+function calculateBlueCoinRewards(){
+  let coins = 1 + rebirthLevel;
+  coins += Math.floor(pointsForBlueCoins / 100000);
+  return coins;
+}
+
+function triggerRebirth(){
+  if(nivel < 10){
+    showPopup('❌ Necesitas estar en nivel 10 o superior para renacer');
+    return;
+  }
+  
+  const baseBC = 1;
+  const levelBC = rebirthLevel;
+  const pointsBC = Math.floor(pointsForBlueCoins / 100000);
+  const coinsToEarn = baseBC + levelBC + pointsBC;
+  
+  // Animación de renacimiento (optimizada para 4GB RAM)
+  const clickIcon = document.getElementById('clickIcon');
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;background:linear-gradient(180deg, rgba(0,212,255,0.10), rgba(0,160,255,0.18));z-index:9999;animation:fadeInOut 6s ease-in-out;pointer-events:none;';
+  
+  // Añadir partículas (reducidas para 4GB)
+  const particlesContainer = document.createElement('div');
+  particlesContainer.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;z-index:9998;pointer-events:none;';
+  const particleCount4GB = performanceMode ? 15 : 30;
+  for(let i=0; i<particleCount4GB; i++){
+    const particle = document.createElement('div');
+    const size = 4 + Math.random()*8;
+    const startX = Math.random() * 100;
+    const startY = Math.random() * 100;
+    const endX = (Math.random() - 0.5) * 200;
+    const endY = -100 - Math.random() * 100;
+    const hue = 200 + Math.random() * 40;
+    const duration = 2 + Math.random() * 2;
+    particle.style.cssText = `position:absolute;left:${startX}%;top:${startY}%;width:${size}px;height:${size}px;background:linear-gradient(135deg, hsl(${hue}, 100%, 60%), hsl(${hue+60}, 100%, 70%));border-radius:50%;--tx:${endX}vw;--ty:${endY}vh;animation:rebirthParticles ${duration}s ease-out forwards;box-shadow:0 0 10px hsl(${hue}, 100%, 60%);`;
+    particlesContainer.appendChild(particle);
+  }
+  
+  // Añadir efecto de alas/aura
+  const wings = document.createElement('div');
+  wings.style.cssText = 'position:fixed;top:50%;left:50%;width:400px;height:400px;background:radial-gradient(circle, rgba(0,212,255,0.45) 0%, rgba(0,140,255,0.25) 55%, transparent 75%);border-radius:50%;z-index:9997;animation:rebirth-wings 6s ease-in-out;filter:blur(20px);';
+  
+  const msgDiv = document.createElement('div');
+  msgDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:32px;color:#000;text-align:center;z-index:10000;font-weight:900;line-height:1.5;animation:rebirthText 6s ease-in-out;text-shadow:0 0 18px rgba(0,212,255,0.8), 0 0 36px rgba(0,172,255,0.6);';
+  msgDiv.innerHTML = `✨ ¡HAS RENACIDO! ✨<br><span style="font-size:24px;font-weight:800;background:linear-gradient(90deg,#00d4ff,#008cff,#00ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">+${coinsToEarn} Blue Coins <span class="blueCoinIcon inline"></span></span><br>
+  <div style="margin-top:12px;font-size:14px;font-weight:600;color:#333;text-shadow:none;">
+    • +${baseBC} por renacer<br>
+    • +${levelBC} por nivel de renacimiento<br>
+    • +${pointsBC} por puntos acumulados
+  </div>`;
+  
+  document.body.appendChild(particlesContainer);
+  document.body.appendChild(wings);
+  document.body.appendChild(overlay);
+  document.body.appendChild(msgDiv);
+  
+  if(clickIcon) clickIcon.style.animation = 'rebirth 6s ease-in-out';
+  
+  // Aplicar renacimiento inmediatamente (no esperar a la animación)
+  blueCoinBalance += coinsToEarn;
+  blueCoinsEarned += coinsToEarn;
+  rebirthLevel++;
+  
+  // Reset variables
+  puntos = 0;
+  incremento = 1;
+  autoClicks = 0;
+  multiplicadorTemporal = 1;
+  activeMultipliers = [];
+  nivel = 1;
+  experiencia = 0;
+  critChance = 0;
+  xpMult = 1;
+  pointsForBlueCoins = 0;
+  
+  // Limpiar compras temporales (tienda normal)
+  try{
+    if(Array.isArray(storeItems)){
+      storeItems.forEach(it=>{
+        // Reiniciar estado de compra para items de un solo uso
+        if(it.once) it.purchased = false;
+        // Reiniciar costo para items repetibles con baseCost
+        if(it.multi && typeof it.baseCost === 'number') it.cost = it.baseCost;
+      });
+      // Re-render de tienda normal
+      renderStore();
+    }
+  }catch(_e){ console.warn('Reset storeItems on rebirth failed', _e); }
+  
+  // Reaplicar mejoras permanentes
+  purchasedBlueItems.forEach(itemId => {
+    const item = blueStoreItems.find(it => it.id === itemId);
+    if(item && item.func) item.func();
+  });
+    pendingBlueItems = [];
+    updatePendingBlueUI();
+  
+  // éxito de renacimiento sin popup
+  update();
+  renderStore();
+  initBlueStore();
+  updatePendingBlueUI();
+  tabIndex = 0;
+  showTab();
+  
+  // Limpieza visual al final de la animación
+  setTimeout(() => {
+    if(particlesContainer.parentNode) particlesContainer.remove();
+    if(wings.parentNode) wings.remove();
+    if(overlay.parentNode) overlay.remove();
+    if(msgDiv.parentNode) msgDiv.remove();
+    if(clickIcon) clickIcon.style.animation = '';
+  }, 6000);
+}
+
+function updatePendingBlueUI(){
+  const el = document.getElementById('pendingBlueUpgrades');
+  if(!el) return;
+  if(!pendingBlueItems || pendingBlueItems.length === 0){
+    el.style.display = 'none';
+    el.innerHTML = '';
+    return;
+  }
+  const counts = {};
+  pendingBlueItems.forEach(id=>{ counts[id]=(counts[id]||0)+1; });
+  let html = '<div style="font-weight:800;color:#00d4ff;">Mejora pendiente</div>';
+  html += '<div style="margin-top:4px;">';
+  Object.keys(counts).forEach(id=>{
+    const item = blueStoreItems.find(it=>it.id===id);
+    const name = item ? item.name : id;
+    html += `<div>• ${name} x${counts[id]}</div>`;
+  });
+  html += '</div>';
+  el.style.display = 'block';
+  el.innerHTML = html;
+}
+
+function initBlueStore(){
+  const grid = document.getElementById('blueStoreGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  const fragment = document.createDocumentFragment();
+  blueStoreItems.forEach(item => {
+    const purchaseCount = purchasedBlueItems.filter(id => id === item.id).length;
+    const currentCost = Math.floor(item.baseCost * Math.pow(item.costMult, purchaseCount));
+    const div = document.createElement('div');
+    div.className = 'upgItem';
+    div.style.border = '2px solid #00d4ff';
+    const header = document.createElement('div');
+    header.className = 'upgHeader';
+    header.style.color = '#00ffff';
+    header.textContent = `${item.icon} ${item.name}`;
+    const desc = document.createElement('p');
+    desc.textContent = item.desc + (purchaseCount>0? ` — comprado ${purchaseCount}x` : '');
+    const btn = document.createElement('button');
+    btn.className = 'buyBtn';
+    btn.innerHTML = `Comprar (<span class="blueCoinIcon inline"></span>${formatNum(currentCost)})`;
+    btn.onclick = (e)=>{
+      e.stopPropagation();
+      if(blueCoinBalance >= currentCost){
+        blueCoinBalance -= currentCost;
+        purchasedBlueItems.push(item.id);
+        pendingBlueItems.push(item.id);
+        btn.style.animation='purchaseSuccess 0.5s ease-out';
+        setTimeout(()=>{btn.style.animation=''; initBlueStore(); update(); updatePendingBlueUI();},550);
+        showPopup(`⏳ Mejora pendiente: ${item.name} (se aplica al renacer)`);
+      } else {
+        btn.classList.add('fail');
+        showPopup('❌ No tienes suficientes Blue Coins');
+        setTimeout(()=>btn.classList.remove('fail'),800);
+      }
+    };
+    div.appendChild(header);div.appendChild(desc);div.appendChild(btn);fragment.appendChild(div);
+  });
+  grid.appendChild(fragment);
+}
+
+function checkRebirthAvailability(){
+  const btn = document.getElementById('rebirthBtn');
+  const hint = document.getElementById('rebirthHint');
+  const blueCoinStat = document.getElementById('blueCoinStat');
+  const blueStoreBtn = document.getElementById('blueStoreBtn');
+  
+  // Marcar desbloqueo permanente de características azules (tras 1er renacimiento)
+  if(rebirthLevel >= 1) blueFeaturesUnlocked = true;
+
+  if(btn && nivel >= 10){
+    btn.style.display = 'block';
+    const coinsToEarn = calculateBlueCoinRewards();
+    btn.innerHTML = `♻️ Renacer (+${formatNum(coinsToEarn)} <span class="blueCoinIcon inline"></span>)`;
+    if(hint) hint.style.display = 'none';
+  } else if(btn){
+    btn.style.display = 'none';
+    if(hint) hint.style.display = 'block';
+  }
+  
+  if(blueCoinStat && blueFeaturesUnlocked){
+    blueCoinStat.style.display = 'block';
+    blueCoinStat.innerHTML = `<span class="blueCoinIcon inline"></span>${formatNum(blueCoinBalance)}`;
+  } else if(blueCoinStat){
+    blueCoinStat.style.display = 'none';
+  }
+  
+  if(blueStoreBtn && blueFeaturesUnlocked){
+    blueStoreBtn.style.display = 'block';
+    // Notificación "!" hasta ver la Tienda Azul por primera vez
+    let badge = blueStoreBtn.querySelector('.blueStoreBadge');
+    if(!blueStoreSeen){
+      if(!badge){
+        badge = document.createElement('span');
+        badge.className='blueStoreBadge';
+        badge.textContent='!';
+        badge.style.cssText='position:absolute;top:-6px;right:-6px;background:#ffeb3b;color:#000;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;box-shadow:0 0 8px rgba(255,235,59,0.8);';
+        blueStoreBtn.style.position='relative';
+        blueStoreBtn.appendChild(badge);
+      }
+    } else if(badge){
+      badge.remove();
+    }
+  } else if(blueStoreBtn){
+    blueStoreBtn.style.display = 'none';
+  }
+}
+
+// ===================== EVENTO TEMPORAL: SAN VALENTÍN =====================
+const valentineEvent = {
+  active: false,
+  startDate: new Date(2026, 1, 10), // 10 de Febrero 2026
+  endDate: new Date(2026, 1, 21),   // 21 de Febrero 2026
+  goal: 100000,
+  currentProgress: 0,
+  multiplier: 1.1,
+  rewards: [
+    {threshold: 15000, type: 'points', amount: 5000, claimed: false, name: '5.000 Puntos Bonus', icon: '💰'},
+    {threshold: 30000, type: 'multiplier', amount: 0.06, claimed: false, name: 'Multiplicador +6%', icon: '⚡'},
+    {threshold: 50000, type: 'points', amount: 10000, claimed: false, name: '10.000 Puntos Bonus', icon: '💎'},
+    {threshold: 70000, type: 'upgrade', upgrade: 'autoClicker', levels: 3, claimed: false, name: '3 Niveles AutoClicker', icon: '🤖'},
+    {threshold: 85000, type: 'points', amount: 15000, claimed: false, name: '15.000 Puntos Bonus', icon: '💸'},
+    {threshold: 100000, type: 'skin', skinId: 'heart', claimed: false, name: 'Skin Corazón Exclusivo', icon: '💖'}
+  ]
+};
+
+function isValentineDayActive(){
+  const now = new Date();
+  return now >= valentineEvent.startDate && now < valentineEvent.endDate;
+}
+
+function isAfterValentineEvent(){
+  const now = new Date();
+  return now >= valentineEvent.endDate;
+}
+
+// Ventana de visibilidad de la skin Corazón (solo si no se posee)
+const heartSkinVisibleStart = new Date(2026, 1, 8); // 8 de Febrero 2026 00:00
+const heartSkinVisibleEnd = new Date(2026, 1, 21);  // 21 de Febrero 2026 00:00
+function isHeartSkinVisibleWindow(){
+  const now = new Date();
+  return now >= heartSkinVisibleStart && now < heartSkinVisibleEnd;
+}
+
+function isBeforeValentineEvent(){
+  const now = new Date();
+  return now < valentineEvent.startDate;
+}
+
+// Mostrar el botón el día anterior con cuenta regresiva
+let valentineTeaserIntervalId = null;
+let valentineFinalCountdownIntervalId = null;
+function isValentineTeaserToday(){
+  const start = valentineEvent.startDate;
+  const teaserStart = new Date(start.getFullYear(), start.getMonth(), start.getDate()-1);
+  const now = new Date();
+  return now >= teaserStart && now < start;
+}
+
+function ensureValentineTeaserButton(){
+  let openBtn = document.getElementById('valentineOpenBtn');
+  if(!openBtn){
+    openBtn = document.createElement('button');
+    openBtn.id='valentineOpenBtn';
+    openBtn.style.cssText='position:fixed;bottom:18px;right:18px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#ff7ac4,#ff1493);border:3px solid #fff;color:#fff;font-size:26px;font-weight:900;box-shadow:0 0 20px rgba(255,0,200,0.6);z-index:1100;cursor:pointer;';
+    openBtn.textContent='❤';
+    document.body.appendChild(openBtn);
+  }
+  openBtn.onclick=()=>{
+    createValentineEventUI(true);
+    const modal=document.getElementById('valentineModal');
+    if(modal) modal.style.display='flex';
+  };
+  openBtn.style.display='';
+  let badge = document.getElementById('valentineCountdownBadge');
+  if(!badge){
+    badge = document.createElement('div');
+    badge.id='valentineCountdownBadge';
+    badge.style.cssText='position:fixed;bottom:88px;right:18px;background:rgba(20,20,20,0.92);color:#fff;padding:6px 10px;border-radius:10px;border:2px solid #ff1493;font-weight:800;font-size:12px;box-shadow:0 0 12px rgba(255,0,200,0.5);z-index:1101;';
+    badge.textContent='--:--:--';
+    document.body.appendChild(badge);
+  }
+  const target = valentineEvent.startDate;
+  const updateBadge = ()=>{
+    const now = new Date();
+    const diff = target - now;
+    const label = document.getElementById('valentineCountdownLabel');
+    if(diff <= 0){
+      badge.textContent = '¡Ya empieza!';
+      if(label){ label.textContent = '¡El evento está por comenzar!'; label.style.display='block'; }
+      if(valentineTeaserIntervalId){ clearInterval(valentineTeaserIntervalId); valentineTeaserIntervalId=null; }
+    } else {
+      const h = Math.floor(diff/3600000);
+      const m = Math.floor((diff%3600000)/60000);
+      const s = Math.floor((diff%60000)/1000);
+      const hh = String(h).padStart(2,'0');
+      const mm = String(m).padStart(2,'0');
+      const ss = String(s).padStart(2,'0');
+      badge.textContent = `${hh}:${mm}:${ss}`;
+      if(label){ label.textContent = `Comienza en ${hh}:${mm}:${ss}`; label.style.display='block'; }
+    }
+  };
+  updateBadge();
+  if(!valentineTeaserIntervalId){ valentineTeaserIntervalId = setInterval(updateBadge, 1000); }
+}
+
+function clearValentineTeaserUI(){
+  try{
+    const badge = document.getElementById('valentineCountdownBadge');
+    if(badge) badge.remove();
+  }catch(_e){}
+  try{
+    const label = document.getElementById('valentineCountdownLabel');
+    if(label) label.style.display='none';
+  }catch(_e){}
+  if(valentineTeaserIntervalId){ clearInterval(valentineTeaserIntervalId); valentineTeaserIntervalId=null; }
+}
+
+function startValentineFinalCountdown(){
+  const target = valentineEvent.endDate;
+  const updateFinalCountdown = ()=>{
+    const now = new Date();
+    const diff = target - now;
+    const el = document.getElementById('valentineFinalCountdown');
+    if(diff <= 0){
+      if(el) el.textContent = '⏰ ¡El evento ha terminado!';
+      if(valentineFinalCountdownIntervalId){ clearInterval(valentineFinalCountdownIntervalId); valentineFinalCountdownIntervalId=null; }
+    } else {
+      const h = Math.floor(diff/3600000);
+      const m = Math.floor((diff%3600000)/60000);
+      const s = Math.floor((diff%60000)/1000);
+      const hh = String(h).padStart(2,'0');
+      const mm = String(m).padStart(2,'0');
+      const ss = String(s).padStart(2,'0');
+      if(el) el.textContent = `⏰ Termina en: ${hh}:${mm}:${ss}`;
+    }
+  };
+  updateFinalCountdown();
+  if(!valentineFinalCountdownIntervalId){ valentineFinalCountdownIntervalId = setInterval(updateFinalCountdown, 1000); }
+}
+
+function updateValentineProgress(pointsBase){
+  if(!valentineEvent.active) return;
+  valentineEvent.currentProgress += pointsBase;
+  const percent = Math.min(100, (valentineEvent.currentProgress / valentineEvent.goal) * 100);
+  const bar = document.getElementById('valentineProgressFill');
+  const text = document.getElementById('valentineProgressText');
+  const percentLabel = document.getElementById('valentinePercent');
+  if(bar) {
+    bar.setAttribute('y', (100 - percent * 0.6).toString());
+    bar.setAttribute('height', (percent * 0.6).toString());
+  }
+  if(text) text.textContent = `${formatNum(valentineEvent.currentProgress)} / ${formatNum(valentineEvent.goal)}`;
+  if(percentLabel) percentLabel.textContent = `${Math.round(percent)}%`;
+  
+  // Verificar recompensas escalonadas
+  valentineEvent.rewards.forEach(reward => {
+    if(valentineEvent.currentProgress >= reward.threshold && !reward.claimed){
+      reward.claimed = true;
+      applyValentineReward(reward);
+      renderValentineRewards();
+    }
+  });
+}
+
+function applyValentineReward(reward){
+  switch(reward.type){
+    case 'points':
+      puntos += reward.amount;
+      update();
+      showPopup(`${reward.icon} ${reward.name} obtenido!`);
+      break;
+    case 'multiplier':
+      valentineEvent.multiplier += reward.amount;
+      showPopup(`${reward.icon} ${reward.name} - Ahora x${valentineEvent.multiplier.toFixed(2)}!`);
+      break;
+    case 'upgrade':
+      if(reward.upgrade === 'autoClicker'){
+        autoClicks += reward.levels;
+        update();
+        showPopup(`${reward.icon} ${reward.name} obtenido!`);
+      }
+      break;
+    case 'skin':
+      if(!ownedSkins.includes(reward.skinId)){
+        ownedSkins.push(reward.skinId);
+        renderSkinsTab();
+      }
+      showPopup(`${reward.icon} ¡Meta final! ${reward.name} desbloqueada!`);
+      break;
+  }
+}
+
+function createValentineEventUI(allowTeaser=false){
+  if(!isValentineDayActive() && !allowTeaser) return;
+  // Botón flotante
+  let openBtn = document.getElementById('valentineOpenBtn');
+  if(!openBtn){
+    openBtn = document.createElement('button');
+    openBtn.id='valentineOpenBtn';
+    openBtn.style.cssText='position:fixed;bottom:18px;right:18px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#ff7ac4,#ff1493);border:3px solid #fff;color:#fff;font-size:26px;font-weight:900;box-shadow:0 0 20px rgba(255,0,200,0.6);z-index:1100;cursor:pointer;';
+    openBtn.textContent='❤';
+    document.body.appendChild(openBtn);
+  }
+  openBtn.onclick=()=>{
+    const modal=document.getElementById('valentineModal');
+    if(modal) modal.style.display='flex';
+  };
+  openBtn.style.display='';
+  // Modal de pantalla completa
+  if(!document.getElementById('valentineModal')){
+    const modal = document.createElement('div');
+    modal.id='valentineModal';
+    modal.style.cssText='display:flex;align-items:center;justify-content:center;position:fixed;inset:0;z-index:2000;background:radial-gradient(circle at 20% 20%, rgba(255,192,203,0.5), transparent 35%),radial-gradient(circle at 80% 30%, rgba(255,105,180,0.45), transparent 35%),radial-gradient(circle at 50% 80%, rgba(255,20,147,0.35), transparent 40%),linear-gradient(135deg,#ff8bcf 0%,#ff5fa8 40%,#ff2f92 100%);backdrop-filter:blur(2px);';
+    
+    const card = document.createElement('div');
+    card.style.cssText='width:90%;max-width:1200px;max-height:65vh;background:rgba(255,255,255,0.12);border:3px solid rgba(255,255,255,0.6);border-radius:24px;box-shadow:0 20px 60px rgba(255,50,150,0.5);padding:28px;position:relative;overflow-y:auto;overflow-x:hidden;color:#fff;';
+    // Decorative aurora layers
+    const glow1=document.createElement('div');
+    glow1.style.cssText='position:absolute;inset:-40px;-webkit-mask-image:radial-gradient(circle, rgba(255,255,255,0.3) 45%, transparent 70%);background:radial-gradient(circle at 30% 20%,rgba(255,255,255,0.18),transparent 50%),radial-gradient(circle at 80% 30%,rgba(255,255,255,0.16),transparent 60%);filter:blur(4px);z-index:0;';
+    card.appendChild(glow1);
+    const spark=document.createElement('div');
+    spark.style.cssText='position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(120deg,rgba(255,255,255,0.08) 0,rgba(255,255,255,0.08) 2px,transparent 4px,transparent 10px);mix-blend-mode:screen;opacity:0.55;z-index:0;';
+    card.appendChild(spark);
+    
+    const close = document.createElement('button');
+    close.textContent='×';
+    close.style.cssText='position:absolute;top:12px;right:16px;background:transparent;border:none;font-size:28px;color:#fff;cursor:pointer;font-weight:900;';
+    close.onclick=()=>{ modal.style.display='none'; };
+    
+    const title=document.createElement('div');
+    title.style.cssText='font-size:34px;font-weight:900;text-align:center;margin-bottom:10px;text-shadow:0 0 18px rgba(255,255,255,0.6);position:relative;z-index:1;';
+    title.innerHTML='💖 Evento de San Valentín';
+    
+    const subtitle=document.createElement('div');
+    subtitle.id='valentineSubtitle';
+    subtitle.style.cssText='font-size:16px;text-align:center;margin-bottom:20px;opacity:0.9;position:relative;z-index:1;display:'+(valentineEvent.active ? 'block' : 'none')+';';
+    subtitle.textContent='Objetivo: 100.000 puntos | 6 Recompensas escalonadas';
+
+    const countdownRow=document.createElement('div');
+    countdownRow.id='valentineCountdownLabel';
+    countdownRow.style.cssText='font-size:18px;text-align:center;margin-bottom:12px;font-weight:800;color:#ffeef7;text-shadow:0 0 12px rgba(255,255,255,0.4);display:'+(valentineEvent.active ? 'none' : 'block')+';';
+    countdownRow.textContent='Comienza en --:--:--';
+    
+    // Contenedor principal con 3 columnas
+    const mainContent=document.createElement('div');
+    mainContent.style.cssText='display:'+(valentineEvent.active ? 'flex' : 'none')+';gap:20px;margin:20px 0;position:relative;z-index:1;';
+    
+    // COLUMNA IZQUIERDA: Progreso del corazón
+    const leftColumn=document.createElement('div');
+    leftColumn.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:250px;';
+    
+    const progressWrap=document.createElement('div');
+    progressWrap.id='valentineProgressWrap';
+    progressWrap.style.cssText='width:100%;padding:20px;background:rgba(255,255,255,0.08);border-radius:16px;box-shadow:0 12px 30px rgba(255,80,170,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;';
+    const topLabel=document.createElement('div');
+    topLabel.style.cssText='display:flex;justify-content:center;align-items:center;gap:8px;font-weight:800;font-size:14px;color:#ffeef7;margin-bottom:12px;';
+    topLabel.innerHTML='<span>Progreso</span><span id="valentinePercent">0%</span>';
+    
+    const heartContainer=document.createElement('div');
+    heartContainer.style.cssText='position:relative;width:140px;height:140px;margin:10px auto;';
+    
+    const svgNS='http://www.w3.org/2000/svg';
+    const svg=document.createElementNS(svgNS,'svg');
+    svg.setAttribute('viewBox','0 0 100 100');
+    svg.setAttribute('width','140');
+    svg.setAttribute('height','140');
+    svg.style.cssText='filter:drop-shadow(0 0 12px rgba(255,100,200,0.6));';
+    
+    const defs=document.createElementNS(svgNS,'defs');
+    const clipPath=document.createElementNS(svgNS,'clipPath');
+    clipPath.setAttribute('id','heartClip');
+    const clipHeart=document.createElementNS(svgNS,'path');
+    clipHeart.setAttribute('d','M50,85 C20,60 10,45 10,32 C10,18 20,10 28,10 C35,10 42,16 50,25 C58,16 65,10 72,10 C80,10 90,18 90,32 C90,45 80,60 50,85 Z');
+    clipPath.appendChild(clipHeart);
+    defs.appendChild(clipPath);
+    svg.appendChild(defs);
+    
+    const heartBorder=document.createElementNS(svgNS,'path');
+    heartBorder.setAttribute('d','M50,85 C20,60 10,45 10,32 C10,18 20,10 28,10 C35,10 42,16 50,25 C58,16 65,10 72,10 C80,10 90,18 90,32 C90,45 80,60 50,85 Z');
+    heartBorder.setAttribute('fill','none');
+    heartBorder.setAttribute('stroke','rgba(255,255,255,0.3)');
+    heartBorder.setAttribute('stroke-width','1.5');
+    svg.appendChild(heartBorder);
+    
+    const heartFill=document.createElementNS(svgNS,'rect');
+    heartFill.setAttribute('x','10');
+    heartFill.setAttribute('y','25');
+    heartFill.setAttribute('width','80');
+    heartFill.setAttribute('height','60');
+    heartFill.setAttribute('fill','url(#heartGradient)');
+    heartFill.setAttribute('clip-path','url(#heartClip)');
+    heartFill.id='valentineProgressFill';
+    svg.appendChild(heartFill);
+    
+    const gradient=document.createElementNS(svgNS,'linearGradient');
+    gradient.setAttribute('id','heartGradient');
+    gradient.setAttribute('x1','0%');
+    gradient.setAttribute('y1','100%');
+    gradient.setAttribute('x2','0%');
+    gradient.setAttribute('y2','0%');
+    const stop1=document.createElementNS(svgNS,'stop');
+    stop1.setAttribute('offset','0%');
+    stop1.setAttribute('stop-color','#ff4fa8');
+    gradient.appendChild(stop1);
+    const stop2=document.createElementNS(svgNS,'stop');
+    stop2.setAttribute('offset','100%');
+    stop2.setAttribute('stop-color','#ffd1ff');
+    gradient.appendChild(stop2);
+    defs.appendChild(gradient);
+    
+    heartContainer.appendChild(svg);
+    
+    const ptext=document.createElement('div');
+    ptext.id='valentineProgressText';
+    ptext.style.cssText='margin-top:12px;text-align:center;font-weight:800;letter-spacing:0.3px;color:#ffeef7;text-shadow:0 0 12px rgba(255,255,255,0.35);font-size:12px;';
+    ptext.textContent=`${formatNum(0)} / ${formatNum(valentineEvent.goal || 100000)}`;
+    
+    progressWrap.appendChild(topLabel);
+    progressWrap.appendChild(heartContainer);
+    progressWrap.appendChild(ptext);
+    leftColumn.appendChild(progressWrap);
+    
+    // COLUMNA CENTRAL: Recompensas
+    const centerColumn=document.createElement('div');
+    centerColumn.style.cssText='flex:1.5;display:flex;flex-direction:column;min-width:300px;';
+    const rewardsSection=document.createElement('div');
+    rewardsSection.id='valentineRewardsSection';
+    rewardsSection.style.cssText='padding:0;position:relative;z-index:1;';
+    const rewardsTitle=document.createElement('div');
+    rewardsTitle.style.cssText='font-size:14px;font-weight:800;margin-bottom:10px;color:#ffeef7;text-shadow:0 0 8px rgba(255,255,255,0.4);opacity:0.9;';
+    rewardsTitle.textContent='🎁 Recompensas';
+    const rewardsList=document.createElement('div');
+    rewardsList.id='valentineRewardsList';
+    rewardsList.style.cssText='display:flex;flex-direction:column;gap:8px;max-height:400px;overflow-y:auto;';
+    rewardsSection.appendChild(rewardsTitle);
+    rewardsSection.appendChild(rewardsList);
+    centerColumn.appendChild(rewardsSection);
+    
+    // COLUMNA DERECHA: Historia
+    const rightColumn=document.createElement('div');
+    rightColumn.style.cssText='flex:1;display:flex;flex-direction:column;min-width:250px;';
+    const storyBox=document.createElement('div');
+    storyBox.style.cssText='padding:16px;background:rgba(255,192,203,0.08);border:2px solid rgba(255,105,180,0.3);border-radius:12px;font-size:12px;line-height:1.6;color:#ffeef7;text-shadow:0 0 8px rgba(255,255,255,0.2);';
+    storyBox.innerHTML=`<div style="font-weight:800;font-size:13px;margin-bottom:8px;color:#ff94d8;">💝 La Historia</div><div>La magia del amor fluye a través del multiverso. Para restaurar el balance de emociones perdidas, necesitas reunir 100.000 puntos de puro afecto. Cada punto que acumules fortalece los lazos del corazón y desbloquea recompensas especiales. ¿Podrás lograrlo antes del 20 de febrero?</div>`;
+    rightColumn.appendChild(storyBox);
+    
+    mainContent.appendChild(leftColumn);
+    mainContent.appendChild(centerColumn);
+    mainContent.appendChild(rightColumn);
+    
+    const buff=document.createElement('div');
+    buff.id='valentineBuff';
+    buff.style.cssText='margin-top:16px;text-align:center;font-weight:800;font-size:16px;color:#ffeef7;text-shadow:0 0 12px rgba(255,255,255,0.6);';
+    buff.textContent='Buff activo: x1.1 puntos durante el evento';
+    const miniBadges=document.createElement('div');
+    miniBadges.id='valentineBadges';
+    miniBadges.style.cssText='display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;font-weight:700;font-size:12px;color:#ffeef7;';
+    miniBadges.innerHTML='<span style="padding:6px 10px;border-radius:10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);">❤ Drop de partículas</span><span style="padding:6px 10px;border-radius:10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);">🎁 Skin exclusiva</span><span style="padding:6px 10px;border-radius:10px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);">⚡ Bonus x1.1</span>';
+    
+    const finalCountdown=document.createElement('div');
+    finalCountdown.id='valentineFinalCountdown';
+    finalCountdown.style.cssText='margin-top:16px;padding:12px;text-align:center;font-weight:800;font-size:14px;color:#ffeef7;background:rgba(255,255,255,0.08);border-radius:12px;border:1px solid rgba(255,255,255,0.2);text-shadow:0 0 8px rgba(255,255,255,0.3);';
+    finalCountdown.textContent='⏰ Termina en: --:--:--';
+    
+    card.appendChild(close);
+    card.appendChild(title);
+    card.appendChild(subtitle);
+    card.appendChild(countdownRow);
+    card.appendChild(mainContent);
+    card.appendChild(buff);
+    card.appendChild(miniBadges);
+    card.appendChild(finalCountdown);
+    modal.appendChild(card);
+    document.body.appendChild(modal);
+  }
+  // Toggle visibility based on event state
+  const label = document.getElementById('valentineCountdownLabel');
+  const subtitle = document.getElementById('valentineSubtitle');
+  const mainContent = document.getElementById('valentineProgressWrap')?.parentElement?.parentElement;
+  const buff = document.getElementById('valentineBuff');
+  const badges = document.getElementById('valentineBadges');
+  
+  if(valentineEvent.active){
+    if(label) label.style.display='none';
+    if(subtitle) subtitle.style.display='block';
+    if(mainContent) mainContent.style.display='flex';
+    if(buff) buff.style.display='block';
+    if(badges) badges.style.display='flex';
+  } else if(isValentineTeaserToday()){
+    if(label) label.style.display='block';
+    if(subtitle) subtitle.style.display='none';
+    if(mainContent) mainContent.style.display='none';
+    if(buff) buff.style.display='none';
+    if(badges) badges.style.display='none';
+  }
+}
+
+function renderValentineRewards(){
+  const list = document.getElementById('valentineRewardsList');
+  if(!list) return;
+  list.innerHTML = '';
+  valentineEvent.rewards.forEach(reward => {
+    const item = document.createElement('div');
+    const isLocked = valentineEvent.currentProgress < reward.threshold;
+    const isClaimed = reward.claimed;
+    
+    // Colores más dinámicos
+    let bgColor, borderColor, textColor;
+    if(isClaimed){
+      bgColor = 'rgba(100,255,150,0.2)';
+      borderColor = 'rgba(100,255,150,0.8)';
+      textColor = '#64ff96';
+    } else if(isLocked){
+      bgColor = 'rgba(255,255,255,0.05)';
+      borderColor = 'rgba(255,255,255,0.15)';
+      textColor = '#ffeef7';
+    } else {
+      bgColor = 'rgba(255,150,200,0.25)';
+      borderColor = 'rgba(255,150,200,0.9)';
+      textColor = '#ff96c8';
+    }
+    
+    item.style.cssText = `padding:10px 12px;border-radius:10px;background:${bgColor};border:2px solid ${borderColor};text-align:center;transition:all 0.3s ease;opacity:${isLocked?'0.6':'1'};position:relative;display:flex;align-items:center;gap:8px;cursor:${isClaimed || isLocked ? 'default' : 'pointer'};`
+    
+    if(!isLocked && !isClaimed){
+      item.style.boxShadow = '0 0 12px rgba(255,150,200,0.6)';
+    }
+    
+    const icon = document.createElement('div');
+    icon.style.cssText = 'font-size:22px;filter:drop-shadow(0 0 8px rgba(255,255,255,0.6));flex-shrink:0;';
+    icon.textContent = reward.icon;
+    
+    const textWrap = document.createElement('div');
+    textWrap.style.cssText = 'flex:1;text-align:left;';
+    
+    const name = document.createElement('div');
+    name.style.cssText = `font-size:11px;font-weight:800;color:${textColor};margin-bottom:2px;line-height:1.2;`;
+    name.textContent = reward.name;
+    
+    const threshold = document.createElement('div');
+    threshold.style.cssText = `font-size:9px;opacity:0.8;color:${textColor};`;
+    threshold.textContent = `${reward.threshold.toLocaleString()} pts`;
+    
+    textWrap.appendChild(name);
+    textWrap.appendChild(threshold);
+    
+    // Mostrar progreso
+    const progress = document.createElement('div');
+    progress.style.cssText = 'font-size:9px;opacity:0.7;color:#fff;font-weight:700;flex-shrink:0;white-space:nowrap;';
+    const percent = Math.min(100, (valentineEvent.currentProgress / reward.threshold) * 100);
+    progress.textContent = `${Math.floor(percent)}%`;
+    
+    if(isClaimed){
+      const check = document.createElement('div');
+      check.style.cssText = 'width:24px;height:24px;border-radius:50%;background:#64ff96;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#000;flex-shrink:0;';
+      check.textContent = '✓';
+      item.appendChild(icon);
+      item.appendChild(textWrap);
+      item.appendChild(check);
+    } else {
+      item.appendChild(icon);
+      item.appendChild(textWrap);
+      item.appendChild(progress);
+    }
+    
+    list.appendChild(item);
+  });
+}
+
+// Inicializar evento Valentine
+if(isValentineDayActive()){
+  valentineEvent.active = true;
+  createValentineEventUI();
+  startValentineFinalCountdown();
+  setTimeout(() => {
+    renderValentineRewards();
+  }, 100);
+}
+
+// Verificar periódicamente si el evento de San Valentín ha comenzado
+setInterval(() => {
+  if(!valentineEvent.active && isValentineDayActive()){
+    valentineEvent.active = true;
+    clearValentineTeaserUI();
+    createValentineEventUI();
+    startValentineFinalCountdown();
+    setTimeout(() => { renderValentineRewards(); }, 100);
+  } else if(!valentineEvent.active && isValentineTeaserToday()){
+    ensureValentineTeaserButton();
+  } else if(valentineEvent.active && !isValentineDayActive()){
+    // Si el evento ha terminado, ocultar botón y modal
+    const btn = document.getElementById('valentineOpenBtn');
+    const modal = document.getElementById('valentineModal');
+    if(btn) btn.style.display = 'none';
+    if(modal) modal.style.display = 'none';
+    valentineEvent.active = false;
+    clearValentineTeaserUI();
+    // Restaurar multiplicador a 1.1 base cuando termine el evento
+    valentineEvent.multiplier = 1.1;
+  } else if(!isValentineTeaserToday() && !isValentineDayActive()){
+    // Fuera de teaser y evento: limpiar UI si quedó
+    clearValentineTeaserUI();
+    const btn = document.getElementById('valentineOpenBtn');
+    if(btn) btn.style.display = 'none';
+  }
+}, 10000); // Verificar cada 10 segundos
+// Ensure loader shows immediately on startup (defensive, in case other code errors)
+try{
+  const loaderEl = document.getElementById('loader');
+  const progressEl = document.getElementById('loadProgressBar');
+  const phaseEl = document.getElementById('loadPhase');
+  if(loaderEl){
+    loaderEl.style.display='flex';
+    if(progressEl) progressEl.style.width = '0%';
+    if(phaseEl) phaseEl.textContent = 'Inicializando...';
+
+    const steps = [
+      {p:20, t:'Cargando módulos...'},
+      {p:45, t:'Preparando UI...'},
+      {p:70, t:'Sincronizando datos...'},
+      {p:90, t:'Últimos retoques...'}
+    ];
+    let stepIndex = 0;
+    const applyStep = () => {
+      const step = steps[stepIndex];
+      if(!step) return;
+      if(progressEl) progressEl.style.width = step.p + '%';
+      if(phaseEl) phaseEl.textContent = step.t;
+      stepIndex++;
+    };
+    applyStep();
+    const stepTimer = setInterval(()=>{
+      applyStep();
+      if(stepIndex >= steps.length){
+        clearInterval(stepTimer);
+      }
+    }, 350);
+
+    setTimeout(()=>{
+      clearInterval(stepTimer);
+      if(progressEl) progressEl.style.width = '100%';
+      if(phaseEl) phaseEl.textContent = 'Listo';
+      setTimeout(()=>{ 
+        loaderEl.style.display='none';
+        if(typeof openUpdateModal === 'function') openUpdateModal();
+      }, 250);
+      // Mostrar ventana modal de actualización solo hasta el 18 de enero de 2026
+      // Popup de actualización eliminado en b0.44.1
+    }, 1800);
+  }
+}catch(e){console.error('Loader init error',e);}
+
+// Event modal handlers
+const eventInfoBtn = document.getElementById('eventInfoBtn');
+const eventModal = document.getElementById('eventModal');
+const closeEventBtn = document.getElementById('closeEventModalBtn');
+const closeEventX = document.getElementById('closeEventModal');
+
+if(eventInfoBtn) eventInfoBtn.onclick = ()=> { if(eventModal) eventModal.style.display='flex'; };
+if(closeEventBtn) closeEventBtn.onclick = ()=> { if(eventModal) eventModal.style.display='none'; };
+if(closeEventX) closeEventX.onclick = ()=> { if(eventModal) eventModal.style.display='none'; };
+
+// Modal de actualización b0.45
+const updateModal = document.getElementById('updateModal');
+const closeUpdateModal = document.getElementById('closeUpdateModal');
+const closeUpdateModalBtn = document.getElementById('closeUpdateModalBtn');
+function openUpdateModal(){
+  try{
+    const now = new Date();
+    const cutoff = new Date(2026, 1, 4); // 4 de Febrero de 2026
+    if(updateModal && now <= cutoff){
+      const evtSection = document.getElementById('updateEventSection');
+      if(evtSection){
+        const showFrom = new Date(2026, 1, 9); // 9 de Febrero
+        evtSection.style.display = (now >= showFrom) ? 'block' : 'none';
+      }
+      updateModal.style.display='flex';
+    }
+  }catch(_e){}
+}
+if(closeUpdateModal) closeUpdateModal.onclick = ()=>{ if(updateModal) updateModal.style.display='none'; };
+if(closeUpdateModalBtn) closeUpdateModalBtn.onclick = ()=>{ if(updateModal) updateModal.style.display='none'; };
+
+
+const storeItems=[
+{id:"u1",name:"+1 Por Clic",desc:"Aumenta puntos por clic",cost:75,baseCost:75,func:()=>incremento++,unlocked:true,once:false,multi:true,noXP:true},
+{id:"u2",name:"Auto-Click +1/s",desc:"Genera puntos automáticamente",cost:150,baseCost:150,func:()=>autoClicks++,unlocked:true,once:false,multi:true},
+{id:"u3",name:"Clicks Críticos",desc:"Probabilidad de crítico +7%",cost:750,func:()=>{critChance+=0.07;},unlocked:true,once:true},
+{id:"u4",name:"Pulso Inicial",desc:"Clicks manuales +10%",cost:375,func:()=>incremento=Math.ceil(incremento*1.10),unlocked:true,once:true},
+{id:"u5",name:"Pulso Secundario",desc:"Clicks manuales +15%",cost:900,func:()=>incremento=Math.ceil(incremento*1.15),unlock:{previousItems:['u4']},once:true},
+{id:"u6",name:"Motor Mejorado",desc:"Auto-clicks +5 permanentes",cost:1125,func:()=>autoClicks+=5,unlock:{level:2},once:true},
+{id:"u7",name:"Crítico Aumentado",desc:"Aumenta probabilidad +5%",cost:1500,func:()=>{critChance+=0.05;},unlock:{previousItems:['u3']},once:true},
+{id:"u8",name:"Crítico Mejorado",desc:"Aumenta probabilidad +8%",cost:2625,func:()=>{critChance+=0.08;},unlock:{level:5,previousItems:['u3','u7']},once:true},
+{id:"u9",name:"Sistema Avanzado",desc:"Auto-clicks +10 permanentes",cost:4500,func:()=>{autoClicks+=10;},unlock:{level:6},once:true}
+];
+
+// ===================== SKINS (cosméticos) =====================
+const skins=[
+  {id:'default',name:'Original',desc:'Apariencia original',style:{background:'#ff4081',border:'none',boxShadow:'0 0 50px #ff4081'},cost:0},
+  {id:'blackhole',name:'Agujero Negro',desc:'Interior negro con borde blanca',style:{background:'#000',border:'4px solid #fff',boxShadow:'0 0 20px #000, 0 0 8px #fff',preventColorChange:true},cost:25000},
+  {id:'fireball',name:'Bola de Fuego',desc:'Bola ardiente con partículas de fuego. Creada por AdriXD',style:{background:'radial-gradient(circle at 30% 30%, #ff8c00, #ff4500, #8b0000)',border:'4px solid #ff8c00',boxShadow:'0 0 30px #ff8c00',preventColorChange:true},cost:0,unlock:{playTime:1800}},
+  {id:'glitch',name:'Glitch',desc:'ą̣͇͔̯̟̣̙͖̓́̍ͫ͗̋̒̈́̃̓̄̑̈́͛ͩ́̔ͤ̌̇̚͟͝͡q͒̈ư̘̠̗̘̻̣̗̈́͊̑̋̏͌̊̎̑ͨ̔͘͟͝ͅí̴̴̧̟̟̣̲̯̬̙̝̩̤̗̩̖̬̲̘͐̅̿̏ͧ̏ͩ̔́̚͘͡ ḩ͓͍̮̝̗̘̩̗̰̠͂̔̒̓̌ͧ͆̀ͮ̊_̵̡̥̟̺̋̌̏̿̽ͫͅa̴̸̛̮̗̥̪̗͖̣͚͓̫͍̒ͨ̊̿ͬ̎́̆͂̈́̐̓̋͘͘͢͠ p̡̧̢̼̹̮̭̺̊͂ȁ̵ͯ̚_̡̨̤͕̩͖̬̱̤̖̼̥̻ͭ͊̍͌͆̀̌̒͘͞͞s̨̟͕̤̻̖͈̘̹̥̞̈͊̌ͧ̈̏ͣͬ̃͐̌ͭͨͦͪͥ́̎͢ạ̸̷̧̨̡̻̖̯̥̹̤̖̤͓̲̥̺͈̩͍̓ͭ͗̇̍ͬ̏ͥͩ̿̓͆̌͂̂́̋͊͌͐́̚͢͡͡ͅd̀ͤ̄̓̃͜ǫ̴̷̸̸̸̡̛̠̖͉̟̥̼̣͈͔̭̫̹ͣͥ̍ͯ͒̃̐̇̓̀ͥ̔͐ͥ̃́͋͆̕̕͠ͅ a̡͉̟͓̤͎̥̱͚̠̓͆̑ͤͫ́̃ͨͥ̾ͬ̇ḷ̸̶͚̤̖̟̳̖͊̓ͧͫͪ̎̈ͧ̒͒ͦ̽ͦͯ̄̌͂̌͌̿͆̓ͤ́̀ͭͤ͋ͣ̃͐̕͘͜͡_̘g͙̩_̷̸͕̝͕̹̱͇͔̙̜͙̋ͣͦͭͨ̋ͦͬ͗͗̓̽̆̀ͬ̌ͨ̓̇͌̚̚͘͜͝͝͝ͅͅ ṟ͍̾͋ä̞͈̘̳̝̀́ͤ̆́ͦ̎̓ͯ̂͜͞͝r̴̪̩͉̘̲̋̌̆͐̏ͬͫ̏̈͟ọ̷̙̟ͦ',style:{background:'#ff4081',border:'none',boxShadow:'0 0 50px #ff4081',glitch:true},cost:0,unlock:{outsideClicks:50}},
+  {id:'retro',name:'Retro',desc:'Un recuerdo nostalgico arcade. Creada por Pablosky',style:{background:'#ff4081',border:'none',boxShadow:'0 0 50px #ff4081',retro:true},cost:0,unlock:{performanceMode:true}},
+  {id:'disco',name:'Disco',desc:'🪩 Bola de disco para irse de fiesta',style:{background:'#ff4081',border:'none',boxShadow:'0 0 50px #ff4081',disco:true},cost:0,unlock:{clicksPerMinute:500}},
+  {id:'heart',name:'Corazón',desc:'💖 Consigue 100k puntos durante el evento (10-20 Feb, termina 21 00:00)',style:{background:'transparent',border:'none',boxShadow:'none',heart:true},cost:0,limited:true}
+];
+let ownedSkins=['default'];
+let selectedSkin='default';
+
+// Gameplay tracking
+let playTimeSeconds=0; // total play time in seconds
+let consecutiveClicks=0;
+let lastClickTime=0; // ms timestamp
+let outsideClicks=0; // clicks fuera del círculo para Glitch
+let clicksInLastMinute=[]; // timestamps para Disco (1000 clicks en 1 min)
+
+let tabs=["gameTab","storeTab","levelTab"],tabIndex=0;
+// DOM cache
+let cachedElements={clickIcon:null,counter:null,pps:null,levelStat:null,stats:null,tabLabel:null};
+function initDOMCache(){cachedElements.clickIcon=document.getElementById('clickIcon');cachedElements.counter=document.getElementById('counter');cachedElements.pps=document.getElementById('pps');cachedElements.levelStat=document.getElementById('levelStat');cachedElements.stats=document.getElementById('stats');cachedElements.tabLabel=document.getElementById('tabLabel');}setTimeout(initDOMCache,100);
+
+// ===================== TAB CONTROL =====================
+function showTab(){/* ensure skins tab is hidden when navigating with arrows */document.getElementById('skinsTab').style.display='none';tabs.forEach((t,i)=>{let el=document.getElementById(t);el.style.display=i===tabIndex?"block":"none";el.style.opacity=0;if(i===tabIndex)setTimeout(()=>el.style.opacity=1,10);});document.getElementById("tabLabel").textContent=["Juego","Tienda","Nivel"][tabIndex];document.getElementById("stats").classList.toggle("gameTab",tabIndex===0);
+  document.body.classList.toggle('tab-game', tabIndex===0);
+  document.body.classList.toggle('tab-store', tabIndex===1);
+  document.body.classList.toggle('tab-level', tabIndex===2);
+  // manage skin effects when switching tabs
+  if(tabIndex!==0){ stopFireballEffect(); } else { if(selectedSkin==='fireball'){ startFireballEffect(); } } } 
+document.getElementById("prevTab").onclick=()=>{
+  const skinsTabEl = document.getElementById('skinsTab');
+  if(skinsTabEl && skinsTabEl.style.display==='block'){ tabIndex=0; } else { tabIndex=(tabIndex-1+tabs.length)%tabs.length; }
+  showTab();
+}
+document.getElementById("nextTab").onclick=()=>{
+  const skinsTabEl = document.getElementById('skinsTab');
+  if(skinsTabEl && skinsTabEl.style.display==='block'){ tabIndex=0; } else { tabIndex=(tabIndex+1)%tabs.length; }
+  showTab();
+}
+document.addEventListener("keydown",e=>{
+  const skinsTabEl = document.getElementById('skinsTab');
+  if(e.key==="ArrowLeft"){ if(skinsTabEl && skinsTabEl.style.display==='block'){ tabIndex=0; } else { tabIndex=(tabIndex-1+tabs.length)%tabs.length; } showTab(); }
+  if(e.key==="ArrowRight"){ if(skinsTabEl && skinsTabEl.style.display==='block'){ tabIndex=0; } else { tabIndex=(tabIndex+1)%tabs.length; } showTab(); }
+});
+showTab();
+
+// ===================== ACTUALIZACION =====================
+let updateScheduled=false;
+function update(){
+  if(!updateScheduled){
+    updateScheduled=true;
+    const counter=document.getElementById("counter");
+    const pps=document.getElementById("pps");
+    const levelStat=document.getElementById("levelStat");
+    if(counter)counter.textContent = formatNum(puntos);
+    // Mostrar PXS con los auto-clickers (independientes de incremento manual)
+    const valMult = (valentineEvent.active ? valentineEvent.multiplier : 1);
+    const ppsValue = autoClicks * multiplicadorTemporal * valMult;
+    if(pps)pps.textContent=`PXS: ${formatNum(ppsValue)}${valentineEvent.active ? ' ❤️' : ''}`;
+    if(levelStat)levelStat.textContent = nivel >= MAX_LEVEL ? "Nivel: MAX" : "Nivel: "+nivel;
+    
+    // Actualizar display de multiplicadores
+    pruneExpiredMultipliers();
+    const multDisplay = document.getElementById('multipliersDisplay');
+    const multTotal = document.getElementById('multiplierTotal');
+    const multList = document.getElementById('multiplierList');
+    if(multDisplay && multTotal && multList){
+      if(multiplicadorTemporal > 1 && activeMultipliers.length){
+        multDisplay.style.display = 'block';
+        multTotal.textContent = `x${multiplicadorTemporal.toFixed(2)} total`;
+        multList.innerHTML = '';
+        const sorted = [...activeMultipliers].sort((a,b)=>{
+          const ea = a.expiresAt || Infinity;
+          const eb = b.expiresAt || Infinity;
+          return ea - eb;
+        });
+        sorted.forEach(m=>{
+          const line=document.createElement('div');
+          const remain = m.expiresAt ? Math.max(0, Math.ceil((m.expiresAt-Date.now())/1000)) : null;
+          line.textContent = `${m.label||'Multiplicador'} x${(m.amount||1).toFixed(2)}${remain!==null ? ' · '+formatNum(remain)+'s' : ''}`;
+          multList.appendChild(line);
+        });
+      } else {
+        multDisplay.style.display = 'none';
+      }
+    }
+    
+    // Actualizar blue coin stat y rebirth button
+    checkRebirthAvailability();
+    updatePendingBlueUI();
+    
+    updateLevel();
+    updateScheduled=false;
+  }
+}
+function statAnim(el){if(!performanceMode){el.classList.add("statAnim");setTimeout(()=>el.classList.remove("statAnim"),300);}}
+
+// ===================== CLIC PRINCIPAL =====================
+document.getElementById("clickIcon").onclick=e=>{
+    let basePoints = incremento; // Puntos base antes de multiplicadores
+    const valMult = (valentineEvent.active ? valentineEvent.multiplier : 1);
+    let gain=incremento*multiplicadorTemporal*valMult;
+  puntos+=gain;
+  pointsForBlueCoins += basePoints; // Acumular puntos base para blue coins
+  experiencia+=baseClickXP*multiplicadorTemporal*xpMult;
+  
+  if(valentineEvent.active) updateValentineProgress(basePoints);
+  
+  try{ spawnGainTextAtCounter(gain); }catch(_e){}
+  
+    // Tracking para Disco: 500 clicks en 3 minutos
+    const now=Date.now();
+    clicksInLastMinute.push(now);
+    clicksInLastMinute = clicksInLastMinute.filter(t => now - t <= 180000); // solo últimos 3 minutos
+    if(clicksInLastMinute.length >= 500 && !ownedSkins.includes('disco')){
+        ownedSkins.push('disco');
+        showPopup('¡Skin Disco desbloqueada!');
+        renderSkinsTab();
+    }
+    
+    if(now - lastClickTime <= 1000){
+        consecutiveClicks++;
+    }else{consecutiveClicks=1;} 
+    lastClickTime=now;
+    let currentSkin = skins.find(s=>s.id===selectedSkin);
+    const noColorChange = (currentSkin && currentSkin.preventColorChange) || selectedSkin === 'fireball' || selectedSkin === 'blackhole' || selectedSkin === 'glitch' || selectedSkin === 'retro' || selectedSkin === 'disco';
+    const el = document.getElementById("clickIcon");
+    if(!noColorChange && selectedSkin === 'default' && el){
+      const hue = Math.floor(Math.random()*360);
+      const color = `hsl(${hue}, 100%, 60%)`;
+      el.style.background = color;
+      el.style.boxShadow = `0 0 50px ${color}`;
+    }
+if(selectedSkin==='blackhole' && !performanceMode){ 
+        spawnAbsorbParticles(25,e.clientX,e.clientY); 
+        for(let i=0;i<6;i++){ 
+          spawnAbsorbParticles(5,e.clientX + (Math.random()-0.5)*60, e.clientY + (Math.random()-0.5)*60); 
+        }
+        // Efecto de gravedad visual
+        const el = document.getElementById('clickIcon');
+        if(el){
+          el.style.transform = 'scale(0.92)';
+          setTimeout(()=>{ if(el) el.style.transform = 'scale(1)'; }, 100);
+        }
+        // Absorber parcialmente la UI - acercarla al agujero negro (centro pantalla)
+        const stats = document.getElementById('stats');
+        const tabs = document.getElementById('tabs');
+        const clickIconEl = document.getElementById('clickIcon');
+        if(clickIconEl){
+          const rect = clickIconEl.getBoundingClientRect();
+          const blackholeCenterX = rect.left + rect.width/2;
+          const blackholeCenterY = rect.top + rect.height/2;
+          
+          if(stats){
+            const statsRect = stats.getBoundingClientRect();
+            const statsCenterX = statsRect.left + statsRect.width/2;
+            const statsCenterY = statsRect.top + statsRect.height/2;
+            const dx = (blackholeCenterX - statsCenterX) * 0.15;
+            const dy = (blackholeCenterY - statsCenterY) * 0.15;
+            stats.style.transform = `scale(0.95) translate(${dx}px, ${dy}px)`;
+            stats.style.opacity = '0.7';
+            setTimeout(()=>{ if(stats) { stats.style.transform = ''; stats.style.opacity = '1'; } }, 200);
+          }
+          if(tabs){
+            const tabsRect = tabs.getBoundingClientRect();
+            const tabsCenterX = tabsRect.left + tabsRect.width/2;
+            const tabsCenterY = tabsRect.top + tabsRect.height/2;
+            const dx = (blackholeCenterX - tabsCenterX) * 0.12;
+            const dy = (blackholeCenterY - tabsCenterY) * 0.12;
+            tabs.style.transform = `scale(0.98) translate(${dx}px, ${dy}px)`;
+            tabs.style.opacity = '0.8';
+            setTimeout(()=>{ if(tabs) { tabs.style.transform = ''; tabs.style.opacity = '1'; } }, 200);
+          }
+        }
+    } else if(selectedSkin==='glitch' && !performanceMode){ 
+      spawnGlitchParticles(16, e.clientX, e.clientY);
+      try{ glitchUIFlash(); }catch(_e){}
+    } else if(selectedSkin==='retro' && !performanceMode){ 
+        spawnRetroParticles(18, e.clientX, e.clientY);
+        try{ flashRetroBackground(e.clientX, e.clientY); }catch(_e){}
+    } else if(selectedSkin==='disco' && !performanceMode){ 
+      spawnDiscoParticles(30, e.clientX, e.clientY);
+      spawnBackgroundLasers(2);
+      // Efecto de giro de bola disco
+      const el = document.getElementById('clickIcon');
+      if(el){
+        el.style.transform = 'rotate(15deg)';
+        setTimeout(()=>{ if(el) el.style.transform = 'rotate(0deg)'; }, 150);
+      }
+    } else if(selectedSkin==='fireball' && !performanceMode){ 
+      const elF = document.getElementById('clickIcon'); 
+      if(elF){ 
+        const r = elF.getBoundingClientRect(); 
+        const cx = r.left + r.width/2; 
+        const cy = r.top + r.height/2;
+        spawnFireParticles(32, cx, cy + r.height*0.28);
+        for(let i=0;i<10;i++){ 
+          let px = cx + (Math.random()-0.5)*(r.width*0.6); 
+          let py = cy + r.height*0.35 + (Math.random()*12); 
+          spawnBurnParticle(px,py,true); 
+        }
+        const dx = e.clientX - cx; 
+        const dy = e.clientY - cy; 
+        spawnLaunchTrail(cx,cy,dx,dy,20);
+        
+        // Sistema de degradado progresivo (10 clicks = efecto completo)
+        fireballGradientClicks = Math.min(10, fireballGradientClicks + 1);
+        
+        // Limpiar timer anterior
+        if(fireballGradientTimer) clearTimeout(fireballGradientTimer);
+        
+        // Timer para reducir gradualmente si no hay clicks por 1 segundo
+        fireballGradientTimer = setTimeout(()=>{
+          const reduceInterval = setInterval(()=>{
+            if(fireballGradientClicks > 0){
+              fireballGradientClicks--;
+              updateFireballGradient();
+            } else {
+              clearInterval(reduceInterval);
+            }
+          }, 100);
+        }, 1000);
+        
+        // Actualizar gradiente según clicks acumulados
+        updateFireballGradient();
+        
+        // Efecto de pulso de fuego
+        elF.style.boxShadow = '0 0 60px #ff8c00, 0 0 30px #ff4500';
+        setTimeout(()=>{ 
+          if(elF) {
+            elF.style.boxShadow = '0 0 30px #ff8c00'; 
+          }
+        }, 120);
+      } 
+    }
+    else if(selectedSkin==='heart' && !performanceMode){
+      spawnHeartParticles(20, e.clientX, e.clientY);
+      const el = document.getElementById('clickIcon');
+      if(el){
+        el.style.transform = 'scale(1.15)';
+        setTimeout(()=>{ if(el) el.style.transform = 'scale(1)'; }, 150);
+      }
+    }
+    else if(selectedSkin==='default' && !performanceMode){ spawnParticles(30,e.clientX,e.clientY); }
+    spawnCrit(e.clientX,e.clientY);
+    update(); checkLevel();
+};
+
+// Listener global para clicks fuera del círculo (Glitch)
+document.addEventListener('click', (e)=>{
+  try{
+    if(tabIndex !== 0) return; // Solo en tab de Juego
+    const clickIcon = document.getElementById('clickIcon');
+    if(!clickIcon) return;
+    
+    // Verificar si el click fue en el círculo
+    const rect = clickIcon.getBoundingClientRect();
+    const centerX = rect.left + rect.width/2;
+    const centerY = rect.top + rect.height/2;
+    const radius = rect.width/2;
+    const dist = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
+    
+    if(dist > radius){
+      // Click fuera del círculo
+      outsideClicks++;
+      if(outsideClicks >= 50 && !ownedSkins.includes('glitch')){
+        ownedSkins.push('glitch');
+        showPopup('¡Skin Glitch desbloqueada!');
+        renderSkinsTab();
+      }
+    }
+  }catch(_e){}
+});
+let particleCount=0;const MAX_PARTICLES=100;function spawnParticles(n,x,y){if(performanceMode) n=Math.floor(n*0.3);for(let i=0;i<n&&particleCount<MAX_PARTICLES;i++){particleCount++;let p=document.createElement("div");p.className="particle";p.style.left=x+"px";p.style.top=y+"px";p.style.background=`hsl(${Math.random()*360},100%,60%)`;p.style.setProperty("--tx",(Math.random()-0.5)*200+"px");p.style.setProperty("--ty",(Math.random()-0.5)*200+"px");document.body.appendChild(p);setTimeout(()=>{try{if(p.parentNode)p.remove();particleCount--;}catch(_e){}},800);}}
+function spawnCrit(x,y){if(Math.random()<critChance){let crit=document.getElementById("critText");crit.style.left=x+"px";crit.style.top=y+"px";crit.style.display="block";crit.style.opacity=1;crit.style.transform="translateY(0)";setTimeout(()=>{crit.style.display="none";},800);}}
+
+function spawnGainText(x,y,gain){ try{ let gt = document.createElement('div'); gt.className='gainText'; gt.textContent = `+${Math.floor(gain)}`; gt.style.position='absolute'; gt.style.left=(x - 12)+'px'; gt.style.top=(y - 28)+'px'; gt.style.fontSize='18px'; gt.style.color='#ff4081'; gt.style.fontWeight='bold'; gt.style.textShadow='0 0 6px rgba(0,0,0,0.7)'; gt.style.pointerEvents='none'; gt.style.zIndex='1004'; gt.style.animation='gainRise 700ms ease-out forwards'; document.body.appendChild(gt); setTimeout(()=>{ try{ if(gt.parentNode) gt.remove(); }catch(_e){} }, 720); }catch(e){}}
+
+function spawnGainTextAtCounter(gain){ try{ const counter = document.getElementById('counter'); if(!counter) return; const r = counter.getBoundingClientRect(); const x = r.left + r.width/2; const y = r.top + r.height/2; spawnGainText(x, y, gain); }catch(e){}}
+
+function spawnFireParticles(n,x,y){ if(!isFinite(x) || !isFinite(y) || x < -50 || y < -50 || x > window.innerWidth+50 || y > window.innerHeight+50) return; if(performanceMode) n=Math.floor(n*0.2); for(let i=0;i<n&&particleCount<MAX_PARTICLES;i++){particleCount++;let p=document.createElement("div");p.className="particle";
+    // Posición más variada
+    p.style.left=(x + (Math.random()-0.5)*120)+"px";p.style.top=(y + (Math.random()-0.5)*120)+"px";
+    // Gradientes más intensos y variados
+    const fireGradients = [
+      `radial-gradient(circle at 30% 30%, #fff, #ffeb3b 20%, #ff9800 40%, #ff5722 70%, #d84315)`,
+      `radial-gradient(circle at 40% 40%, #fff3e0, #ffa726 25%, #ff6f00 50%, #bf360c 80%)`,
+      `radial-gradient(circle at 35% 35%, #ffffff, #ffd54f 15%, #ff8a65 45%, #e64a19 75%)`
+    ];
+    p.style.background = fireGradients[Math.floor(Math.random()*fireGradients.length)];
+    let size = 8 + Math.random()*10; // Partículas más grandes
+    p.style.width = size + "px"; p.style.height = size + "px"; 
+    p.style.borderRadius="50%";
+    p.style.opacity=0.9 + Math.random()*0.1;
+    // Movimiento más dinámico y variado
+    let angle = Math.random() * Math.PI * 2;
+    let distance = 40 + Math.random() * 80;
+    let tx = Math.cos(angle) * distance;
+    let ty = Math.sin(angle) * distance - 30; // Sesgo hacia arriba
+    p.style.setProperty("--tx",tx+"px");
+    p.style.setProperty("--ty",ty+"px");
+    p.style.filter="blur(0.8px)";
+    p.style.boxShadow=`0 0 ${6+Math.random()*8}px rgba(255,152,0,0.8)`;
+    document.body.appendChild(p);setTimeout(()=>{try{p.remove()}catch(_e){}},1200);} }
+
+// ===================== TIENDA =====================
+function renderStore(){let container=document.getElementById("storeGrid");if(!container)return;const fragment=document.createDocumentFragment();container.innerHTML="";storeItems.filter(it=>!it.purchased).forEach(item=>{
+  // Check if item is locked by requirements
+  const lockedByLevel = item.unlock && item.unlock.level && nivel < item.unlock.level;
+  const lockedByPrevious = item.unlock && item.unlock.previousItems && !item.unlock.previousItems.every(id => storeItems.find(it=>it.id===id && it.purchased));
+  const itemLocked = !!(lockedByLevel || lockedByPrevious);
+  
+  // No mostrar ítems bloqueados
+  if(itemLocked) return;
+  
+  let div=document.createElement("div");div.className="upgItem";let header=document.createElement("div");header.className="upgHeader";header.textContent=item.name;let desc=document.createElement("p");desc.textContent=item.desc;let btn=document.createElement("button");btn.className="buyBtn";
+  {
+    btn.textContent=`Comprar (${formatNum(item.cost)})`;
+    btn.onclick=(e)=>{ e.stopPropagation(); btn.dataset.handled='1'; setTimeout(()=>{ try{ delete btn.dataset.handled; }catch(_e){} },1100); if(puntos>=item.cost){puntos-=item.cost;item.func(); if(item.once){ item.purchased=true; } update();if(item.multi) item.cost = Math.floor(item.cost*1.25);btn.style.animation='purchaseSuccess 0.6s ease-out';setTimeout(()=>{btn.style.animation='';renderStore();},600); } else { btn.classList.add('fail');showPopup('Fondos insuficientes');setTimeout(()=>{btn.classList.remove('fail');renderStore();},1000);} };
+  }
+  btn.dataset.itemId = item.id;
+  div.appendChild(header);div.appendChild(desc);div.appendChild(btn);fragment.appendChild(div);});container.appendChild(fragment);
+}
+
+// Delegated backup handler (resilient if closures fail)
+const grid=document.getElementById('storeGrid');
+if(grid && !grid._delegated){
+  grid._delegated=true;
+  grid.addEventListener('click',e=>{
+    let btn=e.target.closest('button.buyBtn'); if(!btn) return; if(btn.dataset && btn.dataset.handled==='1') return; let id=btn.dataset.itemId; let item=storeItems.find(it=>it.id===id); if(!item) return;
+    if(puntos>=item.cost){ puntos-=item.cost; item.func(); if(item.once){ item.purchased=true; } update(); if(item.multi) item.cost = Math.floor(item.cost*1.25); btn.style.animation='purchaseSuccess 0.6s ease-out'; setTimeout(()=>{btn.style.animation=''; renderStore();},600); } else { btn.classList.add('fail'); showPopup('Fondos insuficientes'); setTimeout(()=>{btn.classList.remove('fail'); renderStore();},1000); }
+  });
+}
+
+renderStore(); initBlueStore(); update(); updateLevel(); renderSkinsTab(); applySkin();
+
+// ===================== SKIN FUNCTIONS (rendered in Store) =====================
+function applySkin(){let el=document.getElementById('clickIcon');let skin=skins.find(s=>s.id===selectedSkin);if(!skin)return;
+  // Fuente retro global cuando la skin retro está equipada
+  document.body.classList.toggle('retro-font', selectedSkin === 'retro');
+  // Limpiar todos los estilos y propiedades de la skin anterior
+  el.style.background='';
+  el.style.border='';
+  el.style.boxShadow='';
+  el.style.position='';
+  el.style.overflow='';
+  el.style.display='';
+  el.style.alignItems='';
+  el.style.justifyContent='';
+  el.style.fontSize='';
+  el.style.lineHeight='';
+  el.style.textAlign='';
+  el.style.filter='';
+  el.style.animation='';
+  el.style.borderRadius='';
+  el.style.width='';
+  el.style.height='';
+  el.textContent='';
+  el.innerHTML='';
+  el.dataset.discoSetup='';
+  el.dataset.glitchSetup='';
+  el.dataset.heartSetup='';
+  el.classList.remove('no-circle-effects'); // Remover clase que oculta efectos circulares
+  // Remover cualquier elemento hijo de skins previas
+  const prevChildren = el.querySelectorAll('[data-skin-element]');
+  prevChildren.forEach(el => el.remove());
+  
+  // Aplicar la nueva skin
+  if(selectedSkin==='glitch'){ applyGlitchSkin(el); } 
+  else if(selectedSkin==='retro'){ applyRetroSkin(el); } 
+  else if(selectedSkin==='disco'){ applyDiscoSkin(el); }
+  else if(selectedSkin==='heart'){ applyHeartSkin(el); }
+  else if(selectedSkin==='default'){ 
+    // Círculo original base (sin animación)
+    el.style.background=skin.style.background||'#ff4081';
+    el.style.border=skin.style.border||'none';
+    el.style.boxShadow=skin.style.boxShadow||'0 0 50px #ff4081';
+    el.style.animation='';
+    el.style.borderRadius='50%'; // Restaurar círculo
+    el.style.width='250px';
+    el.style.height='250px';
+  } 
+  else if(selectedSkin==='blackhole' || selectedSkin==='fireball'){ 
+    el.style.background=skin.style.background||'#ff4081';
+    el.style.border=skin.style.border||'none';
+    el.style.boxShadow=skin.style.boxShadow||'0 0 50px #ff4081'; 
+    el.style.borderRadius='50%'; // Restaurar círculo
+    el.style.width='250px';
+    el.style.height='250px';
+  }
+  // manage continuous fire effect
+  if(selectedSkin==='fireball'){ startFireballEffect(); } else { stopFireballEffect(); }
+  // apply pink background tint for heart - efecto mejorado
+  if(selectedSkin==='heart'){ 
+    document.body.style.background='radial-gradient(circle at 50% 50%, rgba(255,182,193,0.25), rgba(255,105,180,0.15) 40%, transparent 70%), radial-gradient(circle at 30% 70%, rgba(255,20,147,0.12), transparent 50%), radial-gradient(circle at 70% 30%, rgba(255,105,180,0.1), transparent 45%), radial-gradient(circle at 20% 20%, rgba(255,64,129,0.1), transparent 32%), radial-gradient(circle at 80% 10%, rgba(0,212,255,0.08), transparent 30%), radial-gradient(circle at 50% 80%, rgba(120,40,255,0.12), transparent 34%), linear-gradient(135deg, #0c0c12, #111725 35%, #0f0f18 65%, #101521)';
+    document.body.style.backgroundSize='120% 120%';
+  } else { 
+    document.body.style.background='radial-gradient(circle at 20% 20%, rgba(255,64,129,0.1), transparent 32%), radial-gradient(circle at 80% 10%, rgba(0,212,255,0.08), transparent 30%), radial-gradient(circle at 50% 80%, rgba(120,40,255,0.12), transparent 34%), linear-gradient(135deg, #0c0c12, #111725 35%, #0f0f18 65%, #101521)';
+    document.body.style.backgroundSize='120% 120%';
+  }}
+
+function applyGlitchSkin(el){ 
+  // Basada en el círculo original rosa, con rectángulos morados EN LA CIRCUNFERENCIA
+  el.style.background='#ff4081'; 
+  el.style.border='3px solid #9900ff'; 
+  el.style.boxShadow='0 0 60px #ff4081, 0 0 50px #9900ff, inset 0 0 20px #9900ff'; 
+  el.style.position='relative';
+  el.style.overflow='visible'; // Cambiar a visible para que se vean fuera
+  el.style.filter='drop-shadow(0 0 12px #9900ff) brightness(1.1)';
+  el.style.backgroundImage='repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(153,0,255,0.1) 10px, rgba(153,0,255,0.1) 20px)';
+  // Limpiar rectángulos previos
+  const prevRects = el.querySelectorAll('[data-glitch-rect]');
+  prevRects.forEach(r=>r.remove());
+  // Crear rectángulos morados EN LA CIRCUNFERENCIA (overflow visible)
+  const radius = 125; // half of 250px size
+  const numRects = 12;
+  for(let i=0;i<numRects;i++){
+    let rect = document.createElement('div');
+    rect.setAttribute('data-glitch-rect', '1');
+    rect.setAttribute('data-skin-element', '1');
+    rect.style.position='absolute';
+    rect.style.width=(15+Math.random()*40)+'px';
+    rect.style.height=(10+Math.random()*30)+'px';
+    rect.style.background=`hsl(270, 100%, ${40+Math.random()*30}%)`;
+    
+    // Posicionar en la circunferencia
+    const angle = (i / numRects) * Math.PI * 2;
+    const x = radius + Math.cos(angle) * (radius - 5); // Cerca del borde
+    const y = radius + Math.sin(angle) * (radius - 5);
+    
+    rect.style.left=x+'px';
+    rect.style.top=y+'px';
+    rect.style.opacity=0.5+Math.random()*0.5;
+    rect.style.borderRadius=Math.random()*8+'px';
+    rect.style.mixBlendMode=Math.random()>0.5?'screen':'color-dodge';
+    rect.style.zIndex='10';
+    rect.style.pointerEvents='none';
+    rect.style.transform=`translate(-50%, -50%) rotate(${Math.random()*360}deg) skew(${-10+Math.random()*20}deg)`;
+    rect.style.animation=`glitchFlicker ${0.15+Math.random()*0.25}s infinite`;
+    rect.style.boxShadow=`0 0 ${8+Math.random()*12}px #9900ff`;
+    el.appendChild(rect);
+  }
+}
+
+function applyRetroSkin(el){ 
+  // Retro 8-bit: brillo reducido y relleno de píxeles sin "cuadrados cortados"
+  el.style.background='#1a1a1a'; 
+  // Eliminar círculo cian (borde)
+  el.style.border='none'; 
+  // Reducir brillos y halos, sin cian
+  el.style.boxShadow='inset 0 0 6px rgba(255,255,255,0.12)'; 
+  el.style.position='relative';
+  el.style.imageRendering='pixelated';
+  el.style.textRendering='optimizeSpeed';
+  // Suavizar intensidad general del color
+  el.style.filter='contrast(1.1) saturate(1.15)';
+  el.style.fontFamily='"Courier New", monospace';
+
+  // Limpiar elementos previos de la skin
+  const prev = el.querySelectorAll('[data-skin-element]');
+  prev.forEach(n=>n.remove());
+
+  // Relleno tipo mosaico 8-bit dentro del círculo, evitando colocar píxeles que quedarían cortados por el borde
+  const rect = el.getBoundingClientRect();
+  const radius = Math.max(10, Math.floor((rect.width||250)/2));
+  const size = Math.max(6, Math.floor(radius/12)); // tamaño de píxel relativo
+  const step = Math.max(8, Math.floor(size*1.2)); // separación entre píxeles
+  const safeRadius = radius - Math.ceil(size/2) - 2; // margen para no cortar
+  const cx = radius, cy = radius;
+  const palette = ['#00ff00','#ff00ff','#00ffff','#ffff00'];
+
+  let layer = document.createElement('div');
+  layer.setAttribute('data-skin-element','1');
+  layer.style.position='absolute';
+  layer.style.left='0';
+  layer.style.top='0';
+  layer.style.right='0';
+  layer.style.bottom='0';
+  layer.style.pointerEvents='none';
+
+  for(let y = cy - safeRadius; y <= cy + safeRadius; y += step){
+    for(let x = cx - safeRadius; x <= cx + safeRadius; x += step){
+      const dx = x - cx, dy = y - cy; 
+      if(Math.hypot(dx,dy) <= safeRadius){
+        const p = document.createElement('div');
+        p.setAttribute('data-skin-element','1');
+        p.style.position='absolute';
+        p.style.width = size+'px';
+        p.style.height = size+'px';
+        p.style.left = (x - size/2)+'px';
+        p.style.top = (y - size/2)+'px';
+        p.style.background = palette[(Math.floor(x/step)+Math.floor(y/step)) % palette.length];
+        p.style.boxShadow = '0 0 0 1px rgba(0,0,0,0.08)';
+        layer.appendChild(p);
+      }
+    }
+  }
+  el.appendChild(layer);
+}
+
+// Renderizar una skin dentro de un contenedor, idéntica a equipada (se escala un lienzo 250x250)
+function applySkinToElement(target, id){
+  // Reset básico
+  target.style.background=''; target.style.border=''; target.style.boxShadow=''; target.style.position=''; target.style.overflow=''; target.style.display=''; target.style.alignItems=''; target.style.justifyContent=''; target.style.fontSize=''; target.style.lineHeight=''; target.style.textAlign=''; target.style.filter=''; target.style.animation=''; target.textContent=''; target.innerHTML='';
+  const prev = target.querySelectorAll('[data-skin-element]'); prev.forEach(n=>n.remove());
+  const skin = skins.find(s=>s.id===id);
+  if(!skin) return;
+  if(id==='glitch'){ applyGlitchSkin(target); }
+  else if(id==='retro'){ applyRetroSkin(target); }
+  else if(id==='disco'){ applyDiscoSkin(target); }
+  else if(id==='heart'){ applyHeartSkin(target); }
+  else if(id==='default' || id==='blackhole' || id==='fireball'){
+    target.style.background=skin.style.background||'#ff4081';
+    target.style.border=skin.style.border||'none';
+    target.style.boxShadow=skin.style.boxShadow||'0 0 50px #ff4081';
+    // Ensure these skins fill the circle properly and are large
+    target.style.backgroundSize='cover';
+    target.style.backgroundPosition='center';
+    target.style.width='100%';
+    target.style.height='100%';
+    target.style.display='block';
+    target.style.position='relative';
+    target.style.borderRadius='50%';
+    // Make them larger in previews
+    target.style.minWidth='250px';
+    target.style.minHeight='250px';
+    
+    // Start particle effects for preview skins
+    if(target.dataset.isPreview){
+      if(id==='fireball'){
+        // Start fireball particle effect
+        if(previewParticleEffectId) clearInterval(previewParticleEffectId);
+        previewParticleEffectId = setInterval(()=>{
+          const r = target.getBoundingClientRect();
+          if(r.width<=0 || r.height<=0) return;
+          const cx = r.left + r.width/2, cy = r.top + r.height/2;
+          const offsets = [{x:0,y:r.height*0.38},{x:-r.width*0.25,y:r.height*0.32},{x:r.width*0.25,y:r.height*0.32}];
+          offsets.forEach(off=>{ let px = cx + off.x + (Math.random()-0.5)*10; let py = cy + off.y + (Math.random()-0.5)*8; spawnBurnParticle(px,py); });
+          if(Math.random()<0.35) spawnLaunchTrail(cx,cy,1,0.6,6);
+        }, 300);
+      } else if(id==='blackhole'){
+        // Start blackhole particle effect
+        if(previewParticleEffectId) clearInterval(previewParticleEffectId);
+        previewParticleEffectId = setInterval(()=>{
+          const r = target.getBoundingClientRect();
+          if(r.width<=0 || r.height<=0) return;
+          const cx = r.left + r.width/2, cy = r.top + r.height/2;
+          spawnAbsorbParticles(8, cx + (Math.random()-0.5)*30, cy + (Math.random()-0.5)*30);
+        }, 400);
+      }
+    }
+  }
+}
+
+function renderSkinInto(container, skinId){
+  try{
+    container.innerHTML='';
+    container.style.position='relative';
+    container.style.overflow='hidden';
+    container.style.display='flex';
+    container.style.alignItems='center';
+    container.style.justifyContent='center';
+    const inner = document.createElement('div');
+    inner.style.width='250px'; inner.style.height='250px'; 
+    // No aplicar borderRadius para heart
+    if(skinId !== 'heart'){
+      inner.style.borderRadius='50%';
+    }
+    inner.style.flexShrink='0';
+    inner.dataset.isPreview='1'; // Mark as preview to enable particle effects
+    // aplicar skin con los mismos estilos que el círculo principal
+    applySkinToElement(inner, skinId);
+    container.appendChild(inner);
+    // escalar al tamaño del contenedor
+    const cw = container.clientWidth||120, ch = container.clientHeight||120; const scale = Math.min(cw/250, ch/250);
+    inner.style.transform = `scale(${scale})`;
+  }catch(err){ console.error('renderSkinInto', err); }
+}
+
+function applyDiscoSkin(el){ 
+  // Bola de disco 🪩 - emoji sin rotación, con partículas
+  el.style.background='transparent'; 
+  el.style.border='none'; 
+  el.style.boxShadow='none'; 
+  el.style.position='relative';
+  el.style.fontSize='200px';
+  el.style.lineHeight='250px';
+  el.style.textAlign='center';
+  el.style.display='flex';
+  el.style.alignItems='center';
+  el.style.justifyContent='center';
+  el.style.filter='drop-shadow(0 0 30px #00ffff) drop-shadow(0 0 20px #ff00ff)';
+  
+  // No hay rotación ni decoraciones - solo el emoji estático
+  if(!el.dataset.discoSetup){
+    el.textContent='🪩';
+    
+    // Limpiar destellos previos si los hay
+    const prevSparkles = el.querySelectorAll('[data-disco-sparkle]');
+    prevSparkles.forEach(s=>s.remove());
+    
+    el.dataset.discoSetup='true';
+  }
+}
+
+function applyHeartSkin(el){
+  // Corazón emoji sin rotación - SOLO el emoji, sin círculo
+  el.style.background='transparent'; 
+  el.style.border='none'; 
+  el.style.boxShadow='none'; 
+  el.style.borderRadius='0'; // Sin border-radius circular
+  el.style.position='relative';
+  el.style.fontSize='200px';
+  el.style.lineHeight='250px';
+  el.style.textAlign='center';
+  el.style.display='flex';
+  el.style.alignItems='center';
+  el.style.justifyContent='center';
+  el.style.filter='drop-shadow(0 0 35px #ff1493) drop-shadow(0 0 25px #ff69b4) drop-shadow(0 0 15px #ff69b4)';
+  el.style.width='250px';
+  el.style.height='250px';
+  el.style.overflow='visible'; // Asegurar que no corta nada
+  
+  // Ocultar los pseudo-elementos que crean el efecto circular
+  el.classList.add('no-circle-effects');
+  
+  if(!el.dataset.heartSetup){
+    el.textContent='❤️';
+    el.dataset.heartSetup='true';
+  }
+}
+
+// Initialize keyframes for animations
+if(!window.animKeyframesSetup){ 
+  let style = document.createElement('style'); 
+  style.textContent=`
+    @keyframes glitchFlicker{0%{opacity:0.4}50%{opacity:0.7}100%{opacity:0.4}}
+    @keyframes discoSparkle{0%{opacity:0.3}50%{opacity:1}100%{opacity:0.3}}
+    @keyframes gainRise{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-30px)}}
+    @keyframes blinkGreen{0%,100%{box-shadow:0 0 14px rgba(76,175,80,0.9)}50%{box-shadow:0 0 2px rgba(76,175,80,0.3)}}
+  `; 
+  document.head.appendChild(style); 
+  window.animKeyframesSetup = true; 
+}
+
+function startFireballEffect(){try{ if(tabIndex!==0) return; stopFireballEffect(); const el = document.getElementById('clickIcon'); if(!el) return; const interval = performanceMode ? 500 : 350; fireballEffectId = setInterval(()=>{ const r = el.getBoundingClientRect(); if(tabIndex!==0 || r.width<=0 || r.height<=0 || particleCount>=MAX_PARTICLES-10) return; const cx = r.left + r.width/2; const cy = r.top + r.height/2; const offsets = performanceMode ? [{x:0,y:r.height*0.38}] : [{x:0,y:r.height*0.38},{x:-r.width*0.25,y:r.height*0.32},{x:r.width*0.25,y:r.height*0.32}]; offsets.forEach(off=>{ let px = cx + off.x + (Math.random()-0.5)*10; let py = cy + off.y + (Math.random()-0.5)*8; spawnBurnParticle(px,py); });
+    if(Math.random()<0.3 && !performanceMode){ spawnLaunchTrail(cx,cy,1,0.6,4); }
+    }, interval);}catch(err){console.error('startFireballEffect',err);} }
+function stopFireballEffect(){try{if(fireballEffectId){clearInterval(fireballEffectId);fireballEffectId=null;}}catch(e){}}
+
+function updateFireballGradient(){
+  try{
+    const elF = document.getElementById('clickIcon');
+    if(!elF || selectedSkin !== 'fireball') return;
+    
+    // Calcular porcentaje basado en clicks (0-10 clicks = 0-30% de pantalla)
+    const percentage = Math.floor((fireballGradientClicks / 10) * 30);
+    const opacity = (fireballGradientClicks / 10) * 0.7; // opacidad máxima 0.7
+    
+    if(percentage > 0){
+      // Crear overlay de degradado rojo en la pantalla
+      let overlay = document.getElementById('fireballGradientOverlay');
+      if(!overlay){
+        overlay = document.createElement('div');
+        overlay.id = 'fireballGradientOverlay';
+        overlay.style.cssText = 'position:fixed;bottom:0;left:0;width:100%;pointer-events:none;z-index:999;transition:all 0.3s ease-out;';
+        document.body.appendChild(overlay);
+      }
+      overlay.style.height = percentage + '%';
+      overlay.style.background = `linear-gradient(to top, rgba(255,0,0,${opacity}) 0%, rgba(255,100,0,${opacity*0.6}) 50%, transparent 100%)`;
+      overlay.style.boxShadow = `0 0 ${percentage*2}px rgba(255,0,0,${opacity*0.5})`;
+    } else {
+      // Remover overlay si no hay clicks
+      const overlay = document.getElementById('fireballGradientOverlay');
+      if(overlay && overlay.parentNode){
+        overlay.style.opacity = '0';
+        setTimeout(()=>{ if(overlay.parentNode) overlay.remove(); }, 300);
+      }
+    }
+    
+    // Actualizar el círculo también
+    elF.style.background = 'radial-gradient(circle at 30% 30%, #ff8c00, #ff4500, #8b0000)';
+  }catch(err){console.error('updateFireballGradient', err);}
+} 
+function spawnBurnParticle(x,y,big=false){ if(!isFinite(x) || !isFinite(y) || particleCount>=MAX_PARTICLES) return; particleCount++; let p=document.createElement('div');p.className='particle burn'; let size = big ? (12 + Math.random()*6) : 8; p.style.width = size+'px'; p.style.height = size+'px'; p.style.left=(x + (Math.random()-0.5)*8)+'px';p.style.top=(y + (Math.random()-0.5)*8)+'px';p.style.borderRadius='50%';p.style.opacity=1; p.style.background='radial-gradient(circle at 30% 30%, #fff3e0, #ff9800 30%, #d84315 70%)'; let tx = (Math.random()-0.5)*30; let ty = -(20 + Math.random()*80); p.style.setProperty('--tx', tx+'px'); p.style.setProperty('--ty', ty+'px'); document.body.appendChild(p); setTimeout(()=>{ try{ if(p.parentNode) p.remove(); particleCount--;}catch(_e){} }, 1200); }
+
+// Spawn a directional launch trail (as if the ball was thrown) from center with direction vector (dx,dy)
+function spawnLaunchTrail(x,y,dx,dy,n=8){ if(!isFinite(x) || !isFinite(y)) return; try{let norm=Math.sqrt(dx*dx+dy*dy)||1;let ux=dx/norm, uy=dy/norm; for(let i=0;i<n&&particleCount<MAX_PARTICLES;i++){particleCount++;let p=document.createElement('div');p.className='particle trail'; // rotation to align with direction
+    let angle = Math.atan2(uy,ux) * 180/Math.PI; p.style.transform = `rotate(${angle}deg)`;
+    p.style.left=(x + (Math.random()-0.5)*10)+'px'; p.style.top=(y + (Math.random()-0.5)*10)+'px'; let dist = 80 + Math.random()*100; let tx = ux*dist; let ty = uy*dist; p.style.setProperty('--tx', tx+'px'); p.style.setProperty('--ty', ty+'px'); document.body.appendChild(p); setTimeout(()=>{ try{ if(p.parentNode) p.remove(); particleCount--;}catch(_e){} }, 950);} }catch(e){console.error('spawnLaunchTrail',e);} }
+
+function spawnAbsorbParticles(n,x,y){try{const el = document.getElementById('clickIcon'); if(!el) return; if(!isFinite(x) || !isFinite(y)) return; const r = el.getBoundingClientRect(); const cx = r.left + r.width/2; const cy = r.top + r.height/2; for(let i=0;i<n&&particleCount<MAX_PARTICLES;i++){particleCount++;let p=document.createElement('div');p.className='particle absorb'; let size = 8 + Math.random()*6; p.style.width = size+'px'; p.style.height = size+'px'; p.style.left=(x + (Math.random()-0.5)*30)+'px'; p.style.top=(y + (Math.random()-0.5)*30)+'px';
+    let dx = cx - (x + (Math.random()-0.5)*30); let dy = cy - (y + (Math.random()-0.5)*30);
+    let dist = Math.sqrt(dx*dx+dy*dy)||1; let tx = (dx/dist) * (60 + Math.random()*160); let ty = (dy/dist) * (60 + Math.random()*160); p.style.setProperty('--tx', tx+'px'); p.style.setProperty('--ty', ty+'px'); p.style.boxShadow = '0 0 8px rgba(0,0,0,0.5)'; document.body.appendChild(p); setTimeout(()=>{ try{ if(p.parentNode) p.remove(); particleCount--;}catch(_e){} }, 1000);} }catch(e){console.error('spawnAbsorbParticles',e);} }
+
+function spawnLaserBeams(n=20){ try{ if(performanceMode) n=Math.floor(n*0.6); const el = document.getElementById('clickIcon'); if(!el) return; const r = el.getBoundingClientRect(); const cx = r.left + r.width/2; const cy = r.top + r.height/2; for(let i=0; i<n&&particleCount<MAX_PARTICLES; i++){ particleCount++; const beam = document.createElement('div'); beam.className = 'particle'; beam.style.left = cx + 'px'; beam.style.top = cy + 'px'; const angle = (i / n) * Math.PI * 2; const distance = 200 + Math.random() * 300; const tx = Math.cos(angle) * distance; const ty = Math.sin(angle) * distance; beam.style.background = Math.random() > 0.5 ? '#00ffff' : '#ff00ff'; beam.style.width = (3 + Math.random() * 2) + 'px'; beam.style.height = (3 + Math.random() * 2) + 'px'; beam.style.boxShadow = `0 0 ${6 + Math.random() * 6}px currentColor`; beam.style.setProperty('--tx', tx + 'px'); beam.style.setProperty('--ty', ty + 'px'); document.body.appendChild(beam); setTimeout(()=>{ try{ if(beam.parentNode) beam.remove(); particleCount--;}catch(_e){} }, 800); } }catch(e){console.error('spawnLaserBeams',e);} }
+
+function equipSkin(id){const previousSkin = selectedSkin; selectedSkin=id;const clickIcon=document.getElementById('clickIcon');if(clickIcon){clickIcon.style.animation='skinEquip 0.5s ease-out';setTimeout(()=>clickIcon.style.animation='',500);}applySkin(); if(selectedSkin==='fireball'){ startFireballEffect(); } else { stopFireballEffect(); } 
+  // Láseres al equipar/desequipar Disco
+  if(selectedSkin==='disco' || previousSkin==='disco'){ spawnLaserBeams(20); }
+  renderSkinsTab(); showPopup('Skin equipada');}
+
+function buySkin(id,btn){let s=skins.find(x=>x.id===id);if(!s)return;
+  // Si la skin ya está desbloqueada (cost 0 o ya owned), solo equiparla
+  if(s.cost === 0 || ownedSkins.includes(id)){
+    if(!ownedSkins.includes(id)) ownedSkins.push(id);
+    equipSkin(id);
+    btn.classList.add('success');
+    setTimeout(()=>{btn.classList.remove('success');renderSkinsTab();},1000);
+    return;
+  }
+  if(puntos>=s.cost){puntos-=s.cost;ownedSkins.push(id);update();btn.classList.add('success');setTimeout(()=>{btn.classList.remove('success');renderSkinsTab();renderStore();},1000);}else{btn.classList.add('fail');showPopup('Fondos insuficientes');setTimeout(()=>{btn.classList.remove('fail');},1000);}
+}
+
+
+// ===================== POPUPS =====================
+function showPopup(text) {
+  const container = document.getElementById("popupContainer");
+  if (!container) return;
+  
+  // avoid duplicate identical popups (e.g., multiple 'Fondos insuficientes')
+  if (Array.from(container.children).some(ch => ch.textContent === text)) return;
+  
+  // enforce max 3 popups
+  while (container.children.length >= 3) {
+    const oldest = container.children[0];
+    oldest.classList.remove('show');
+    setTimeout(() => {
+      if (oldest.parentNode) oldest.remove();
+    }, 350);
+  }
+  
+  let popup = document.createElement("div");
+  popup.className = "popup";
+  popup.textContent = text;
+  container.appendChild(popup);
+  requestAnimationFrame(() => popup.classList.add('show'));
+  setTimeout(() => {
+    popup.classList.remove('show');
+    setTimeout(() => popup.remove(), 350);
+  }, 2000);
+}
+
+// calendar styles moved into the <style> block to avoid script parse errors
+
+// ===================== NIVEL =====================
+function checkLevel(){
+  if(nivel >= MAX_LEVEL){
+    updateLevel();
+    return;
+  }
+  let leveled=false;
+  const cap = Math.min(MAX_LEVEL, xpTarget.length - 1);
+  while(nivel<cap+1 && experiencia>=xpTarget[nivel]){
+    nivel++;
+    leveled=true;
+    if(nivel >= MAX_LEVEL){
+      showPopup("¡Nivel MAX!");
+      break;
+    } else {
+      showPopup("¡Nivel "+nivel+"!");
+    }
+  }
+  if(leveled || nivel >= MAX_LEVEL) updateLevel();
+}
+function updateLevel(){
+  const levelNumEl = document.getElementById("levelNum");
+  const atMax = nivel >= MAX_LEVEL || nivel >= xpTarget.length;
+  if(atMax){
+    levelNumEl.textContent = "MAX";
+    levelNumEl.classList.add("max-level");
+    document.getElementById("expBar").style.width = "100%";
+    document.getElementById("expText").textContent = `XP: ${formatNum(experiencia)} (MAX)`;
+  } else {
+    levelNumEl.textContent = nivel;
+    levelNumEl.classList.remove("max-level");
+    let base = xpTarget[nivel-1]; 
+    let next = xpTarget[nivel]; 
+    let cur = Math.max(0, experiencia - base); 
+    let needed = next - base; 
+    let pct = Math.min(100, Math.max(0, (cur/needed)*100)); 
+    document.getElementById("expBar").style.width = pct+"%"; 
+    document.getElementById("expText").textContent = `XP: ${formatNum(cur)} / ${formatNum(needed)}`; 
+  }
+  
+  // Actualizar lista de próximos desbloqueos
+  const unlocksList = document.getElementById('nextUnlocksList');
+  const unlocksSection = document.getElementById('nextUnlocksSection');
+  if(unlocksList){
+    if(nivel >= MAX_LEVEL){
+      if(unlocksSection) unlocksSection.style.display = 'block';
+      unlocksList.innerHTML = '<div style="color:#00ffff;font-weight:bold;text-align:center;padding:20px;font-size:16px;">✨¡Nivel máximo alcanzado!✨<br><br>Por ahora, no hay mas niveles, ¡disfruta mientras puedas!</div>';
+    } else {
+      if(unlocksSection) unlocksSection.style.display = 'block';
+      const nextLevel = Math.min(MAX_LEVEL, nivel + 1);
+      const unlocksAtLevel = storeItems.filter(it => it.unlock && it.unlock.level === nextLevel);
+      const iconUpgrade = '<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;background:#1e7f3e;color:#eaffee;font-size:12px;font-weight:900;box-shadow:0 0 6px rgba(30,127,62,0.6);">▲</span>';
+      const iconRebirth = '<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;background:#00d4ff;color:#fff;font-size:12px;font-weight:900;box-shadow:0 0 6px rgba(0,212,255,0.8);">♻️</span>';
+      const items = [];
+      // Añadir Renacer cuando el próximo nivel es 10
+      if(nextLevel === 10){
+        items.push({icon:iconRebirth, text: 'Renacer (Blue Coins)'});
+      }
+      unlocksAtLevel.forEach(it => items.push({icon:iconUpgrade, text: it.name}));
+      let html = `<div style="margin:8px 0;padding:8px;background:#222;border-left:3px solid #ff4081;border-radius:4px;">`;
+      html += `<strong style="color:#ff80ab;">Nivel ${nextLevel}:</strong>`;
+      if(items.length === 0){
+        html += `<div style="margin-top:6px;color:#888;font-style:italic;">🔒 Sin desbloqueos nuevos</div>`;
+      } else {
+        html += `<div style="margin-top:6px;display:flex;flex-direction:column;gap:4px;">`;
+        items.forEach(it => { html += `<div><span style="display:inline-block;width:22px;">${it.icon}</span>${it.text}</div>`; });
+        html += `</div>`;
+      }
+      html += `</div>`;
+      unlocksList.innerHTML = html;
+    }
+  }
+}
+
+// ===================== AUTO CLIC + PLAY TIME =====================
+setInterval(()=>{
+  try {
+    const valMult = (valentineEvent.active ? valentineEvent.multiplier : 1);
+    const pointsThisSecond = autoClicks * multiplicadorTemporal * valMult;
+    puntos += pointsThisSecond;
+    pointsForBlueCoins += autoClicks; // Los auto-clickers cuentan como clicks base para blue coins
+    playTimeSeconds++;
+    
+    // Los auto-clickers cuentan como clicks normales para el evento de Valentine
+    if(valentineEvent.active){
+      // Contar cada auto-click como un click normal
+      updateValentineProgress(autoClicks);
+    }
+    
+    let unlockedAny=false;
+    skins.forEach(s=>{ 
+      if(s.unlock && s.unlock.playTime && playTimeSeconds>=s.unlock.playTime && !ownedSkins.includes(s.id)){ ownedSkins.push(s.id); showPopup('¡Skin '+s.name+' desbloqueada!'); unlockedAny=true; } 
+      if(s.unlock && s.unlock.performanceMode === true && performanceMode && !ownedSkins.includes(s.id)){ ownedSkins.push(s.id); showPopup('¡Skin '+s.name+' desbloqueada!'); unlockedAny=true; }
+      if(s.unlock && s.unlock.outsideClicks && outsideClicks >= s.unlock.outsideClicks && !ownedSkins.includes(s.id)){ ownedSkins.push(s.id); showPopup('¡Skin '+s.name+' desbloqueada!'); unlockedAny=true; }
+      if(s.unlock && s.unlock.clicksPerMinute && clicksInLastMinute.length >= s.unlock.clicksPerMinute && !ownedSkins.includes(s.id)){ ownedSkins.push(s.id); showPopup('¡Skin '+s.name+' desbloqueada!'); unlockedAny=true; }
+    });
+    if(unlockedAny) renderSkinsTab();
+    update(); checkLevel(); updateCalendarAttention();
+  } catch(e) {
+    console.warn('Auto-click error:', e);
+  }
+}, 1000);
+
+// Limpieza de memoria cada 120s (4GB RAM optimization)
+setInterval(()=>{
+  try{
+    // Remover referencias a elementos eliminados
+    document.querySelectorAll('.particle').forEach(p=>{ if(p.parentNode) p.remove(); });
+    particleCount = 0;
+    // Forzar garbage collection cleanup (en navegadores lo permite)
+    if(window.gc) window.gc();
+  }catch(_e){}
+}, 120000);
+
+// Autosave to localStorage every 60s (silent, optimized for 4GB RAM)
+setInterval(()=>{
+  try{
+    const nowTs = Date.now();
+    clicksInLastMinute = clicksInLastMinute.filter(t => nowTs - t <= 180000).slice(-50);
+    let purchasedItems = storeItems.filter(it=>it.purchased).map(it=>it.id);
+    let itemCosts = storeItems.filter(it=>it.multi).map(it=>({i:it.id, c:Math.floor(it.cost)}));
+    // Formato comprimido: keys cortas para reducir tamaño ~40%
+    let payload={
+      p:Math.floor(puntos),
+      i:Math.floor(incremento),
+      a:Math.floor(autoClicks),
+      m:multiplicadorTemporal,
+      n:nivel,
+      e:Math.floor(experiencia),
+      xm:xpMult,
+      cc:critChance,
+      os:ownedSkins,
+      ss:selectedSkin,
+      pt:playTimeSeconds,
+      oc:outsideClicks,
+      cl:[clicksInLastMinute.length],
+      pi:purchasedItems,
+      ic:itemCosts,
+      ds:dailyState,
+      rl:rebirthLevel,
+      bc:blueCoinBalance,
+      bce:blueCoinsEarned,
+      pfbc:Math.floor(pointsForBlueCoins),
+      pbu:purchasedBlueItems,
+      pbp:pendingBlueItems,
+      bfu: blueFeaturesUnlocked ? 1 : 0,
+      v:'b0.45'
+    };
+    localStorage.setItem('dopamina_autosave',JSON.stringify(payload));
+  }catch(_e){}
+},60000);
+
+// Load from local button
+const _loadLocalBtn = document.getElementById('loadLocalBtn'); if(_loadLocalBtn) { _loadLocalBtn.onclick = ()=>{const s = localStorage.getItem('dopamina_autosave'); if(!s){ showPopup('No hay guardado local'); return; } try{ const data = JSON.parse(s); loadFromObject(data,'guardado local'); }catch(err){console.error(err); showPopup('Guardado local inválido'); } } }
+
+// ===================== DISCLAIMER + LOADER (moved earlier) =====================
+// Global error handlers to surface runtime errors and avoid silent failures
+window.addEventListener('error', e=>{console.error('Runtime error',e.error||e.message); try{showPopup('Error en ejecución — mira la consola'); }catch(_){}});
+window.addEventListener('unhandledrejection', e=>{console.error('Unhandled rejection',e); try{showPopup('Error en promesa no gestionada'); }catch(_){}});
+
+// ===================== SETTINGS =====================
+document.getElementById("settingsIcon").onclick=()=>document.getElementById("settingsModal").style.display="flex";
+document.getElementById("closeSettingsBtn").onclick=()=>document.getElementById("settingsModal").style.display="none";
+
+// Skins button opens the Skins tab (defensive bindings)
+const openSkins = ()=>{tabs.forEach(t=>{let el=document.getElementById(t);if(el)el.style.display='none';});const skinsTabEl = document.getElementById('skinsTab'); if(skinsTabEl) skinsTabEl.style.display='block';document.getElementById('tabLabel').textContent='Skins';document.getElementById('stats').classList.remove('gameTab');renderSkinsTab();};
+const _settingsModalEl = document.getElementById('settingsModal');
+const _settingsIconEl = document.getElementById('settingsIcon');
+const _skinsBtnEl = document.getElementById('skinsBtn');
+if(_settingsIconEl) _settingsIconEl.onclick = ()=>{ if(_settingsModalEl) _settingsModalEl.style.display='flex'; else showPopup('No se pudo abrir Ajustes'); };
+if(_skinsBtnEl) _skinsBtnEl.onclick = ()=>openSkins();
+// Ensure close button hides modal
+const _closeSettingsBtnEl = document.getElementById('closeSettingsBtn'); if(_closeSettingsBtnEl) _closeSettingsBtnEl.onclick = ()=>{ if(_settingsModalEl) _settingsModalEl.style.display='none'; };
+// Fallback: delegated click listener to handle cases where element handlers fail
+if(!document._globalClickDelegated){ document.addEventListener('click', e=>{ try{ if(e.target && e.target.closest('#settingsIcon')){ if(_settingsModalEl) _settingsModalEl.style.display='flex'; else showPopup('No se pudo abrir Ajustes'); } if(e.target && e.target.closest('#skinsBtn')){ openSkins(); } }catch(err){console.error('Delegated click error',err);} }); document._globalClickDelegated=true; }
+
+// ===================== REBIRTH & BLUE STORE =====================
+const _rebirthBtn = document.getElementById('rebirthBtn');
+if(_rebirthBtn) _rebirthBtn.onclick = triggerRebirth;
+
+const _normalStoreBtn = document.getElementById('normalStoreBtn');
+const _blueStoreBtn = document.getElementById('blueStoreBtn');
+const _storeGrid = document.getElementById('storeGrid');
+const _blueStoreGrid = document.getElementById('blueStoreGrid');
+
+if(_normalStoreBtn){
+  _normalStoreBtn.onclick = () => {
+    if(_storeGrid) _storeGrid.style.display = 'grid';
+    if(_blueStoreGrid) _blueStoreGrid.style.display = 'none';
+    _normalStoreBtn.style.opacity = '1';
+    if(_blueStoreBtn) _blueStoreBtn.style.opacity = '0.6';
+  };
+}
+
+if(_blueStoreBtn){
+  _blueStoreBtn.onclick = () => {
+    if(!blueStoreSeen){
+      blueStoreSeen = true;
+      try{ localStorage.setItem('blueStoreSeen','1'); }catch(_e){}
+    }
+    if(_storeGrid) _storeGrid.style.display = 'none';
+    if(_blueStoreGrid) _blueStoreGrid.style.display = 'grid';
+    if(_normalStoreBtn) _normalStoreBtn.style.opacity = '0.6';
+    _blueStoreBtn.style.opacity = '1';
+    initBlueStore();
+    checkRebirthAvailability();
+  };
+}
+
+// ===================== CALENDARIO DIARIO =====================
+let dailyState = { lastClaimISO: null, streak: 0, claimedDates: [] };
+function isoDate(d){ const D = new Date(d); const y=D.getFullYear(); const m=String(D.getMonth()+1).padStart(2,'0'); const day=String(D.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
+function normalizeISO(s){ try{ const d=new Date(s); if(isNaN(d)) return String(s||''); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }catch(_e){ return String(s||''); } }
+function hasClaimed(iso){ const target = normalizeISO(iso); return dailyState.claimedDates.some(d=>normalizeISO(d)===target); }
+// Validate daily state against date manipulation - reset streak if more than 1 day has passed
+function validateDailyStreak(){ if(!dailyState.lastClaimISO) return; const lastClaim = new Date(dailyState.lastClaimISO); const today = new Date(); const lastClaimDate = new Date(lastClaim.getFullYear(), lastClaim.getMonth(), lastClaim.getDate()); const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()); const daysDiff = Math.floor((todayDate - lastClaimDate) / (1000*60*60*24)); if(daysDiff > 1){ dailyState.streak = 0; console.warn('Streak reset: more than 1 day passed between claims'); } }
+function renderDailyCalendar(){ const el = document.getElementById('dailyCalendar'); if(!el) return; const grid = document.getElementById('calendarGrid'); const streakEl = document.getElementById('calendarStreak'); streakEl.textContent = formatNum(dailyState.streak || 0); grid.innerHTML = ''; const now = new Date(); const year = now.getFullYear(); const month = now.getMonth(); const days = new Date(year, month+1, 0).getDate(); for(let d=1; d<=days; d++){ let dt = new Date(year, month, d); let iso = isoDate(dt); let cell = document.createElement('div'); cell.className='dayCell'; if(iso===isoDate(now)) cell.classList.add('today'); if(hasClaimed(iso)) cell.classList.add('claimed'); cell.textContent = d; grid.appendChild(cell); }
+  const claimBtn = document.getElementById('claimTodayBtn'); if(hasClaimed(isoDate(now))){ claimBtn.disabled=true; claimBtn.textContent='Ya reclamado'; } else { claimBtn.disabled=false; claimBtn.textContent='Reclamar hoy'; } }
+
+// Otorga una recompensa diaria aleatoria, escalada por la racha
+function grantDailyReward(streak){ try{
+  const scale = 1 + Math.max(0, (streak-1))*0.12; // +12% por día de racha
+  // Quitar mejoras de las recompensas diarias
+  const types = ['points','xp','multiplier'];
+  const choice = types[Math.floor(Math.random()*types.length)];
+  if(choice==='points'){
+    const base = 60; const amt = Math.round(base * scale);
+    puntos += amt; showPopup('Recompensa diaria: +'+formatNum(amt)+' puntos (racha '+formatNum(streak)+')');
+  } else if(choice==='xp'){
+    const base = 40; const amt = Math.round(base * scale);
+    experiencia += amt; updateLevel(); showPopup('Recompensa diaria: +'+formatNum(amt)+' XP (racha '+formatNum(streak)+')');
+  } else if(choice==='multiplier'){
+    const boost = Math.min(2.5, 1.5 + (streak-1)*0.1); // 1.5x base, +0.1 por racha, máx 2.5x
+    const durationMs = Math.min(10*60*1000, (5*60*1000) + (streak-1)*30*1000); // 5m base +30s por racha, máx 10m
+    const id = `daily_${Date.now()}`;
+    addMultiplier(id,'Racha diaria',boost,durationMs);
+    showPopup('Recompensa diaria: x'+boost.toFixed(2)+' por '+Math.round(durationMs/60000)+'m');
+    setTimeout(()=>{ removeMultiplier(id); }, durationMs);
+  }
+}catch(err){ console.error('grantDailyReward',err); showPopup('Error al otorgar recompensa diaria'); }}
+
+const _openCalBtn = document.getElementById('dailyCalendarBtn'); if(_openCalBtn) _openCalBtn.onclick = ()=>{ const el = document.getElementById('dailyCalendar'); if(!el) return; el.style.display = el.style.display==='block' ? 'none' : 'block'; renderDailyCalendar(); };
+const _claimBtn = document.getElementById('claimTodayBtn'); if(_claimBtn) _claimBtn.onclick = ()=>{ const now = new Date(); const todayISO = isoDate(now); if(hasClaimed(todayISO)){ showPopup('Ya reclamado hoy'); return; } const yesterday = new Date(now); yesterday.setDate(now.getDate()-1); const yesterdayISO = isoDate(yesterday); if(hasClaimed(yesterdayISO)){ dailyState.streak = (dailyState.streak||0) + 1; } else { dailyState.streak = 1; }
+  dailyState.claimedDates.push(todayISO); dailyState.lastClaimISO = todayISO; 
+  // Recompensa aleatoria (puntos, mejora, XP o multiplicador) escalada por racha
+  grantDailyReward(dailyState.streak);
+// Animations: button fire, sparks, button pulse, today's cell pop, streak pulse + confetti
+  try{ const calBtn = document.getElementById('dailyCalendarBtn'); if(calBtn){ calBtn.classList.add('fireAnim'); setTimeout(()=>calBtn.classList.remove('fireAnim'),1200); spawnFireSparks(calBtn,12); }
+    _claimBtn.style.animation='calendarClaim 0.6s ease-out'; setTimeout(()=>_claimBtn.style.animation='',600); const grid = document.getElementById('calendarGrid'); const todayCell = grid ? grid.querySelector('.today') : null; if(todayCell){ todayCell.style.animation='calendarClaim 0.6s ease-out'; setTimeout(()=>todayCell.style.animation='',600); }
+    const streakEl = document.getElementById('calendarStreak'); if(streakEl){ streakEl.classList.add('streakPulse'); setTimeout(()=>streakEl.classList.remove('streakPulse'),800); }
+    spawnCalendarConfetti(document.getElementById('dailyCalendar'),20);
+    // Agregar fuego/láseres al calendario cuando se reclama
+    const calendarEl = document.getElementById('dailyCalendar'); if(calendarEl){ const r = calendarEl.getBoundingClientRect(); spawnFireSparks(calendarEl, 16); for(let i=0; i<8; i++){ spawnBurnParticle(r.left + r.width/2, r.top + r.height/2, true); } }
+  }catch(_e){}
+  renderDailyCalendar(); update(); }
+
+function updateCalendarAttention(){ try{ const btn = document.getElementById('dailyCalendarBtn'); if(!btn) return; const todayISO = isoDate(new Date()); if(hasClaimed(todayISO)){ btn.classList.remove('attentionGreen'); } else { btn.classList.add('attentionGreen'); } }catch(e){}}
+
+function spawnCalendarConfetti(container, n=12){ try{ if(!container) return; for(let i=0;i<n;i++){ const c = document.createElement('div'); c.className='confetti'; const colors = ['#ffeb3b','#ff4081','#ff7043','#66bb6a','#29b6f6']; c.style.background = colors[Math.floor(Math.random()*colors.length)]; c.style.left = (8 + Math.random()*(container.clientWidth-16))+'px'; c.style.top = (8 + Math.random()*20)+'px'; c.style.width = (6 + Math.random()*6)+'px'; c.style.height = (6 + Math.random()*6)+'px'; container.appendChild(c); (function(el){ setTimeout(()=>{ try{ if(el.parentNode) el.remove(); }catch(_e){} }, 1100); })(c); } }catch(e){console.error('spawnCalendarConfetti',e);} }
+
+function spawnFireSparks(container,n=8){ try{ if(!container) return; for(let i=0;i<n;i++){ const s = document.createElement('div'); s.className='spark'; const colors = ['#ffeb3b','#ff9800','#ff7043']; s.style.background = colors[Math.floor(Math.random()*colors.length)]; s.style.left = (8 + Math.random()*(container.clientWidth-16))+'px'; s.style.top = (container.clientHeight - 14 + Math.random()*8)+'px'; s.style.width = (3 + Math.random()*4)+'px'; s.style.height = (8 + Math.random()*8)+'px'; container.appendChild(s); (function(el){ setTimeout(()=>{ try{ if(el.parentNode) el.remove(); }catch(_e){} }, 900); })(s); } }catch(e){console.error('spawnFireSparks',e);} }
+
+// End Calendario Diario
+
+
+function startDeformer(){try{const d=document.querySelector('.deformer');if(!d) return; if(deformerIntervalId) try{clearInterval(deformerIntervalId);}catch(_i){}; const trigger=()=>{d.classList.add('play'); setTimeout(()=>d.classList.remove('play'),1000);} ; trigger(); deformerIntervalId = setInterval(()=>{trigger();},3000+Math.floor(Math.random()*4000));}catch(err){console.error('startDeformer error',err);} }
+
+function formatDuration(sec){if(sec<=0) return '0s';let h=Math.floor(sec/3600);let m=Math.floor((sec%3600)/60);let s=sec%60; if(h>0) return `${h}h ${m}m`; if(m>0) return `${m}m ${s}s`; return `${s}s`;}
+
+function renderSkinsTab(){
+  if(skinsTimerIntervalId) { clearInterval(skinsTimerIntervalId); skinsTimerIntervalId = null; }
+  let idx=document.getElementById('skinsIndex');let detail=document.getElementById('skinDetail');if(!idx||!detail)return;
+  const fragment=document.createDocumentFragment();
+  if(previewParticleEffectId){ clearInterval(previewParticleEffectId); previewParticleEffectId=null; }
+  skins.forEach(s=>{
+    // Ocultar skins limitadas si el evento ya pasó y no la posee
+    if(s.limited && s.id === 'heart'){
+      const isOwned = ownedSkins.includes(s.id);
+      const isVisibleWindow = isHeartSkinVisibleWindow();
+      // Ocultar fuera de la ventana (si no la posee)
+      if(!isOwned && !isVisibleWindow) return;
+    }
+    let box=document.createElement('div');box.className='skinIndexBox';
+    // Borde morado para skins limitadas (más notorio)
+    if(s.limited){box.style.border='4px solid #9370db';box.style.boxShadow='0 0 20px rgba(147,112,219,0.8), 0 0 40px rgba(147,112,219,0.4)';box.style.background='rgba(147,112,219,0.05)';}
+    let preview=document.createElement('div');preview.className='previewInner';
+    // preview container
+    preview.style.width='100px'; preview.style.height='100px'; preview.style.borderRadius='50%'; preview.style.cursor='pointer'; preview.style.flexShrink='0'; preview.style.position='relative'; preview.style.overflow='hidden';
+    // Render identical skin into preview (scaled)
+    renderSkinInto(preview, s.id);
+    let label=document.createElement('div');label.textContent=s.name;label.style.fontSize='11px';label.style.marginTop='4px';label.style.textAlign='center';box.appendChild(preview);box.appendChild(label);box.title=s.name;
+    // clicking index preview opens detail
+    preview.onclick=(ev)=>{ev.stopPropagation(); box.onclick(); const r = preview.getBoundingClientRect(); let cx = r.left + r.width/2; let cy = r.top + r.height/2; if(!isFinite(cx) || !isFinite(cy) || r.width < 6 || r.height < 6){ const pr = preview.parentElement ? preview.parentElement.getBoundingClientRect() : document.body.getBoundingClientRect(); cx = pr.left + pr.width/2; cy = pr.top + pr.height/2; }
+      if(s.id==='fireball') spawnFireParticles(10,cx,cy); else if(s.id==='glitch') spawnGlitchParticles(6,cx,cy); else if(s.id==='disco') spawnDiscoParticles(8,cx,cy); else if(s.id==='heart') spawnHeartParticles(10,cx,cy); else spawnSkinParticles(s,cx,cy,8); };
+
+    box.onclick=()=>{
+      detail.innerHTML='';
+      let previewBig=document.createElement('div');
+      previewBig.className='skinDetailPreview';
+      previewBig.style.width='120px';
+      previewBig.style.height='120px';
+      previewBig.style.borderRadius='50%';
+      previewBig.style.cursor='none';
+      previewBig.style.position='relative';
+      previewBig.style.overflow='hidden';
+      // Render identical skin into big preview (scaled)
+      renderSkinInto(previewBig, s.id);
+      let name=document.createElement('div');name.textContent=s.name;name.style.fontWeight='bold';let desc=document.createElement('div');desc.textContent=s.desc;desc.style.marginTop='8px';
+    // decide locked/unlocked
+    const lockedByPlayTime = s.unlock && s.unlock.playTime && playTimeSeconds < s.unlock.playTime; 
+    const lockedByEdit = s.unlock && s.unlock.requiresEdit === true;
+    const lockedByConsecutive = s.unlock && s.unlock.consecutiveClicks && consecutiveClicks < s.unlock.consecutiveClicks;
+    const lockedByPerformanceMode = s.unlock && s.unlock.performanceMode === true && !performanceMode;
+    const lockedByRetroOwnership = s.id === 'retro' && !ownedSkins.includes('retro');
+    const lockedByOutsideClicks = s.unlock && s.unlock.outsideClicks && outsideClicks < s.unlock.outsideClicks;
+    const lockedByClicksPerMinute = s.unlock && s.unlock.clicksPerMinute && clicksInLastMinute.length < s.unlock.clicksPerMinute;
+    // Verificar si la skin heart está bloqueada por el progreso del evento
+    const lockedByValentineEvent = s.id === 'heart' && (!ownedSkins.includes('heart') && valentineEvent.currentProgress < (valentineEvent.goal || 100000));
+    const locked = !!(lockedByPlayTime || lockedByEdit || lockedByConsecutive || lockedByPerformanceMode || lockedByRetroOwnership || lockedByOutsideClicks || lockedByClicksPerMinute || lockedByValentineEvent);
+    let btn=document.createElement('button');btn.className='buyBtn';
+    const isOwned = ownedSkins.includes(s.id);
+    if(isOwned){
+      if(selectedSkin===s.id){btn.textContent='Equipado';btn.disabled=true;btn.style.opacity=0.8;}else{btn.textContent='Equipar';btn.onclick=()=>{equipSkin(s.id);detail.innerHTML='';renderSkinsTab();}}
+    } else {
+      if(locked){
+        let lockReason = '';
+        // Ocultar requisitos de Glitch y Disco (mantener secreto el método de desbloqueo)
+        if(s.id === 'glitch'){
+          lockReason = '???';
+        } else if(s.id === 'disco'){
+          lockReason = '???';
+        } else if(s.id === 'heart'){
+          const remaining = valentineEvent.goal - valentineEvent.currentProgress;
+          lockReason = `${Math.floor(remaining)} puntos restantes`;
+        } else if(s.id === 'retro' && lockedByRetroOwnership) lockReason = 'Activa Performance Mode';
+        else if(lockedByPlayTime) lockReason = `${formatDuration(s.unlock.playTime - playTimeSeconds)}`;
+        else if(lockedByEdit) lockReason = 'Requiere editar el código';
+        else if(lockedByConsecutive) lockReason = `${s.unlock.consecutiveClicks - consecutiveClicks} clicks seguidos`;
+        else if(lockedByPerformanceMode) lockReason = 'Requiere Performance Mode';
+        btn.textContent = lockReason ? `Bloqueada (${lockReason})` : 'Bloqueada';btn.disabled=true;btn.classList.add('locked');btn.dataset.locked='1';if(s.unlock && s.unlock.playTime)btn.dataset.unlockAt=s.unlock.playTime;
+      } else {
+        // Skins con costo 0: solo equipar, no comprar
+        if(s.cost === 0){
+          btn.textContent='Equipar';
+          btn.onclick=(e)=>{ e.stopPropagation(); btn.dataset.handled='1'; setTimeout(()=>{ try{ delete btn.dataset.handled; }catch(_e){} },1100); equipSkin(s.id); detail.innerHTML=''; renderSkinsTab(); };
+        } else {
+          btn.textContent=`Comprar (${formatNum(s.cost)})`;
+          btn.onclick=(e)=>{ e.stopPropagation(); btn.dataset.handled='1'; setTimeout(()=>{ try{ delete btn.dataset.handled; }catch(_e){} },1100); buySkin(s.id,btn); detail.innerHTML=''; renderSkinsTab(); };
+        }
+      }
+    }
+    // allow clicking previewBig to act like the button
+    previewBig.onclick=()=>{ if(btn && typeof btn.click === 'function') btn.click(); const r=previewBig.getBoundingClientRect(); const cx=r.left + r.width/2; const cy=r.top + r.height/2; if(s.id==='fireball') spawnFireParticles(18,cx,cy); else if(s.id==='heart') spawnHeartParticles(15,cx,cy); else spawnSkinParticles(s,cx,cy,16); };
+
+    detail.appendChild(previewBig);detail.appendChild(name);detail.appendChild(desc);detail.appendChild(btn);document.querySelectorAll('.skinIndexBox').forEach(b=>b.classList.remove('selected'));box.classList.add('selected');};fragment.appendChild(box);});
+  idx.innerHTML='';detail.innerHTML='<p>Selecciona una skin para ver detalles.</p>';idx.appendChild(fragment);
+  // Add 'Proximamente' box matching other boxes
+  let moreBox=document.createElement('div');moreBox.className='skinIndexBox';let morePreview=document.createElement('div');morePreview.className='previewInner comingSoon';morePreview.style.width='100px';morePreview.style.height='100px';morePreview.style.display='flex';morePreview.style.justifyContent='center';morePreview.style.alignItems='center';let inner=document.createElement('div');inner.className='deformer';morePreview.appendChild(inner);let label2=document.createElement('div');label2.textContent='Próximamente';label2.style.fontSize='12px';label2.style.marginTop='8px';moreBox.appendChild(morePreview);moreBox.appendChild(label2);idx.appendChild(moreBox);startDeformer();
+
+  // Setup a per-second updater while skins tab visible to refresh lock timers
+  skinsTimerIntervalId = setInterval(()=>{
+    const skinsTab = document.getElementById('skinsTab'); if(!skinsTab || skinsTab.style.display!=='block') return; const lockedBtns = document.querySelectorAll('#skinsIndex .buyBtn[data-locked="1"]'); if(lockedBtns.length===0) { clearInterval(skinsTimerIntervalId); skinsTimerIntervalId=null; return; }
+    lockedBtns.forEach(btn=>{ const unlockAt = Number(btn.dataset.unlockAt)||0; const remaining = Math.max(0, unlockAt - playTimeSeconds); if(remaining<=0){ renderSkinsTab(); } else { btn.textContent = `Bloqueada (${formatDuration(remaining)})`; } }); },1000);
+}
+
+// spawn skin particles (non-fireball fallback)
+function spawnSkinParticles(s,x,y,n=12){ if(!isFinite(x) || !isFinite(y)) return; for(let i=0;i<n&&particleCount<MAX_PARTICLES;i++){particleCount++;let p=document.createElement('div');p.className='particle';p.style.left=(x + (Math.random()-0.5)*80)+"px";p.style.top=(y + (Math.random()-0.5)*80)+"px";p.style.width="10px";p.style.height="10px";p.style.borderRadius="50%";p.style.opacity=1; p.style.background = (s && s.style && s.style.background) ? s.style.background : `hsl(${Math.random()*360},100%,60%)`; let tx=(Math.random()-0.5)*30; let ty = (Math.random()-0.5)*30;
+    p.style.setProperty("--tx",tx+"px");p.style.setProperty("--ty",ty+"px"); document.body.appendChild(p); setTimeout(()=>{try{if(p.parentNode)p.remove();particleCount--;}catch(_e){}},800);} }
+
+function spawnGlitchParticles(n,x,y){ if(!isFinite(x) || !isFinite(y) || selectedSkin!=='glitch') return; if(performanceMode) n=Math.floor(n*0.5); for(let i=0;i<n&&particleCount<MAX_PARTICLES;i++){ particleCount++; let p = document.createElement('div'); p.className='particle'; p.style.left=(x + (Math.random()-0.5)*60)+'px'; p.style.top=(y + (Math.random()-0.5)*60)+'px'; p.style.width=(Math.random()*15+8)+'px'; p.style.height=(Math.random()*15+8)+'px'; p.style.background='#9900ff'; p.style.borderRadius=(Math.random()>0.5?'0':'50%'); p.style.opacity=0.8; let tx=(Math.random()-0.5)*40; let ty=(Math.random()-0.5)*40; p.style.setProperty('--tx',tx+'px'); p.style.setProperty('--ty',ty+'px'); document.body.appendChild(p); setTimeout(()=>{try{if(p.parentNode)p.remove();particleCount--;}catch(_e){}},800); } }
+
+function glitchUIFlash(){ try{
+  if(performanceMode) return; // Skip en modo rendimiento
+  const targets = [document.getElementById('stats'), document.getElementById('clickIcon'), document.getElementById('tabLabel')];
+  document.body.classList.add('uiGlitch');
+  const overlay = document.createElement('div');
+  overlay.style.cssText='position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:999;background:repeating-linear-gradient(90deg, rgba(153,0,255,0.15) 0px, rgba(153,0,255,0.15) 6px, rgba(153,0,255,0.03) 10px, transparent 12px)';
+  document.body.appendChild(overlay);
+  targets.forEach(el=>{ if(!el) return; const dx=(Math.random()-0.5)*8; const dy=(Math.random()-0.5)*8; const sk=(Math.random()-0.5)*6; el.style.cssText+=`transition:transform 80ms;transform:translate(${dx}px, ${dy}px) skew(${sk}deg);animation:glitchFlicker 180ms;box-shadow:0 0 12px rgba(153,0,255,0.5)`; });
+  setTimeout(()=>{ targets.forEach(el=>{ if(!el) return; el.style.transform=''; el.style.transition=''; el.style.animation=''; el.style.boxShadow=''; }); if(overlay && overlay.parentNode) overlay.remove(); document.body.classList.remove('uiGlitch'); }, 220);
+}catch(e){}}
+
+function spawnRetroParticles(n,x,y){ if(!isFinite(x) || !isFinite(y) || selectedSkin!=='retro') return; if(performanceMode) n=Math.floor(n*0.6); const colors=['#00ff00','#ff00ff','#00ffff','#ffff00']; for(let i=0;i<n&&particleCount<MAX_PARTICLES;i++){ particleCount++; let p = document.createElement('div'); p.className='particle'; p.style.left=(x + (Math.random()-0.5)*36)+'px'; p.style.top=(y + (Math.random()-0.5)*36)+'px'; p.style.width='6px'; p.style.height='6px'; p.style.background=colors[Math.floor(Math.random()*colors.length)]; p.style.borderRadius='0'; p.style.opacity=0.9; let tx=(Math.random()-0.5)*28; let ty=(Math.random()-0.5)*28; p.style.setProperty('--tx',tx+'px'); p.style.setProperty('--ty',ty+'px'); document.body.appendChild(p); setTimeout(()=>{try{if(p.parentNode)p.remove();particleCount--;}catch(_e){}},520); } }
+
+// Flash de fondo retro alrededor del clic (no cambia el círculo)
+function flashRetroBackground(x,y){
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1100;opacity:0.55;transition:opacity 300ms ease-out;mix-blend-mode:screen;';
+  const cx = Math.max(0, Math.min(window.innerWidth, x||window.innerWidth/2));
+  const cy = Math.max(0, Math.min(window.innerHeight, y||window.innerHeight/2));
+  overlay.style.background = `radial-gradient(circle at ${cx}px ${cy}px, rgba(0,255,0,0.22) 0%, rgba(255,255,0,0.2) 30%, rgba(0,255,255,0.16) 55%, rgba(255,0,255,0.12) 75%, transparent 95%)`;
+  document.body.appendChild(overlay);
+  requestAnimationFrame(()=>{ overlay.style.opacity='0'; });
+  setTimeout(()=>{ if(overlay.parentNode) overlay.remove(); }, 380);
+}
+
+function spawnHeartParticles(n,x,y){ if(!isFinite(x) || !isFinite(y)) return; if(performanceMode) n=Math.floor(n*0.5); for(let i=0;i<n&&particleCount<MAX_PARTICLES;i++){ particleCount++; let p = document.createElement('div'); p.className='particle'; p.style.left=(x + (Math.random()-0.5)*60)+'px'; p.style.top=(y + (Math.random()-0.5)*60)+'px'; p.style.fontSize=(12+Math.random()*8)+'px'; p.textContent=['💕','💖','💗','💓','💝'][Math.floor(Math.random()*5)]; p.style.opacity=1; let tx=(Math.random()-0.5)*80; let ty=-(40+Math.random()*60); p.style.setProperty('--tx',tx+'px'); p.style.setProperty('--ty',ty+'px'); document.body.appendChild(p); setTimeout(()=>{try{if(p.parentNode)p.remove();particleCount--;}catch(_e){}},1000); } }
+
+function spawnDiscoParticles(n,x,y){ if(!isFinite(x) || !isFinite(y) || selectedSkin!=='disco') return; if(performanceMode) n=Math.floor(n*0.5); const colors=['#00ffff','#ff00ff','#ffff00','#00ff00']; for(let i=0;i<n&&particleCount<MAX_PARTICLES;i++){ particleCount++; let p = document.createElement('div'); p.className='particle'; p.style.left=(x + (Math.random()-0.5)*60)+'px'; p.style.top=(y + (Math.random()-0.5)*60)+'px'; p.style.width='5px'; p.style.height='5px'; p.style.background=colors[Math.floor(Math.random()*colors.length)]; p.style.borderRadius='50%'; p.style.boxShadow='0 0 6px '+colors[Math.floor(Math.random()*colors.length)]; p.style.opacity=0.85; let tx=(Math.random()-0.5)*50; let ty=(Math.random()-0.5)*50; p.style.setProperty('--tx',tx+'px'); p.style.setProperty('--ty',ty+'px'); document.body.appendChild(p); setTimeout(()=>{try{if(p.parentNode)p.remove();particleCount--;}catch(_e){}},750); } }
+
+// Láseres de fondo estilo discoteca: haces que atraviesan la pantalla detrás del contenido
+function spawnBackgroundLasers(n=1){ try{
+  // Solo en tab de juego
+  if(tabIndex !== 0) return;
+  
+  const body = document.body;
+  const colors = ['#00ffff','#ff00ff','#ffff00','#00ff00','#ff6b6b','#4ecdc4','#95e1d3','#f38181'];
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  
+  for(let i=0;i<n;i++){
+    const beam = document.createElement('div');
+    beam.setAttribute('data-skin-element','1');
+    beam.style.position='fixed';
+    beam.style.zIndex='100';
+    beam.style.pointerEvents='none';
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    const thickness = 2 + Math.random()*2;
+    const length = Math.max(window.innerWidth, window.innerHeight) * 1.2;
+    
+    // Comenzar desde el centro
+    const startX = centerX + (Math.random()-0.5)*200;
+    const startY = centerY + (Math.random()-0.5)*200;
+    const angle = Math.random()*360;
+    
+    beam.style.left = startX+'px';
+    beam.style.top = startY+'px';
+    beam.style.width = length+'px';
+    beam.style.height = thickness+'px';
+    beam.style.background = `linear-gradient(90deg, transparent 0%, ${color} 30%, ${color} 70%, transparent 100%)`;
+    beam.style.boxShadow = `0 0 4px ${color}`;
+    beam.style.transform = `rotate(${angle}deg)`;
+    beam.style.opacity = '0';
+    beam.style.transition = 'transform 0.8s ease-out, opacity 0.2s';
+    body.appendChild(beam);
+    requestAnimationFrame(()=>{
+      beam.style.opacity = '0.7';
+      const dx = (Math.random()-0.5) * (window.innerWidth*0.6);
+      const dy = (Math.random()-0.5) * (window.innerHeight*0.6);
+      beam.style.transform = `translate(${dx}px, ${dy}px) rotate(${angle}deg)`;
+    });
+    setTimeout(()=>{ try{ beam.style.opacity='0'; setTimeout(()=>{ if(beam.parentNode) beam.remove(); }, 200); }catch(_e){} }, 3000);
+  }
+}catch(err){ console.error('spawnBackgroundLasers', err); }
+}
+ 
+document.getElementById("performanceToggle").onchange=e=>{performanceMode=e.target.checked; if(performanceMode && !ownedSkins.includes('retro')){ ownedSkins.push('retro'); showPopup('¡Skin Retro desbloqueada!'); } };
+document.getElementById("loadSaveBtn").onclick=()=>document.getElementById("loadSaveInput").click();
+function loadFromObject(data, srcLabel='archivo'){
+  return new Promise((resolve, reject)=>{
+  try{
+    // Detectar formato comprimido vs formato antiguo
+    const isCompressed = typeof data.p !== 'undefined';
+    
+    // Validación básica
+    const puntosKey = isCompressed ? 'p' : 'puntos';
+    const incrementoKey = isCompressed ? 'i' : 'incremento';
+    if(typeof data[puntosKey]==='undefined' || typeof data[incrementoKey]==='undefined'){
+        showPopup('Archivo de guardado inválido');
+        reject(false);
+        return;
+    }
+    
+    // Mostrar pantalla de carga
+    const loader = document.getElementById('loader');
+    const progressBar = document.getElementById('loadProgressBar');
+    const phaseText = document.getElementById('loadPhase');
+    if(loader) loader.style.display = 'flex';
+    
+    let progress = 0;
+    const updateProgress = (percent, phase) => {
+      if(progressBar) progressBar.style.width = percent + '%';
+      if(phaseText) phaseText.textContent = phase;
+    };
+    
+    // Optimización para 4GB: retrasos más cortos en performance mode
+    const delay = performanceMode ? 50 : 100;
+    
+    // Fase 1: Cargar puntos básicos (20%)
+    setTimeout(()=>{
+      updateProgress(20, 'Cargando puntos...');
+      puntos = Number(isCompressed ? data.p : data.puntos) || 0;
+      incremento = Number(isCompressed ? data.i : data.incremento) || 1;
+      autoClicks = Number(isCompressed ? data.a : data.autoClicks) || 0;
+      multiplicadorTemporal = Number(isCompressed ? data.m : data.multiplicadorTemporal) || 1;
+      activeMultipliers = [];
+      if(multiplicadorTemporal !== 1){
+        activeMultipliers.push({id:'loaded',label:'Cargado',amount:multiplicadorTemporal,expiresAt:null});
+      }
+      update();
+      
+      // Fase 2: Cargar mejoras (40%)
+      setTimeout(()=>{
+        updateProgress(40, 'Cargando mejoras...');
+        const purchasedItemsData = isCompressed ? data.pi : (data.purchasedItems || data.purchased);
+        if(Array.isArray(purchasedItemsData)){
+          storeItems.forEach(it=>{ it.purchased = purchasedItemsData.includes(it.id); });
+        }
+        
+        // Restaurar costos
+        const itemCostsData = isCompressed ? data.ic : data.itemCosts;
+        if(Array.isArray(itemCostsData)){
+          itemCostsData.forEach(saved=>{
+            const itemId = saved.i || saved.id;
+            const itemCost = saved.c || saved.cost;
+            let item = storeItems.find(it=>it.id === itemId);
+            if(item && item.multi && typeof itemCost === 'number'){
+              item.cost = itemCost;
+            }
+          });
+        }
+        
+        // Aplicar efectos en chunks para evitar bloqueo
+        const chunkSize = performanceMode ? 2 : 4;
+        for(let i=0; i<storeItems.length; i += chunkSize){
+          const chunk = storeItems.slice(i, i + chunkSize);
+          chunk.forEach(it=>{
+            if(it.purchased && typeof it.func === 'function' && it.once){
+              try{ it.func(); }catch(_e){console.warn('Item func error:', it.id, _e);}
+            }
+          });
+        }
+        renderStore();
+        
+        // Fase 3: Cargar XP y nivel (60%)
+        setTimeout(()=>{
+          updateProgress(60, 'Cargando experiencia...');
+          nivel = Number(isCompressed ? data.n : data.nivel) || 1;
+          experiencia = Number(isCompressed ? data.e : data.experiencia) || 0;
+          xpMult = Number(isCompressed ? data.xm : data.xpMult) || 1;
+          critChance = Number(isCompressed ? data.cc : data.critChance) || 0;
+          playTimeSeconds = Number(isCompressed ? data.pt : data.playTimeSeconds) || 0;
+          outsideClicks = Number(isCompressed ? data.oc : data.outsideClicks) || 0;
+          
+          // Cargar variables de rebirth
+          rebirthLevel = Number(isCompressed ? data.rl : data.rebirthLevel) || 0;
+          blueCoinBalance = Number(isCompressed ? data.bc : data.blueCoinBalance) || 0;
+          blueCoinsEarned = Number(isCompressed ? data.bce : data.blueCoinsEarned) || 0;
+          pointsForBlueCoins = Number(isCompressed ? data.pfbc : data.pointsForBlueCoins) || 0;
+          // Desbloqueo persistente de características azules
+          const bfu = isCompressed ? data.bfu : data.blueFeaturesUnlocked;
+          if(bfu === 1 || bfu === true) blueFeaturesUnlocked = true;
+          
+          const purchasedBlueData = isCompressed ? data.pbu : data.purchasedBlueItems;
+          const pendingBlueData = isCompressed ? data.pbp : data.pendingBlueItems;
+          if(Array.isArray(purchasedBlueData)){
+            purchasedBlueItems = [...purchasedBlueData];
+          } else {
+            purchasedBlueItems = [];
+          }
+          pendingBlueItems = Array.isArray(pendingBlueData) ? [...pendingBlueData] : [];
+          if(rebirthLevel>0 || blueCoinBalance>0 || purchasedBlueItems.length>0) blueFeaturesUnlocked = true;
+          // Aplicar efectos de compras permanentes (omitimos las pendientes)
+          const pendingCounts = {};
+          pendingBlueItems.forEach(id=>{ pendingCounts[id]=(pendingCounts[id]||0)+1; });
+          const blueChunkSize = performanceMode ? 1 : 2;
+          for(let i=0; i<purchasedBlueItems.length; i += blueChunkSize){
+            const itemId = purchasedBlueItems[i];
+            if(pendingCounts[itemId]){ pendingCounts[itemId]--; continue; }
+            const item = blueStoreItems.find(it => it.id === itemId);
+            if(item && item.func) item.func();
+          }
+          updatePendingBlueUI();
+          
+          // Cargar clicks (formato comprimido solo guarda el count)
+          const savedClicks = isCompressed ? data.cl : data.clicksInLastMinute;
+          if(Array.isArray(savedClicks)){
+            if(isCompressed){
+              // Formato comprimido: solo el count
+              clicksInLastMinute = [];
+              for(let i=0; i<savedClicks[0] && i<500; i++) clicksInLastMinute.push(Date.now() - (i*360));
+            } else {
+              // Formato antiguo: timestamps completos
+              const nowTs = Date.now();
+              clicksInLastMinute = savedClicks.map(t=>Number(t)).filter(t=>!isNaN(t) && nowTs - t <= 180000).slice(-100);
+            }
+          } else {
+            clicksInLastMinute = [];
+          }
+          update();
+          
+          // Fase 4: Cargar skins (80%)
+          setTimeout(()=>{
+            updateProgress(80, 'Cargando skins...');
+            const ownedSkinsData = isCompressed ? data.os : (data.ownedSkins || data.skins);
+            if(Array.isArray(ownedSkinsData)) ownedSkins = [...ownedSkinsData];
+            else ownedSkins = ['default'];
+            
+            if(!ownedSkins.includes('default')) ownedSkins.unshift('default');
+            
+            const selectedSkinData = isCompressed ? data.ss : (data.selectedSkin || data.skin);
+            if(selectedSkinData) selectedSkin = selectedSkinData;
+            else selectedSkin = 'default';
+            
+            if(!ownedSkins.includes(selectedSkin)) selectedSkin = 'default';
+            
+            // Procesar glitchEnabled
+            if(typeof data.glitchEnabled !== 'undefined'){
+              if(data.glitchEnabled === 'ON' || data.glitchEnabled === true){
+                window.glitchEnabled = true;
+                if(!ownedSkins.includes('glitch')){
+                  ownedSkins.push('glitch');
+                }
+              } else {
+                window.glitchEnabled = false;
+              }
+            }
+            
+            renderSkinsTab();
+            applySkin();
+            if(selectedSkin==='fireball'){ startFireballEffect(); } 
+            else { stopFireballEffect(); }
+            
+            // Fase 5: Cargar calendario (100%)
+            setTimeout(()=>{
+              updateProgress(100, 'Finalizando...');
+              const dailyData = isCompressed ? data.ds : data.dailyState;
+              if(dailyData && typeof dailyData === 'object'){
+                dailyState = {
+                  lastClaimISO: dailyData.lastClaimISO || null,
+                  streak: Number(dailyData.streak) || 0,
+                  claimedDates: Array.isArray(dailyData.claimedDates) ? dailyData.claimedDates.slice(-30) : []
+                };
+              } else if(Array.isArray(data.claimedDates)){
+                dailyState = {
+                  lastClaimISO: data.lastClaimISO || null,
+                  streak: Number(data.streak) || 0,
+                  claimedDates: data.claimedDates
+                };
+              }
+              validateDailyStreak();
+              
+              // Ocultar loader sin delay innecesario
+              if(loader) loader.style.display = 'none';
+              showPopup('✅ Guardado cargado desde '+srcLabel);
+              resolve(true);
+            }, delay);
+          }, delay);
+        }, delay);
+      }, delay);
+    }, 200);
+    
+  }catch(err){
+    console.error('loadFromObject error:',err);
+    const loader = document.getElementById('loader');
+    if(loader) loader.style.display = 'none';
+    showPopup('❌ Error al cargar el archivo');
+    reject(false);
+  }
+  });
+}
+
+document.getElementById("loadSaveInput").onchange=e=>{let file=e.target.files[0];if(!file)return; const fileName=(file.name||'').toLowerCase(); const isJsonType = file.type === 'application/json'; if(!fileName.endsWith('.dopamina') && !fileName.endsWith('.json') && !isJsonType){ showPopup('Formato no válido (.dopamina o .json)'); return; } let reader=new FileReader();reader.onload=f=>{try{let data=JSON.parse(f.target.result);
+            // Validar estructura básica del guardado (soporta formato comprimido y legado)
+            const hasCompressed = typeof data.p !== 'undefined' && typeof data.i !== 'undefined';
+            const hasLegacy = typeof data.puntos !== 'undefined' && typeof data.incremento !== 'undefined';
+            if(!hasCompressed && !hasLegacy){
+              showPopup('⚠️ Archivo corrupto o inválido');
+              e.target.value = '';
+              return;
+            }
+            // Check for glitch mode in save - validación ON/OFF
+            if(typeof data.glitchEnabled !== 'undefined'){
+                if(data.glitchEnabled !== 'ON' && data.glitchEnabled !== 'OFF' && data.glitchEnabled !== true && data.glitchEnabled !== false){
+                    console.warn('Invalid glitchEnabled value:', data.glitchEnabled);
+                    data.glitchEnabled = 'OFF';
+                }
+            }
+        loadFromObject(data, 'archivo');
+        e.target.value = ''; // Reset input for next load
+    }catch(err){console.error(err);showPopup('Error al leer el archivo'); e.target.value = '';}};reader.readAsText(file);} 
+document.getElementById("downloadSaveBtn").onclick=()=>{
+  const nowTs = Date.now();
+  clicksInLastMinute = clicksInLastMinute.filter(t => nowTs - t <= 180000).slice(-50);
+  let purchasedItems = storeItems.filter(it=>it.purchased).map(it=>it.id);
+  let itemCosts = storeItems.filter(it=>it.multi).map(it=>({i:it.id, c:Math.floor(it.cost)}));
+  let payload={
+    p:Math.floor(puntos),
+    i:Math.floor(incremento),
+    a:Math.floor(autoClicks),
+    m:multiplicadorTemporal,
+    n:nivel,
+    e:Math.floor(experiencia),
+    xm:xpMult,
+    cc:critChance,
+    os:ownedSkins,
+    ss:selectedSkin,
+    pt:playTimeSeconds,
+    oc:outsideClicks,
+    cl:[clicksInLastMinute.length],
+    pi:purchasedItems,
+    ic:itemCosts,
+    ds:dailyState,
+    rl:rebirthLevel,
+    bc:blueCoinBalance,
+    bce:blueCoinsEarned,
+    pfbc:Math.floor(pointsForBlueCoins),
+    pbu:purchasedBlueItems,
+    pbp:pendingBlueItems,
+    bfu: blueFeaturesUnlocked ? 1 : 0,
+    v:'b0.45'
+  };
+  let data=JSON.stringify(payload);
+  try{localStorage.setItem('dopamina_autosave',data);}catch(_e){}
+  let blob=new Blob([data],{type:"application/json"});
+  let a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="dopamina_save.dopamina";
+  a.click();
+  showPopup('Guardado descargado y guardado localmente');
+} 
+
+// ===================== DEV CONSOLE (solo en dopamina_dev) =====================
+(function(){
+  // Hook para simular fecha/hora sin alterar el sistema
+  const RealDate = window.Date;
+  let devDateStart = null; // Timestamp real cuando se configuró la fecha simulada
+  let devDateBase = null; // Timestamp simulado configurado
+  function DevDate(...args){
+    let targetTime;
+    if(args.length===0 && devDateBase !== null){
+      // Calcular tiempo transcurrido desde que se configuró
+      const realElapsed = RealDate.now() - devDateStart;
+      targetTime = devDateBase + realElapsed;
+    } else if(args.length === 0){
+      targetTime = RealDate.now();
+    } else {
+      // Construir fecha con argumentos
+      const temp = new RealDate(...args);
+      targetTime = temp.getTime();
+    }
+    const inst = new RealDate(targetTime);
+    Object.setPrototypeOf(inst, DevDate.prototype);
+    return inst;
+  }
+  DevDate.prototype = RealDate.prototype;
+  DevDate.prototype.constructor = DevDate;
+  DevDate.now = () => {
+    if(devDateBase !== null){
+      const realElapsed = RealDate.now() - devDateStart;
+      return devDateBase + realElapsed;
+    }
+    return RealDate.now();
+  };
+  DevDate.parse = (...args) => RealDate.parse(...args);
+  DevDate.UTC = (...args) => RealDate.UTC(...args);
+  window.Date = DevDate;
+  window.__RealDate = RealDate;
+
+  const dev = {
+    open:false,
+    cmds:[
+      {name:'help',args:'',desc:'Lista de comandos disponibles'},
+      {name:'addpoints',args:'N',desc:'Suma N puntos'},
+      {name:'setpoints',args:'N',desc:'Fija puntos a N'},
+      {name:'addxp',args:'N',desc:'Suma N XP'},
+      {name:'setlevel',args:'N',desc:'Fija nivel a N (mantiene XP actual)'},
+      {name:'setmult',args:'X [seg]',desc:'Fija multiplicador a X, expira opcionalmente en seg'},
+      {name:'setauto',args:'N',desc:'Fija autoClicks a N'},
+      {name:'setinc',args:'N',desc:'Fija incremento base a N'},
+      {name:'giveitem',args:'ID',desc:'Marca ítem comprado y aplica efecto'},
+      {name:'removeitem',args:'ID',desc:'Desmarca ítem y restaura costo base'},
+      {name:'unlockskin',args:'ID',desc:'Desbloquea skin por ID'},
+      {name:'lockskin',args:'ID',desc:'Bloquea skin y la desequipa'},
+      {name:'unlockallskins',args:'',desc:'Desbloquea todas las skins'},
+      {name:'addblue',args:'N',desc:'Suma N Blue Coins'},
+      {name:'setrebirth',args:'N',desc:'Fija nivel de renacimiento a N'},
+      {name:'setdate',args:'DDMMAAAA HHMM[SS]|now',desc:'Simula fecha/hora (ej: 10022026 0000 o 10022026 000030)'},
+      {name:'getdate',args:'',desc:'Ver fecha actual del juego'},
+      {name:'setstreak',args:'N',desc:'Fija racha diaria a N'},
+      {name:'setcpm',args:'N',desc:'Simula N clicks en 3 minutos (para Disco)'},
+      {name:'outside',args:'N',desc:'Fija outsideClicks a N'},
+      {name:'reset',args:'',desc:'Resetea todo el juego (borra guardado)'},
+      {name:'save',args:'',desc:'Forzar guardado y descarga'}
+    ]
+  };
+  const q=(id)=>document.getElementById(id);
+  const logBox = ()=>q('devLog');
+  function log(msg){const box=logBox(); if(!box) return; const line=document.createElement('div'); line.textContent=`> ${msg}`; box.appendChild(line); box.scrollTop=box.scrollHeight;}
+  function buildGuide(){const g=q('devGuide'); if(!g) return; g.innerHTML=''; dev.cmds.forEach(c=>{ const row=document.createElement('div'); row.className='cmd'; row.innerHTML=`<span>${c.name} ${c.args}</span><span>${c.desc}</span>`; g.appendChild(row); });}
+  function refreshDateSensitiveSystems(){
+    try{
+      if(typeof isValentineDayActive==='function'){
+        valentineEvent.active = isValentineDayActive();
+        if(valentineEvent.active){
+          createValentineEventUI();
+        } else {
+          const modal=document.getElementById('valentineModal');
+          const btn=document.getElementById('valentineOpenBtn');
+          if(modal) modal.style.display='none';
+          if(btn) btn.style.display='none';
+        }
+      }
+      if(typeof validateDailyStreak==='function') validateDailyStreak();
+      if(typeof checkAnomalyStatus==='function') checkAnomalyStatus();
+    }catch(_e){}
+  }
+  function setDevDate(dateObj){
+    if(dateObj){
+      devDateStart = RealDate.now(); // Momento real cuando se configura
+      devDateBase = dateObj.getTime(); // Tiempo simulado base
+    } else {
+      devDateStart = null;
+      devDateBase = null;
+    }
+    refreshDateSensitiveSystems();
+  }
+  function toggle(force){const box=q('devConsole'); if(!box) return; dev.open = typeof force==='boolean' ? force : !dev.open; box.style.display = dev.open ? 'flex' : 'none'; if(dev.open){ buildGuide(); log('Dev console abierta'); setTimeout(()=>{ const input=q('devInput'); if(input) input.focus(); },50);} }
+  function run(text){ if(!text) return; const parts=text.trim().split(/\s+/); const cmd=parts[0].toLowerCase(); const a=parts[1]; const b=parts[2];
+    switch(cmd){
+      case 'help': buildGuide(); log('Comandos: '+dev.cmds.map(c=>c.name).join(', ')); break;
+      case 'addpoints': puntos += Number(a)||0; update(); log('puntos = '+puntos); break;
+      case 'setpoints': puntos = Number(a)||0; update(); log('puntos = '+puntos); break;
+      case 'addxp': experiencia += Number(a)||0; checkLevel(); update(); log('xp = '+experiencia); break;
+      case 'setlevel': nivel = Math.max(1, Number(a)||1); updateLevel(); update(); log('nivel = '+nivel); break;
+      case 'setmult': {
+        const val = Math.max(1, Number(a)||1);
+        const secs = Math.max(0, Number(b)||0);
+        // Emula comportamiento anterior: reemplaza todos los multiplicadores por este
+        activeMultipliers = [];
+        addMultiplier('devSetmult','Dev',val, secs>0 ? secs*1000 : null);
+        if(secs>0){ setTimeout(()=>{ removeMultiplier('devSetmult'); update(); log('mult expiró'); }, secs*1000); }
+        update(); log('mult = '+val+(secs>0?` (${secs}s)`:''));
+        break; }
+      case 'setauto': autoClicks = Math.max(0, Number(a)||0); update(); log('autoClicks = '+autoClicks); break;
+      case 'setinc': incremento = Math.max(1, Number(a)||1); update(); log('incremento = '+incremento); break;
+      case 'giveitem': {
+        const it = storeItems.find(i=>i.id===a); if(!it){ log('Item no encontrado'); break; }
+        it.purchased=true; if(it.func && it.once) try{ it.func(); }catch(_e){}
+        if(it.multi && typeof it.baseCost==='number') it.cost = Math.floor(it.cost||it.baseCost);
+        renderStore(); update(); log('Item comprado: '+it.id); break; }
+      case 'removeitem': {
+        const it = storeItems.find(i=>i.id===a); if(!it){ log('Item no encontrado'); break; }
+        it.purchased=false; if(it.multi && typeof it.baseCost==='number') it.cost = it.baseCost; renderStore(); update(); log('Item removido: '+it.id); break; }
+      case 'unlockskin': if(!ownedSkins.includes(a)){ ownedSkins.push(a); } selectedSkin=a; applySkin(); renderSkinsTab(); log('Skin desbloqueada: '+a); break;
+      case 'lockskin': ownedSkins = ownedSkins.filter(s=>s!==a); if(selectedSkin===a){ selectedSkin='default'; applySkin(); } renderSkinsTab(); log('Skin bloqueada: '+a); break;
+      case 'unlockallskins': skins.forEach(s=>{ if(!ownedSkins.includes(s.id)) ownedSkins.push(s.id); }); renderSkinsTab(); log('Todas las skins desbloqueadas'); break;
+      case 'addblue': blueCoinBalance += Math.max(0, Number(a)||0); update(); log('Blue Coins = '+blueCoinBalance); break;
+      case 'setrebirth': rebirthLevel = Math.max(0, Number(a)||0); update(); log('Rebirth level = '+rebirthLevel); break;
+      case 'setdate': {
+        const rawDate = (a||'').toLowerCase();
+        const rawTime = b || '';
+        if(!rawDate || rawDate==='now' || rawDate==='real'){
+          setDevDate(null);
+          log('Fecha real restaurada');
+          break;
+        }
+        const digitsDate = rawDate.replace(/\D/g,'');
+        const digitsTime = rawTime.replace(/\D/g,'');
+        if(digitsDate.length!==8){ log('Formato: setdate DDMMAAAA HHMM[SS]'); break; }
+        const day = Number(digitsDate.slice(0,2));
+        const month = Number(digitsDate.slice(2,4))-1;
+        const year = Number(digitsDate.slice(4,8));
+        const hour = Number((digitsTime || '0000').slice(0,2));
+        const minute = Number((digitsTime || '0000').slice(2,4) || 0);
+        const second = Number((digitsTime || '0000').slice(4,6) || 0);
+        const simDate = new RealDate(year,month,day,hour,minute,second);
+        if(Number.isNaN(simDate.getTime())){ log('Fecha inválida'); break; }
+        setDevDate(simDate);
+        log('Fecha simulada: '+simDate.toLocaleString('es-ES'));
+        break; }
+      case 'getdate': {
+        const currentDate = new Date();
+        log('Fecha actual del juego: '+currentDate.toLocaleString('es-ES'));
+        break; }
+      case 'setstreak': dailyState.streak = Math.max(0, Number(a)||0); log('Racha = '+dailyState.streak); break;
+      case 'setcpm': { const count = Math.max(0, Number(a)||0); clicksInLastMinute = []; const now = Date.now(); for(let i=0;i<count;i++){ clicksInLastMinute.push(now - (i*300)); } log('Clicks simulados = '+clicksInLastMinute.length); break; }
+      case 'outside': outsideClicks = Math.max(0, Number(a)||0); log('outsideClicks = '+outsideClicks); break;
+      case 'reset': if(confirm('¿Resetear todo el juego? Esta acción no se puede deshacer.')){ localStorage.clear(); log('Juego reseteado. Recargando...'); setTimeout(()=>location.reload(), 800); } else { log('Reset cancelado'); } break;
+      case 'save': document.getElementById('downloadSaveBtn').click(); log('Guardado forzado'); break;
+      default: log('Comando desconocido: '+cmd); break;
+    }
+  }
+  function bind(){ const form=q('devForm'); const input=q('devInput'); const close=q('devClose'); if(!form||!input||!close) return; form.addEventListener('submit',e=>{e.preventDefault(); const txt=input.value.trim(); if(!txt) return; run(txt); input.value=''; }); close.onclick=()=>toggle(false);
+    const actions=q('devActions');
+    if(actions){
+      actions.querySelectorAll('button[data-cmd]').forEach(btn=>{
+        btn.onclick=()=>{ const cmd=btn.dataset.cmd||''; const args=btn.dataset.args||''; run(`${cmd} ${args}`.trim()); };
+      });
+      const setBtn=q('devSetDateBtn');
+      const clearBtn=q('devClearDateBtn');
+      const dateInput=q('devDateInput');
+      const timeInput=q('devTimeInput');
+      if(setBtn && dateInput && timeInput){
+        setBtn.onclick=()=>{ run(`setdate ${dateInput.value.trim()} ${timeInput.value.trim()}`.trim()); };
+      }
+      if(clearBtn){ clearBtn.onclick=()=>run('setdate now'); }
+    }
+
+    // Draggable dev console (drag by header)
+    const consoleEl = q('devConsole');
+    const headerEl = consoleEl ? consoleEl.querySelector('header') : null;
+    if(consoleEl && headerEl){
+      let dragging=false, offsetX=0, offsetY=0;
+      const onMove=(ev)=>{
+        if(!dragging) return;
+        const x = ev.clientX - offsetX;
+        const y = ev.clientY - offsetY;
+        consoleEl.style.left = `${Math.max(4, Math.min(window.innerWidth - consoleEl.offsetWidth - 4, x))}px`;
+        consoleEl.style.top = `${Math.max(4, Math.min(window.innerHeight - consoleEl.offsetHeight - 4, y))}px`;
+        consoleEl.style.right='';
+        consoleEl.style.bottom='';
+      };
+      const onUp=()=>{ dragging=false; document.removeEventListener('mousemove',onMove); document.removeEventListener('mouseup',onUp); };
+      headerEl.addEventListener('mousedown',(ev)=>{
+        if(ev.target && ev.target.id==='devClose') return; // allow closing without drag
+        dragging=true;
+        const rect = consoleEl.getBoundingClientRect();
+        offsetX = ev.clientX - rect.left;
+        offsetY = ev.clientY - rect.top;
+        document.addEventListener('mousemove',onMove);
+        document.addEventListener('mouseup',onUp);
+      });
+    }
+  }
+  document.addEventListener('keydown',e=>{ if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==='d'){ e.preventDefault(); toggle(); } });
+  window.addEventListener('load',()=>{ bind(); buildGuide(); log('Ctrl+Shift+D para abrir o usa los botones'); });
+})();
+
+// Block right-click context menu
+document.addEventListener('contextmenu', e=>e.preventDefault());
+
+// Disco unlock is handled in the main click handler via consecutiveClicks variable
+// No need for duplicate click listener
+</script>
+</body>
+</html>
