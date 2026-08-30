@@ -18,8 +18,8 @@ a GitHub Pages.
 │   │   └── tos/               → Términos y Condiciones
 │   ├── trade-up/              → Página informativa (servidores cerrados)
 │   ├── fine-at-skibidi/       → Página de FNAS (las partidas se abren en su web oficial)
-│   └── simulagoal/            → 🎮 SimulaGoal Pro — Elite Edition (jugable)
-├── iris-games/                → 🎮 iRiS Games — portal de minijuegos (jugable)
+│   └── simulagoal/            → Página de SimulaGoal + game/ (jugable en la web)
+├── iris-games/                → Página de iRiS Games + game/ (jugable en la web)
 ├── dev/                       → 🛠️ Panel interno del equipo (noindex)
 ├── anuncios/                  → Canales de anuncios, escritos en Markdown
 │   ├── dopamina/posts/        → ✍️ Anuncios de Dopamina (.md)
@@ -65,18 +65,19 @@ no hay que editar el HTML. Si la API no responde, usa como respaldo el manifiest
 
 ## 📁 Directorios por juego (cómo actualizar y añadir juegos)
 
-Cada juego tiene **su propia carpeta (directorio)** en el repositorio. La página
-«placeholder» de Trade Up incluye una sección «📁 Archivos y versiones» que
-**lista automáticamente** los `.html` publicados en su carpeta.
-No hace falta editar ninguna página para que aparezcan.
+Cada juego tiene **su propia carpeta (directorio)** en el repositorio y una
+**página de información** con zona de juego embebida («Jugar aquí», pantalla
+completa y pestaña nueva). Convención de publicación:
 
-- **Publicar un juego pendiente (Trade Up):** sube su `index.html` a
-  `games/trade-up/`; ese archivo **reemplazará automáticamente** a la página
-  informativa provisional.
 - **Actualizar un juego publicado (Dopamina, SimulaGoal, iRiS Games):** sube o
-  reemplaza el `index.html` de su carpeta por la nueva versión; para conservar
-  versiones antiguas, súbelas con otro nombre (ej. `simulagoal-v1.html`) a la
-  misma carpeta.
+  reemplaza el archivo `game/index.html` de su carpeta con la nueva versión.
+  El botón «Jugar aquí» siempre apunta a ella.
+- **Conservar versiones históricas:** súbelas con otro nombre
+  (ej. `simulagoal-v1.html`) dentro de `game/`; aparecerán automáticamente en
+  la sección «📁 Versiones» de la página del juego.
+- **Publicar Trade Up cuando vuelva:** súbelo como `games/trade-up/game/index.html`
+  (mientras tanto, la sección «📁 Archivos y versiones» de su página lista los
+  `.html` sueltos de `games/trade-up/`).
 - **Actualizar FNAS:** se gestiona en su propio repositorio
   [`PineappleVA/FNAS`](https://github.com/PineappleVA/FNAS).
 - **Dar de alta un juego nuevo:** crea su carpeta, copia dentro una página basada
