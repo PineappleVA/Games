@@ -35,9 +35,10 @@
 
     <div class="notice info">
       <h3>🔧 Uso interno</h3>
-      <p>Esta página no aparece en la navegación principal (solo en el pie de página) y lleva
-      <code>noindex</code> para que no la listen los buscadores. Desde aquí gestionas el contenido
-      del sitio sin tocar código: cada juego se actualiza subiendo archivos a su carpeta del repositorio.</p>
+      <p>Esta página no está enlazada en ningún sitio de la web: solo se abre escribiendo su
+      dirección directa, y lleva <code>noindex</code> para que no la listen los buscadores.
+      Desde aquí gestionas el contenido del sitio sin tocar código: cada juego se actualiza
+      subiendo archivos a su carpeta del repositorio.</p>
     </div>
 
     <h2 class="section-title">⚡ Gestión rápida</h2>
@@ -65,14 +66,14 @@
     </div>
 
     <h2 class="section-title">📁 Carpetas de los juegos (sube aquí los archivos)</h2>
-    <p class="dir-hint">Cualquier <code>.html</code> que subas a una carpeta aparece en la sección
-    «Archivos y versiones» de su página. Un <code>index.html</code> pasa a ser la página principal del juego
-    (así se publican los juegos pendientes). Enlaces a la rama <code>main</code>:</p>
+    <p class="dir-hint">El <code>game/index.html</code> de cada carpeta es lo único que se expone al público:
+    el botón «Jugar» de cada ficha lo abre directamente, así que los visitantes siempre juegan
+    a la última versión. No hay historiales públicos de archivos. Enlaces a la rama <code>main</code>:</p>
     <div class="dir-list">
       <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/games/dopamina/game" target="_blank" rel="noopener"><span aria-hidden="true">🧠</span><span class="name">games/dopamina/game/</span><span class="size">Dopamina ↗</span></a>
       <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/games/trade-up" target="_blank" rel="noopener"><span aria-hidden="true">📈</span><span class="name">games/trade-up/</span><span class="size">Trade Up ↗</span></a>
       <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/games/simulagoal/game" target="_blank" rel="noopener"><span aria-hidden="true">⚽</span><span class="name">games/simulagoal/game/</span><span class="size">SimulaGoal ↗</span></a>
-      <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/iris-games/game" target="_blank" rel="noopener"><span aria-hidden="true">🎮</span><span class="name">iris-games/game/</span><span class="size">iRiS Games ↗</span></a>
+      <a class="dir-row" href="https://github.com/PineappleVA/Games/tree/main/games/iris-games/game" target="_blank" rel="noopener"><span aria-hidden="true">🎮</span><span class="name">games/iris-games/game/</span><span class="size">iRiS Games ↗</span></a>
       <a class="dir-row" href="https://github.com/PineappleVA/FNAS" target="_blank" rel="noopener"><span aria-hidden="true">🎬</span><span class="name">PineappleVA/FNAS</span><span class="size">FNAS vive en su propio repo ↗</span></a>
     </div>
 
@@ -95,18 +96,18 @@
     <article class="post">
       <ol>
         <li><strong>Sube el juego</strong> como <code>game/index.html</code> dentro de su carpeta
-        (enlaces de arriba): botón <em>Add file → Upload files</em> en GitHub. Así el botón «Jugar»
-        de la ficha del juego abre siempre la última versión directamente.
-        Versiones antiguas: consérvalas con otro nombre (ej. <code>mi-juego-v1.html</code>) en la misma carpeta
-        <code>game/</code> y se listarán solas en «Versiones».</li>
+        (enlaces de arriba): botón <em>Add file → Upload files</em> en GitHub. El botón «Jugar»
+        de la ficha apunta siempre a ese archivo, así que sustituirlo es publicar la nueva versión.
+        Las copias de seguridad de versiones antiguas se guardan fuera de esta carpeta (o sin
+        nombre <code>index.html</code>, para ti — no son enlazables desde la web).</li>
         <li><strong>Espera al despliegue</strong> (~1 minuto): GitHub Pages republica la web
         automáticamente tras cada cambio en <code>main</code>.</li>
         <li><strong>Compruébalo</strong> en <a href="https://pineappleva.github.io/Games/" target="_blank" rel="noopener">pineappleva.github.io/Games</a>
         y, si el juego deja de estar «pendiente», actualiza su insignia en
         <code>games/all/index.html</code> (badge <code>pending</code> → <code>ok</code>).</li>
       </ol>
-      <p><em>¿Un juego nuevo sin carpeta? Duplica la carpeta de un placeholder existente,
-      ajusta título/icono y el atributo <code>data-dir</code> del listado, y añade su tarjeta en el catálogo.</em></p>
+      <p><em>¿Un juego nuevo sin carpeta? Duplica una carpeta de ficha existente dentro de
+      <code>games/</code>, ajusta título e icono, y añade su tarjeta en el catálogo.</em></p>
     </article>
 
     <h2 class="section-title">📊 Estado de la migración</h2>
@@ -128,7 +129,6 @@
       <a href="https://github.com/PineappleVA" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener">YouTube</a>
 
-      <a href="../dev/">🛠️ Dev</a>
     </div>
     <div class="wrap legal">
       <span>© 2026 Pineapple</span>

@@ -5,7 +5,7 @@
 a GitHub Pages.
 
 🌐 **Web pública:** <https://pineappleva.github.io/Games/>
-🛠️ **Panel interno:** <https://pineappleva.github.io/Games/dev/>
+🛠️ **Panel interno:** <https://pineappleva.github.io/Games/dev/> (sin enlaces en la web: solo por dirección, `noindex`)
 
 ## Estructura del sitio
 
@@ -16,11 +16,11 @@ a GitHub Pages.
 │   ├── dopamina/              → Hub de Dopamina (Juego / Videos / ToS)
 │   │   ├── game/              → 🎮 Dopamina b0.45 (jugable)
 │   │   └── tos/               → Términos y Condiciones
-│   ├── trade-up/              → Página informativa (servidores cerrados)
-│   ├── fine-at-skibidi/       → Página de FNAS (las partidas se abren en su web oficial)
-│   └── simulagoal/            → Página de SimulaGoal + game/ (jugable en la web)
-├── iris-games/                → Página de iRiS Games + game/ (jugable en la web)
-├── dev/                       → 🛠️ Panel interno del equipo (noindex)
+│   ├── trade-up/              → Página informativa (servidores cerrados, enlace a Anuncios)
+│   ├── fine-at-skibidi/       → Página de FNAS (botón directo a la versión Unreleased)
+│   ├── simulagoal/            → Página de SimulaGoal + game/ (jugable en la web)
+│   └── iris-games/            → Página de iRiS Games + game/ (jugable en la web)
+├── dev/                       → 🛠️ Panel interno (noindex, solo accesible por dirección)
 ├── legal/                     → ⚖️ Legal: Términos, Privacidad, DMCA y Cookies
 ├── anuncios/                  → Canales de anuncios, escritos en Markdown
 │   ├── dopamina/posts/        → ✍️ Anuncios de Dopamina (.md)
@@ -73,23 +73,23 @@ directamente en una pestaña nueva. Convención de publicación:
 - **Actualizar un juego publicado (Dopamina, SimulaGoal, iRiS Games):** sube o
   reemplaza el archivo `game/index.html` de su carpeta con la nueva versión.
   El botón «Jugar aquí» siempre apunta a ella.
-- **Conservar versiones históricas:** súbelas con otro nombre
-  (ej. `simulagoal-v1.html`) dentro de `game/`; aparecerán automáticamente en
-  la sección «📁 Versiones» de la página del juego.
+- **Versiones históricas:** no son públicas; los visitantes solo juegan a la
+  última (`game/index.html`). Guarda las copias antiguas fuera del repo o con
+  otro nombre, a tu gusto.
 - **Publicar Trade Up cuando vuelva:** súbelo como `games/trade-up/game/index.html`
-  (mientras tanto, la sección «📁 Archivos y versiones» de su página lista los
-  `.html` sueltos de `games/trade-up/`).
+  y añade el botón de juego en su ficha.
 - **Actualizar FNAS:** se gestiona en su propio repositorio
   [`PineappleVA/FNAS`](https://github.com/PineappleVA/FNAS).
-- **Dar de alta un juego nuevo:** crea su carpeta, copia dentro una página basada
-  en cualquier placeholder existente (ajusta título, icono y los atributos
-  `data-dir`/`data-prefix` del listado) y añade su tarjeta en `games/all/index.html`.
+- **Dar de alta un juego nuevo:** crea su carpeta dentro de `games/`, copia dentro
+  una ficha basada en cualquier existente (ajusta título e icono) y añade su
+  tarjeta en `games/all/index.html`.
 - **Panel Dev (`/dev/`):** accesos directos a todas las carpetas, guías de
-  publicación (juegos y anuncios), estado de la migración y gestión del despliegue.
+  publicación (juegos y anuncios), estado de la migración y gestión del
+  despliegue. No hay enlaces a él en la web pública: se abre escribiendo su
+  dirección.
 
-> ⚠️ Los listados automáticos leen la rama `main`: los cambios aparecen tras el
-> despliegue de GitHub Pages (~1 minuto). Un archivo llamado `index.html` se usa
-> como página principal y **no** se muestra en los listados.
+> ⚠️ Los canales de anuncios leen la rama `main`: los anuncios nuevos aparecen
+> tras el despliegue de GitHub Pages (~1 minuto).
 
 ## Notas técnicas
 
@@ -102,7 +102,6 @@ directamente en una pestaña nueva. Convención de publicación:
   `prefers-reduced-motion`.
 - Anuncios Markdown: `assets/js/markdown.js` (mini-renderizador propio, sin
   dependencias, con escape de HTML).
-- Directorio automático por juego en `assets/js/game-directory.js`.
 - Las rutas son relativas para que el sitio funcione tanto en `/Games/`
   (GitHub Pages) como en local (`python3 -m http.server`).
 - El formulario «Dopamina Player Review» sigue alojado en Google Forms y se
