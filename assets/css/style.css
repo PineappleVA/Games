@@ -499,6 +499,53 @@ article.post {
   box-shadow: var(--glass-hl);
 }
 
+/* ============================================================
+   Micro-interacciones (pase de calidad · animaciones sobrias)
+   ============================================================ */
+
+/* Subrayado deslizante en la navegación */
+.main-nav a { position: relative; }
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: .7rem;
+  right: .7rem;
+  bottom: .22rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .2s ease;
+}
+.main-nav a:hover::after,
+.main-nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* El icono de las tarjetas acompaña el hover sin moverse por su cuenta */
+.card .icon { display: inline-block; transition: transform .18s ease; }
+.card:hover .icon { transform: translateY(-2px); }
+
+/* Respuesta física al pulsar botones y tarjetas */
+.btn:active { transform: translateY(0) scale(.98); }
+.card:active { transform: translateY(-1px); }
+
+/* Volver: la flecha retrocede contigo */
+.back-link { transition: color .15s ease, transform .15s ease; }
+.back-link:hover { transform: translateX(-2px); }
+
+/* Foco visible: navegación por teclado con aspecto cuidado */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.main-nav a:focus-visible,
+.btn:focus-visible,
+.card:focus-visible { outline-offset: 3px; }
+
+/* El número de la tarjeta no baila con los badges */
+h2.section-title { letter-spacing: -.01em; }
+
 /* Respaldo para navegadores sin backdrop-filter */
 @supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
   .site-header { background: rgba(19,16,7,.96); }
