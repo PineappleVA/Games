@@ -25,6 +25,7 @@ a GitHub Pages.
 ├── anuncios/                  → Canales de anuncios, escritos en Markdown
 │   ├── dopamina/posts/        → ✍️ Anuncios de Dopamina (.md)
 │   ├── trade-up/posts/        → ✍️ Anuncios de Trade Up (.md)
+│   ├── juegos/posts/          → ✍️ Anuncios de Juegos en general (.md)
 │   └── otros/posts/           → ✍️ Otros anuncios (.md)
 └── assets/                    → Estilos, scripts e imágenes compartidos
 ```

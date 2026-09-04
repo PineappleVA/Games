@@ -151,6 +151,7 @@ h2.section-title {
 .badge.closed  { background: rgba(224,92,74,.14);  color: #f0947f; border: 1px solid rgba(224,92,74,.4); }
 .badge.pending { background: rgba(232,147,12,.14); color: #f2b45a; border: 1px solid rgba(232,147,12,.4); }
 .badge.beta    { background: rgba(248,211,72,.12); color: var(--brand-soft); border: 1px solid rgba(248,211,72,.4); }
+.badge.deter   { background: rgba(248,211,72,.12); color: var(--brand-soft); border: 1px solid rgba(248,211,72,.4); }
 
 /* ---------- Avisos ---------- */
 .notice {
