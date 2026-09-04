@@ -174,4 +174,85 @@
       .then(function (posts) { renderAll(box, posts); })
       .catch(function () { renderEmpty(box); });
   });
+
+  /* ---------- Feed combinado de últimos anuncios ----------
+
+     En el índice de Anuncios. Uso:
+       <div class="md-feed"
+            data-md-channels="🧠 Dopamina|dopamina;🎮 Juegos|juegos"
+            data-md-limit="3"></div>
+     Cada canal es «Nombre|slug»; el feed mezcla los últimos posts de
+     todos los canales, los ordena por fecha (nombre de archivo) y
+     muestra los `data-md-limit` más recientes con enlace a su canal.
+  */
+  document.querySelectorAll(".md-feed[data-md-channels]").forEach(function (feed) {
+    var channels = feed.getAttribute("data-md-channels").split(";")
+      .map(function (chunk) {
+        var p = chunk.split("|");
+        if (p.length < 2 || !p[1] || !p[1].trim()) return null;
+        var slug = p[1].trim().replace(/\/+$/, "");
+        return {
+          name: p[0].trim(),
+          apiDir: "anuncios/" + slug + "/posts",
+          localDir: "./" + slug + "/posts",
+          href: "./" + slug + "/"
+        };
+      })
+      .filter(function (ch) { return ch && ch.name; });
+    if (!channels.length) return;
+
+    var limit = parseInt(feed.getAttribute("data-md-limit") || "3", 10) || 3;
+    var perChannel = 2; // candidatos por canal antes del recorte final
+
+    function listChannel(ch) {
+      var url = "https://api.github.com/repos/" + ORG + "/" + REPO + "/contents/" +
+        ch.apiDir.split("/").map(encodeURIComponent).join("/") + "?ref=" + encodeURIComponent(BRANCH);
+      return fetch(url, { headers: { Accept: "application/vnd.github+json" } })
+        .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+        .then(function (items) {
+          return (Array.isArray(items) ? items : [])
+            .filter(function (it) {
+              return it.type === "file" && /\.md$/i.test(it.name) &&
+                it.name.toLowerCase() !== "readme.md" && it.name.charAt(0) !== ".";
+            })
+            .map(function (it) { return it.name; });
+        })
+        .catch(function () {
+          return fetchText(ch.localDir + "/posts.json").then(function (text) {
+            return JSON.parse(text).posts || [];
+          });
+        });
+    }
+
+    var jobs = channels.map(function (ch) {
+      return listChannel(ch).then(function (files) {
+        files.sort().reverse();
+        return Promise.all(files.slice(0, perChannel).map(function (name) {
+          return fetchText(ch.localDir + "/" + name)
+            .then(function (md) { return { ch: ch, name: name, md: md }; });
+        }));
+      }).catch(function () { return []; });
+    });
+
+    Promise.all(jobs).then(function (groups) {
+      var posts = [];
+      groups.forEach(function (g) { posts = posts.concat(g); });
+      if (!posts.length) {
+        renderEmpty(feed);
+        return;
+      }
+      posts.sort(function (a, b) { return b.name.localeCompare(a.name); });
+      feed.innerHTML = "";
+      posts.slice(0, limit).forEach(function (p) {
+        var art = document.createElement("article");
+        art.className = "post md-post";
+        var date = postDate(p.name);
+        art.innerHTML =
+          '<p class="md-feed-meta">📣 <a href="' + p.ch.href + '">' +
+          escapeHtml(p.ch.name) + "</a>" + (date ? " · 📅 " + date : "") + "</p>" +
+          renderMarkdown(p.md);
+        feed.appendChild(art);
+      });
+    });
+  });
 })();

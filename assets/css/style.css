@@ -207,6 +207,21 @@ article.post ul, article.post ol { margin: .55rem 0 .55rem 1.4rem; color: #e8e2d
 article.post li { margin: .3rem 0; }
 article.post em { color: var(--text-dim); }
 
+/* ---------- Feed combinado de anuncios ---------- */
+.md-feed-meta {
+  font-size: .8rem;
+  letter-spacing: .04em;
+  color: var(--text-dim);
+  margin: 0 0 .4rem;
+}
+
+.md-feed-meta a {
+  color: var(--brand-soft);
+  text-decoration: none;
+}
+
+.md-feed-meta a:hover { text-decoration: underline; }
+
 /* ---------- Navegación de retorno ---------- */
 .back-link {
   display: inline-flex;
