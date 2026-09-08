@@ -28,9 +28,8 @@
     <a class="back-link" href="../all/">← Volver a todos los juegos</a>
 
     <section class="hero">
-      <h1>🧠 ¡Bienvenid@ a <span>D<button class="dopa-o" id="dopaO" type="button" title="¿…y si haces clic en la O? 🤫" aria-label="Easter egg: la O de Dopamina es el círculo del juego">O</button>PAMINA</span>!</h1>
+      <h1>🧠 ¡Bienvenid@ a <span>D<button class="dopa-o" id="dopaO" type="button" title="¿…y si le das a la bolita? 🤫" aria-label="Easter egg: pulsa la bolita de Dopamina"></button>PAMINA</span>!</h1>
       <p><span class="badge ok">Jugable</span> <span class="badge beta">b0.45</span></p>
-      <p class="dopa-egg-counter" id="dopaEggCounter" hidden>🧠 <span id="dopaEggPts">0</span> puntitos imaginarios <span class="dopa-egg-flavor" id="dopaEggFlavor"></span></p>
     </section>
 
     <div class="notice info">
@@ -73,41 +72,21 @@
   </footer>
 
   <script>
-  /* Easter egg: la O del título es el círculo clicable de Dopamina */
+  /* Easter egg: la bolita que sustituye a la O de DOPAMINA es la del juego */
   (function () {
     var btn = document.getElementById("dopaO");
     if (!btn) return;
-    var counter = document.getElementById("dopaEggCounter");
-    var ptsEl = document.getElementById("dopaEggPts");
-    var flavor = document.getElementById("dopaEggFlavor");
     var motionOK = window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
-    var pts = 0;
-    var milestones = {
-      10:  "— ¿no tenías cosas que hacer? 😉",
-      25:  "— ya te ha picado, lo sabemos",
-      50:  "— adicto certificado 🏅",
-      100: "— el de verdad está a un botón de aquí ▶"
-    };
-
-    function splash() {
+    btn.addEventListener("click", function () {
       if (!motionOK) return;
       var r = btn.getBoundingClientRect();
       var p = document.createElement("span");
       p.className = "dopa-egg-p";
       p.textContent = "+1";
       p.style.left = (r.left + r.width / 2 + (Math.random() * 44 - 22)) + "px";
-      p.style.top = (r.top - 8) + "px";
+      p.style.top = (r.top - 6) + "px";
       document.body.appendChild(p);
       setTimeout(function () { p.remove(); }, 950);
-    }
-
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      pts++;
-      ptsEl.textContent = pts;
-      if (counter.hasAttribute("hidden")) counter.removeAttribute("hidden");
-      flavor.textContent = milestones[pts] || flavor.textContent;
-      splash();
     });
   })();
   </script>

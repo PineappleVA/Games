@@ -322,6 +322,7 @@ body.retro-font * {
 <input type="file" id="loadSaveInput" accept=".dopamina,application/json" style="display:none;">
 <button id="loadSaveBtn">Cargar Guardado</button>
 <label><input type="checkbox" id="performanceToggle"> Modo Rendimiento</label> 
+<button id="resetProgressBtn" style="background:#e53935;margin-top:8px;">🗑️ Eliminar todo el progreso</button>
 </div></div> 
 
 <div id="updateModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:10000;justify-content:center;align-items:center;">
@@ -2458,6 +2459,16 @@ window.addEventListener('unhandledrejection', e=>{console.error('Unhandled rejec
 // ===================== SETTINGS =====================
 document.getElementById("settingsIcon").onclick=()=>document.getElementById("settingsModal").style.display="flex";
 document.getElementById("closeSettingsBtn").onclick=()=>document.getElementById("settingsModal").style.display="none";
+// «Eliminar todo el progreso»: solo las claves de Dopamina (dopamina_autosave y blueStoreSeen).
+// No toca otros juegos, ni las cookies, ni los archivos .dopamina descargados por el jugador.
+const _resetProgressBtn = document.getElementById('resetProgressBtn');
+if(_resetProgressBtn){ _resetProgressBtn.onclick = ()=>{
+  if(!confirm('⚠️ ¿Eliminar TODO el progreso de Dopamina? Se borrarán los puntos, niveles, skins y mejoras guardados en este navegador. Los archivos de guardado (.dopamina) que hayas descargado NO se tocan. Esta acción no se puede deshacer.')) return;
+  try{ localStorage.removeItem('dopamina_autosave'); localStorage.removeItem('blueStoreSeen'); }catch(_e){}
+  document.getElementById('settingsModal').style.display='none';
+  showPopup('Progreso eliminado. Recargando…');
+  setTimeout(()=>location.reload(), 900);
+};}
 
 // Skins button opens the Skins tab (defensive bindings)
 const openSkins = ()=>{tabs.forEach(t=>{let el=document.getElementById(t);if(el)el.style.display='none';});const skinsTabEl = document.getElementById('skinsTab'); if(skinsTabEl) skinsTabEl.style.display='block';document.getElementById('tabLabel').textContent='Skins';document.getElementById('stats').classList.remove('gameTab');renderSkinsTab();};

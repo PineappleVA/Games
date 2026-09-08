@@ -222,48 +222,29 @@ article.post em { color: var(--text-dim); }
 
 .md-feed-meta a:hover { text-decoration: underline; }
 
-/* ---------- Easter egg: la O de DOPAMINA es el clickeable ---------- */
+/* ---------- Easter egg: la bolita que sustituye a la O de DOPAMINA ---------- */
 .dopa-o {
-  width: 1em;
-  height: 1em;
+  width: .78em;
+  height: .78em;
   border: none;
   border-radius: 50%;
   padding: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   background: radial-gradient(circle at 35% 30%, #ff8bb7 0%, #ff4081 55%, #d61c60 100%);
-  box-shadow: 0 0 .45em rgba(255, 64, 129, .55);
+  box-shadow: 0 0 .45em rgba(255, 64, 129, .55), inset 0 0 0 .12em rgba(255, 255, 255, .18);
   cursor: pointer;
-  vertical-align: -.05em;
+  vertical-align: -.11em;
   transition: transform .15s ease, box-shadow .15s ease;
-  font: inherit;
-}
-
-.dopa-o span {
-  font-size: .58em;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1;
-  pointer-events: none;
 }
 
 .dopa-o:hover {
-  transform: scale(1.12);
-  box-shadow: 0 0 .85em rgba(255, 128, 171, .8), 0 0 1.3em rgba(255, 128, 171, .35);
+  transform: scale(1.14);
+  box-shadow: 0 0 .85em rgba(255, 128, 171, .8), 0 0 1.3em rgba(255, 128, 171, .35), inset 0 0 0 .12em rgba(255, 255, 255, .18);
 }
 
-.dopa-o:active { transform: scale(.9); }
+.dopa-o:active { transform: scale(.88); }
 
 .dopa-o:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
-
-.dopa-egg-counter {
-  font-size: .9rem;
-  color: var(--text-dim);
-  margin-top: .5rem;
-}
-
-.dopa-egg-flavor { color: var(--brand-soft); }
 
 .dopa-egg-p {
   position: fixed;
