@@ -13,9 +13,8 @@ a GitHub Pages.
 /                              → Inicio (menú principal)
 ├── games/
 │   ├── all/                   → Catálogo «Todos (5)»
-│   ├── dopamina/              → Hub de Dopamina (Juego / Videos / ToS)
-│   │   ├── game/              → 🎮 Dopamina b0.45 (jugable)
-│   │   └── tos/               → Términos y Condiciones
+│   ├── dopamina/              → Hub de Dopamina (Juego / Videos)
+│   │   └── game/              → 🎮 Dopamina b0.45 (jugable)
 │   ├── trade-up/              → Página informativa (servidores cerrados, enlace a Anuncios)
 │   ├── fine-at-skibidi/       → Página de FNAS (botón directo a la versión Unreleased)
 │   ├── simulagoal/            → Página de SimulaGoal + game/ (jugable en la web)
