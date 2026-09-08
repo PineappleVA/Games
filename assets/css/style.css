@@ -224,8 +224,8 @@ article.post em { color: var(--text-dim); }
 
 /* ---------- Easter egg: la bolita que sustituye a la O de DOPAMINA ---------- */
 .dopa-o {
-  width: 1em;
-  height: 1em;
+  width: .72em;
+  height: .72em;
   border: none;
   border-radius: 50%;
   padding: 0;
@@ -233,7 +233,7 @@ article.post em { color: var(--text-dim); }
   background: radial-gradient(circle at 35% 30%, #ff8bb7 0%, #ff4081 55%, #d61c60 100%);
   box-shadow: 0 0 .45em rgba(255, 64, 129, .55), inset 0 0 0 .12em rgba(255, 255, 255, .18);
   cursor: pointer;
-  vertical-align: -.15em;
+  vertical-align: baseline;
   transition: transform .15s ease, box-shadow .15s ease;
 }
 
@@ -278,13 +278,13 @@ article.post em { color: var(--text-dim); }
   content: "";
   position: absolute;
   left: 50%;
-  top: -.27em;
-  width: .27em;
-  height: .27em;
+  top: -.03em;
+  width: .21em;
+  height: .21em;
   transform: translateX(-50%);
   background: url("../img/iris-logo.jpg") center / cover no-repeat;
   border-radius: 50%;
-  box-shadow: 0 0 .16em rgba(244, 121, 32, .5);
+  box-shadow: 0 0 .14em rgba(244, 121, 32, .5);
   transition: transform .15s ease;
 }
 
