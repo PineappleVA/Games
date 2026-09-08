@@ -222,27 +222,37 @@ article.post em { color: var(--text-dim); }
 
 .md-feed-meta a:hover { text-decoration: underline; }
 
-/* ---------- Easter egg: la bolita que sustituye a la O de DOPAMINA ---------- */
+/* ---------- Easter egg: la O de DOPAMINA es la bolita del juego ---------- */
 .dopa-o {
+  position: relative;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: transparent; /* la O está, pero no se ve: conserva el ancho natural de la palabra */
+  cursor: pointer;
+}
+
+.dopa-o::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: .31em;
   width: .72em;
   height: .72em;
-  border: none;
   border-radius: 50%;
-  padding: 0;
-  display: inline-block;
+  transform: translateX(-50%);
   background: radial-gradient(circle at 35% 30%, #ff8bb7 0%, #ff4081 55%, #d61c60 100%);
   box-shadow: 0 0 .45em rgba(255, 64, 129, .55), inset 0 0 0 .12em rgba(255, 255, 255, .18);
-  cursor: pointer;
-  vertical-align: baseline;
   transition: transform .15s ease, box-shadow .15s ease;
 }
 
-.dopa-o:hover {
-  transform: scale(1.14);
+.dopa-o:hover::before {
+  transform: translateX(-50%) scale(1.1);
   box-shadow: 0 0 .85em rgba(255, 128, 171, .8), 0 0 1.3em rgba(255, 128, 171, .35), inset 0 0 0 .12em rgba(255, 255, 255, .18);
 }
 
-.dopa-o:active { transform: scale(.88); }
+.dopa-o:active::before { transform: translateX(-50%) scale(.86); }
 
 .dopa-o:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 
@@ -278,7 +288,7 @@ article.post em { color: var(--text-dim); }
   content: "";
   position: absolute;
   left: 50%;
-  top: -.03em;
+  top: .24em;
   width: .21em;
   height: .21em;
   transform: translateX(-50%);
