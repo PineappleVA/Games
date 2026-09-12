@@ -1,0 +1,14 @@
+/* TEAM */
+  Colectivo: Pineapple (Valladolid, España)
+  Contacto: pineapplevacorp@gmail.com
+  X: https://x.com/pineapplevacorp
+  GitHub: https://github.com/PineappleVA
+  YouTube: https://www.youtube.com/@pacorp-oficial
+  Lema: Making things a little bit better
+
+/* SITE */
+  Web: https://pineappleva.github.io/Games/
+  Stack: HTML + CSS + JS estático, GitHub Pages
+
+/* THANKS */
+  Gracias por jugar. 🍍

@@ -152,6 +152,36 @@ h2.section-title {
 .badge.pending { background: rgba(232,147,12,.14); color: #f2b45a; border: 1px solid rgba(232,147,12,.4); }
 .badge.beta    { background: rgba(248,211,72,.12); color: var(--brand-soft); border: 1px solid rgba(248,211,72,.4); }
 .badge.deter   { background: rgba(248,211,72,.12); color: var(--brand-soft); border: 1px solid rgba(248,211,72,.4); }
+.badge.locked  { background: rgba(160,160,180,.14); color: #c2c2d6; border: 1px solid rgba(160,160,180,.35); }
+.badge.ai      { background: rgba(130,120,255,.14); color: #b3adff; border: 1px solid rgba(130,120,255,.4); }
+.badge.new     { background: rgba(245,166,35,.14); color: #f5c86a; border: 1px solid rgba(245,166,35,.4); }
+
+/* Slop Central — zona bloqueada */
+.card.locked {
+  position: relative;
+  opacity: .92;
+}
+.card.locked::after {
+  content: "🔒";
+  position: absolute;
+  top: .9rem;
+  right: .9rem;
+  font-size: 1.1rem;
+  opacity: .7;
+}
+.card.slim { padding: .9rem 1rem; }
+.slop-hero {
+  position: relative;
+  overflow: hidden;
+}
+.slop-hero::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(ellipse at 30% 20%, rgba(130,120,255,.18), transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(245,166,35,.12), transparent 60%);
+  pointer-events: none;
+}
 
 /* ---------- Avisos ---------- */
 .notice {
@@ -222,37 +252,85 @@ article.post em { color: var(--text-dim); }
 
 .md-feed-meta a:hover { text-decoration: underline; }
 
+.md-feed .md-post {
+  position: relative;
+}
+
+.md-feed-preview-wrap {
+  position: relative;
+  max-height: 148px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.md-feed-preview {
+  opacity: .92;
+}
+
+.md-feed-preview h1 {
+  font-size: 1.15rem;
+  margin: .1rem 0 .35rem;
+}
+
+.md-feed-preview p,
+.md-feed-preview li {
+  font-size: .92rem;
+}
+
+.md-feed-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 78px;
+  background: linear-gradient(to bottom, rgba(28,24,16,0) 0%, rgba(28,24,16,.72) 38%, rgba(28,24,16,.96) 72%, rgba(28,24,16,1) 100%);
+  pointer-events: none;
+}
+
+.md-feed-more {
+  margin-top: .85rem;
+}
+
+.btn.small {
+  font-size: .88rem;
+  padding: .55rem 1rem;
+  border-radius: 10px;
+}
+
 /* ---------- Easter egg: la O de DOPAMINA es la bolita del juego ---------- */
 .dopa-o {
   position: relative;
+  display: inline-block;
   padding: 0;
   border: none;
   background: none;
   font: inherit;
-  color: transparent; /* la O está, pero no se ve: conserva el ancho natural de la palabra */
+  color: transparent; /* la O está, pero invisible: conserva métricas */
   cursor: pointer;
+  line-height: 1;
+  width: .92em;   /* mismo ancho que la O */
+  height: .92em;  /* mismo alto que la O */
+  vertical-align: -0.06em; /* alinea con baseline como la O real */
 }
 
 .dopa-o::before {
   content: "";
   position: absolute;
-  left: 50%;
-  top: .31em;
-  width: .72em;
-  height: .72em;
+  inset: 0; /* ocupa exactamente el hueco de la O */
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  transform: translateX(-50%);
   background: radial-gradient(circle at 35% 30%, #ff8bb7 0%, #ff4081 55%, #d61c60 100%);
   box-shadow: 0 0 .45em rgba(255, 64, 129, .55), inset 0 0 0 .12em rgba(255, 255, 255, .18);
   transition: transform .15s ease, box-shadow .15s ease;
 }
 
 .dopa-o:hover::before {
-  transform: translateX(-50%) scale(1.1);
+  transform: scale(1.1);
   box-shadow: 0 0 .85em rgba(255, 128, 171, .8), 0 0 1.3em rgba(255, 128, 171, .35), inset 0 0 0 .12em rgba(255, 255, 255, .18);
 }
 
-.dopa-o:active::before { transform: translateX(-50%) scale(.86); }
+.dopa-o:active::before { transform: scale(.86); }
 
 .dopa-o:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 
@@ -663,3 +741,215 @@ h2.section-title { letter-spacing: -.01em; }
   .table-wrap th { background: var(--card); }
   .table-wrap td { background: var(--bg-soft); }
 }
+
+/* ============================================================
+   Selector lateral de noticias — minimalista izquierda (Grok-like)
+   No ocupa el centro: 190px a la izquierda, transparente, solo línea
+   ============================================================ */
+.md-layout {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+
+.md-sidebar {
+  position: sticky;
+  top: 84px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(255,255,255,.06);
+  border-radius: 0;
+  padding: 0 .8rem 0 0;
+  box-shadow: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.md-sidebar::-webkit-scrollbar { width: 4px; }
+.md-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+
+.md-sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .4rem;
+  margin: 0 0 .9rem;
+  padding: 0 0 .6rem;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+.md-sidebar-title {
+  font-weight: 600;
+  font-size: .72rem;
+  color: var(--text-dim);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.md-sidebar-count { display: none; }
+
+.md-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.md-sidebar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-left: 2px solid transparent;
+  border-radius: 0 8px 8px 0;
+  padding: .48rem .6rem .48rem .7rem;
+  cursor: pointer;
+  color: var(--text-dim);
+  transition: background .14s, border-color .14s, color .14s;
+  font-family: inherit;
+}
+
+.md-sidebar-item:hover {
+  background: rgba(255,255,255,.03);
+  border-left-color: var(--border);
+  color: var(--text);
+}
+
+.md-sidebar-item.active {
+  background: rgba(245,166,35,.07);
+  border-left-color: var(--brand);
+  color: var(--text);
+}
+
+.md-sidebar-item .line { display: flex; align-items: center; min-width: 0; gap: 0; }
+.md-sidebar-item .dot { display: none; }
+
+.md-sidebar-item .title {
+  font-weight: 500;
+  font-size: .84rem;
+  line-height: 1.28;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -.01em;
+}
+
+.md-sidebar-item .meta {
+  font-size: .68rem;
+  color: var(--text-dim);
+  opacity: .7;
+  margin-top: .12rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 0;
+}
+
+.md-main { min-width: 0; max-width: 760px; }
+.md-main .md-post { scroll-margin-top: 92px; }
+.md-main .md-post.is-highlight {
+  outline: 1px solid rgba(245,166,35,.45);
+  outline-offset: 3px;
+  animation: mdFlash .8s ease;
+}
+
+@keyframes mdFlash {
+  0% { box-shadow: 0 0 0 0 rgba(245,166,35,0); }
+  35% { box-shadow: 0 0 0 5px rgba(245,166,35,.14); }
+  100% { box-shadow: 0 0 0 0 rgba(245,166,35,0); }
+}
+
+/* Móvil: selector arriba, pills minimalistas horizontales */
+@media (max-width: 900px) {
+  .md-layout { grid-template-columns: 1fr; gap: 1rem; }
+  .md-sidebar {
+    position: relative;
+    top: auto;
+    max-height: none;
+    overflow-y: visible;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 0 0 .7rem;
+  }
+  .md-sidebar-list {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: .45rem;
+    padding-bottom: .2rem;
+  }
+  .md-sidebar-item {
+    min-width: 170px;
+    max-width: 220px;
+    flex: 0 0 auto;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 8px 8px 0 0;
+    padding: .5rem .65rem;
+    background: rgba(255,255,255,.02);
+  }
+  .md-sidebar-item:hover { border-left-color: transparent; border-bottom-color: var(--border); }
+  .md-sidebar-item.active { border-left-color: transparent; border-bottom-color: var(--brand); }
+  .md-main { max-width: none; }
+}
+
+/* ============================================================
+   Producción — Pulido final
+   ============================================================ */
+html { scrollbar-gutter: stable; color-scheme: dark; }
+.sr-only:focus {
+  position: fixed !important;
+  left: 12px !important;
+  top: 12px !important;
+  width: auto !important;
+  height: auto !important;
+  padding: .6rem .9rem !important;
+  background: var(--bg-soft) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--brand) !important;
+  border-radius: 8px !important;
+  z-index: 9999 !important;
+  clip: auto !important;
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+/* Imágenes responsive por defecto */
+img { max-width: 100%; height: auto; }
+
+/* Enlaces externos con icono sutil */
+a[target="_blank"] { text-underline-offset: 2px; }
+
+/* Print: limpio, sin animaciones ni glass */
+@media print {
+  .site-header, .site-footer, #pg-consent, .md-sidebar, .btn-row, .back-link { display: none !important; }
+  body { background: #fff; color: #000; }
+  article.post { background: #fff; border: 1px solid #ccc; box-shadow: none; color: #000; }
+  article.post p, article.post li { color: #000; }
+  a { color: #000; text-decoration: underline; }
+}
+
+/* Reduce motion ya cubierto, pero asegurar */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* Foco accesible global mejorado */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Mejora de contraste para dim en hover */
+.card:focus-visible { border-color: var(--brand); }
+
+/* Nota: marca de agua visual eliminada por ser invasiva — solo queda en consola */

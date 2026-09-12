@@ -3,30 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio · Pineapple Games</title>
-  <meta name="description" content="Los juegos del equipo Pineapple en un solo sitio: Dopamina, SimulaGoal, iRiS Games, FNAS y Trade Up.">
+  <title>Pineapple Games · Making things a little bit better</title>
+  <meta name="description" content="Los juegos del equipo Pineapple en un solo sitio: Dopamina, SimulaGoal, iRiS Games, FNAS, Trade Up y Slop Central. Gratis, sin registro, con guardado local.">
+  <meta name="author" content="Pineapple">
+  <meta name="theme-color" content="#f5a623">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="https://pineappleva.github.io/Games/">
   <link rel="icon" type="image/png" href="./assets/img/pineapple.png">
+  <link rel="apple-touch-icon" href="./assets/img/pineapple.png">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Pineapple Games">
+  <meta property="og:title" content="Pineapple Games · Making things a little bit better">
+  <meta property="og:description" content="6 juegos. Gratis, sin registro. Hecho en Valladolid.">
+  <meta property="og:url" content="https://pineappleva.github.io/Games/">
+  <meta property="og:image" content="https://pineappleva.github.io/Games/assets/img/pineapple.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@pineapplevacorp">
+  <meta name="twitter:title" content="Pineapple Games">
+  <meta name="twitter:description" content="Los juegos del equipo Pineapple en un solo sitio.">
+  <meta name="twitter:image" content="https://pineappleva.github.io/Games/assets/img/pineapple.png">
+
   <link rel="stylesheet" href="./assets/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Pineapple Games",
+    "url": "https://pineappleva.github.io/Games/",
+    "logo": "https://pineappleva.github.io/Games/assets/img/pineapple.png",
+    "sameAs": [
+      "https://github.com/PineappleVA",
+      "https://www.youtube.com/@pacorp-oficial",
+      "https://x.com/pineapplevacorp"
+    ],
+    "description": "Colectivo de Valladolid. Juegos web gratuitos sin registro."
+  }
+  </script>
 </head>
 <body>
+  <a href="#main" class="sr-only" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Saltar al contenido</a>
+
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="./">
-        <img src="./assets/img/pineapple.png" alt="Logo de Pineapple">
+        <img src="./assets/img/pineapple.png" alt="Logo Pineapple Games - piña" width="34" height="34" loading="eager">
         <span>Pineapple Games<small>Making things a little bit better</small></span>
       </a>
-      <nav class="main-nav">
+      <nav class="main-nav" aria-label="Navegación principal">
         <a href="./" aria-current="page">Inicio</a>
         <a href="./games/all/">Todos los juegos</a>
         <a href="./anuncios/">Anuncios</a>
-        <a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener noreferrer">X</a>
       </nav>
     </div>
   </header>
 
-  <main class="content">
+  <main id="main" class="content">
     <section class="hero">
-      <img class="logo" src="./assets/img/pineapple.png" alt="">
+      <img class="logo" src="./assets/img/pineapple.png" alt="Pineapple Games logo" width="92" height="92" loading="eager">
       <h1>Pineapple <span>Games</span></h1>
       <p>Los juegos del equipo, en un solo sitio. Elige el tuyo y a jugar.</p>
     </section>
@@ -34,33 +72,33 @@
     <h2 class="section-title">🎮 Destacados</h2>
     <div class="cards">
       <a class="card" href="./games/dopamina/">
-        <span class="icon">🧠</span>
+        <span class="icon" aria-hidden="true">🧠</span>
         <span class="badge ok">Jugable</span>
         <h3>Dopamina</h3>
         <p>El clicker que lo empezó todo: mejoras, skins, recompensas diarias y renacimientos. La partida se guarda sola.</p>
       </a>
-      <a class="card" href="./games/simulagoal/">
-        <span class="icon">⚽</span>
-        <span class="badge ok">Jugable</span>
-        <h3>SimulaGoal</h3>
-        <p>Monta un Mundial con 120 selecciones reales y síguelo minuto a minuto… o a x4. Con penaltis de verdad.</p>
-      </a>
       <a class="card" href="./games/fine-at-skibidi/">
-        <span class="icon">🎬</span>
+        <span class="icon" aria-hidden="true">🎬</span>
         <span class="badge ok">Jugable</span>
         <h3>FNAS</h3>
         <p>Terror fan-made entre Five Nights at Freddy's y Skibidi Toilet. Su casa está aquí; el juego, en su web oficial.</p>
       </a>
       <a class="card" href="./games/iris-games/">
-        <span class="icon">🎮</span>
+        <span class="icon" aria-hidden="true">🎮</span>
         <span class="badge deter">Deteriorado</span>
         <h3><span class="iris-i"><span class="sr-only">i</span><span aria-hidden="true">ı</span></span>RiS Games</h3>
         <p>El arcade casero: tragaperras, dardos, un muñeco de pruebas y un escritorio Win98 que da respeto.</p>
       </a>
+      <a class="card locked" href="./games/slop-central/">
+        <span class="icon" aria-hidden="true">🤖</span>
+        <span class="badge locked">🔒 Bloqueado</span>
+        <h3>Slop Central</h3>
+        <p>La nueva zona experimental: muchos juegos con contenido nuevo, bueno y actualizado. Próximamente.</p>
+      </a>
     </div>
 
     <div class="btn-row">
-      <a class="btn primary big" href="./games/all/">Ver los 5 juegos</a>
+      <a class="btn primary big" href="./games/all/">Ver los 6 juegos</a>
       <a class="btn big" href="./anuncios/">📢 Anuncios</a>
     </div>
   </main>
@@ -69,19 +107,21 @@
     <div class="wrap">
       <span>Hecho con 🍍 en Valladolid · <em>Making things a little bit better</em></span>
       <span class="spacer"></span>
-      <a href="https://github.com/PineappleVA" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://github.com/PineappleVA" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener noreferrer">YouTube</a>
+      <a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
     </div>
     <div class="wrap legal">
       <span>© 2026 Pineapple</span>
-      <a href="legal/terminos/">Términos y Condiciones</a>
+      <a href="legal/terminos/">Términos</a>
       <a href="legal/privacidad/">Privacidad</a>
       <a href="legal/dmca/">DMCA</a>
       <a href="legal/cookies/">Cookies</a>
+      <a href="humans.txt">Humans</a>
     </div>
   </footer>
 
   <script src="./assets/js/site.js" defer></script>
-  <script src="assets/js/analytics.js" defer></script>
+  <script src="./assets/js/analytics.js" defer></script>
 </body>
 </html>

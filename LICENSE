@@ -19,3 +19,26 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+--------------------------------------------------------------------------------
+ADDITIONAL TERMS – WATERMARK AND ANTI-PLAGIARISM PROTECTION
+
+1. Protection:
+   This project includes console warnings and invisible marks inside games to
+   protect against plagiarism. These are part of the integrity protection.
+
+2. No Removal:
+   You may not remove, obscure, or alter any watermark or attribution that
+   protects the original authorship.
+
+3. Anti-Plagiarism:
+   Copying code, assets, or game logic without permission violates:
+   - Terms: https://pineappleva.github.io/Games/legal/terminos/
+   - DMCA: https://pineappleva.github.io/Games/legal/dmca/
+   - This LICENSE
+   If you want to reuse any part, contact pineapplevacorp@gmail.com first.
+
+4. Security:
+   Console prints a Self-XSS warning. Do not paste code you do not understand.
+   For reports: pineapplevacorp@gmail.com
+   Official X: https://x.com/pineapplevacorp
