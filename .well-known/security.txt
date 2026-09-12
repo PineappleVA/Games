@@ -1,0 +1,6 @@
+Contact: mailto:pineapplevacorp@gmail.com
+Contact: https://x.com/pineapplevacorp
+Expires: 2027-09-15T00:00:00.000Z
+Acknowledgments: https://pineappleva.github.io/Games/humans.txt
+Preferred-Languages: es, en
+Canonical: https://pineappleva.github.io/Games/.well-known/security.txt

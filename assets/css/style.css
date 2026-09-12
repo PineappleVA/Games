@@ -901,4 +901,55 @@ h2.section-title { letter-spacing: -.01em; }
   .md-main { max-width: none; }
 }
 
+/* ============================================================
+   Producción — Pulido final
+   ============================================================ */
+html { scrollbar-gutter: stable; color-scheme: dark; }
+.sr-only:focus {
+  position: fixed !important;
+  left: 12px !important;
+  top: 12px !important;
+  width: auto !important;
+  height: auto !important;
+  padding: .6rem .9rem !important;
+  background: var(--bg-soft) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--brand) !important;
+  border-radius: 8px !important;
+  z-index: 9999 !important;
+  clip: auto !important;
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+/* Imágenes responsive por defecto */
+img { max-width: 100%; height: auto; }
+
+/* Enlaces externos con icono sutil */
+a[target="_blank"] { text-underline-offset: 2px; }
+
+/* Print: limpio, sin animaciones ni glass */
+@media print {
+  .site-header, .site-footer, #pg-consent, .md-sidebar, .btn-row, .back-link { display: none !important; }
+  body { background: #fff; color: #000; }
+  article.post { background: #fff; border: 1px solid #ccc; box-shadow: none; color: #000; }
+  article.post p, article.post li { color: #000; }
+  a { color: #000; text-decoration: underline; }
+}
+
+/* Reduce motion ya cubierto, pero asegurar */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* Foco accesible global mejorado */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Mejora de contraste para dim en hover */
+.card:focus-visible { border-color: var(--brand); }
+
 /* Nota: marca de agua visual eliminada por ser invasiva — solo queda en consola */

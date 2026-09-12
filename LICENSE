@@ -22,40 +22,43 @@ SOFTWARE.
 
 --------------------------------------------------------------------------------
 ADDITIONAL TERMS – WATERMARK AND ANTI-PLAGIARISM PROTECTION (Pineapple Games)
+Production Build: 2026-09-15-prod — Console-only watermark
 
-1. Watermark Protection:
-   This codebase includes visible and invisible watermarks to prevent plagiarism
-   and unauthorized copying:
-   - Visual watermark (CSS class .pg-watermark) displayed only inside game pages
-     (/games/*) with contact info: pineapplevacorp@gmail.com and official X/Twitter
-     https://x.com/pineapplevacorp
+1. Watermark Protection (Production):
+   This codebase includes anti-plagiarism marks:
+   - Visual watermark removed from general web on 2026-09-15 for being invasive.
+     It remains only inside game pages (/games/*) where appropriate, with contact
+     pineapplevacorp@gmail.com and official X https://x.com/pineapplevacorp
    - Console watermark and security warnings printed on every page load via
-     assets/js/site.js, including build info, origin, and legal references
-   - Automatic restoration: if the watermark DOM node is removed, a
-     MutationObserver re-injects it (games only)
+     assets/js/site.js (BUILD 2026-09-15-prod), including build info, origin,
+     href and legal references. This is not tracking, only informative.
+   - Invisible watermarks and integrity checks inside each game (Dopamina,
+     Trade Up, FNAS, SimulaGoal, iRiS Games, S.A.R.A., Slop Central)
+   - On copy event, console.clear() + legal links warning
 
 2. No Removal:
-   You may not remove, obscure, or alter any watermark, console notice, or
-   attribution (including the corner/diagonal Pineapple Games marks) from the
-   games. The watermark is part of the integrity protection of the Software.
+   You may not remove, obscure, or alter any console watermark, invisible game
+   marks, or attribution. The visual corner/diagonal mark was removed by us
+   for UX, but the remaining console + invisible protections are part of the
+   integrity protection and must stay.
 
 3. Anti-Plagiarism:
-   Copying the code, assets, or game logic without permission violates:
-   - Terms and Conditions: https://pineappleva.github.io/Games/legal/terminos/
-   - DMCA / Copyright Policy: https://pineappleva.github.io/Games/legal/dmca/
-   - Privacy Policy: https://pineappleva.github.io/Games/legal/privacidad/
-   - This LICENSE file (MIT + this additional clause)
-   If you want to reuse any part of our work for a project, video, or similar,
-   contact us first at pineapplevacorp@gmail.com — we usually say yes when asked
-   politely.
+   Copying code, assets, or game logic without permission violates:
+   - Terms: https://pineappleva.github.io/Games/legal/terminos/
+   - DMCA: https://pineappleva.github.io/Games/legal/dmca/
+   - Privacy: https://pineappleva.github.io/Games/legal/privacidad/
+   - Cookies: https://pineappleva.github.io/Games/legal/cookies/
+   - This LICENSE (MIT + this clause)
+   If you want to reuse any part for a project, video, or similar, contact us
+   first at pineapplevacorp@gmail.com — we usually say yes when asked politely
+   with attribution.
 
 4. Security Notice:
-   The console prints a Self-XSS warning. Do not paste code you do not understand.
-   For vulnerability reports, contact pineapplevacorp@gmail.com.
-   Official X/Twitter: https://x.com/pineapplevacorp
+   Console prints Self-XSS warning. Do not paste code you do not understand.
+   For vulnerability reports: pineapplevacorp@gmail.com
+   Official X: https://x.com/pineapplevacorp (announced 13/09/2026)
 
 5. License Detection:
-   This file is intentionally structured to remain detectable by GitHub as MIT
-   License (standard MIT text at top), with these additional anti-plagiarism
-   terms appended. The MIT permissions still apply, subject to the watermark
-   preservation requirement above.
+   This file is structured to remain detectable by GitHub as MIT License
+   (standard MIT text at top), with these additional terms appended. MIT
+   permissions still apply, subject to watermark preservation above.

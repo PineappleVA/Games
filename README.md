@@ -1,128 +1,85 @@
-# 🍍 Pineapple Games
+# 🍍 Pineapple Games — Production
 
-**Nuestros juegos en un mismo sitio.** Migración de la web original en Google Sites
-([sites.google.com/view/pruebas-compartido](https://sites.google.com/view/pruebas-compartido))
-a GitHub Pages.
+**Los juegos del equipo Pineapple en un solo sitio.** Hub estático, rápido y accesible con 6 juegos + Slop Central 🔒.
 
-🌐 **Web pública:** <https://pineappleva.github.io/Games/>
-🐦 **Twitter/X oficial:** <https://x.com/pineapplevacorp> — Pineapple tiene su propio Twitter/X y es [x.com/pineapplevacorp](https://x.com/pineapplevacorp)
-📧 **Contacto:** [pineapplevacorp@gmail.com](mailto:pineapplevacorp@gmail.com)
+🌐 **Web:** https://pineappleva.github.io/Games/  
+🐦 **X oficial:** https://x.com/pineapplevacorp (anunciado 13/09/2026)  
+📧 **Contacto:** pineapplevacorp@gmail.com  
+🎬 **YouTube:** https://www.youtube.com/@pacorp-oficial  
+💻 **GitHub:** https://github.com/PineappleVA
 
-## Estructura del sitio
+> Hecho en Valladolid · *Making things a little bit better* · Build `2026-09-15-prod`
+
+## ✨ Qué hay
+
+- **6 juegos jugables + 1 bloqueado:** Dopamina, Trade Up, FNAS, SimulaGoal, iRiS Games, S.A.R.A., Slop Central 🔒
+- **Gratis, sin registro, guardado local** (`localStorage`): `dopamina_autosave`, `iris-save-v1`, `sg-save-v2`
+- **Anuncios en Markdown** con selector lateral minimalista izquierda (estilo Grok): título + fecha, click → scroll suave + highlight, `IntersectionObserver` para activo, responsive horizontal en móvil
+- **Últimos anuncios** en `/anuncios/` con fade + botón “Léelo completo en …”
+- **Legales narrados v3.1** (15/09/2026): Términos, Privacidad, DMCA, Cookies — sin numeración, relato extenso, RGPD, GA4 opcional, contacto oficial
+- **Watermark solo consola** (visual eliminado por invasivo el 15/09/2026): `site.js` imprime banner con contacto, X, build, origin/href y enlaces legales; en juegos muestra “🎮 WATERMARK DE JUEGO”; `copy` → `console.clear()` + aviso legal
+- **Seguridad:** anti-iframe cross-origin, Self-XSS warning, escape HTML en markdown renderer
+- **Analytics:** GA4 `G-X56Z41NJLW` solo si aceptas en banner (`pg-cookie-consent` en localStorage, IP anonimizada)
+- **PWA ready:** `manifest.json`, `robots.txt`, `sitemap.xml`, `humans.txt`, `theme-color #f5a623`, OG/Twitter cards, JSON-LD, canonical, `apple-touch-icon`
+- **Accesibilidad:** skip link, `aria-current`, `aria-label`, focus visible, `prefers-reduced-motion`, `color-scheme dark`, alt con width/height
+
+## 📁 Estructura (producción)
 
 ```
-/                              → Inicio (menú principal)
-├── games/
-│   ├── all/                   → Catálogo «Todos (5)»
-│   ├── dopamina/              → Hub de Dopamina (Juego / Videos)
-│   │   └── game/              → 🎮 Dopamina b0.45 (jugable)
-│   ├── trade-up/              → Página informativa (servidores cerrados, enlace a Anuncios)
-│   ├── fine-at-skibidi/       → Página de FNAS (botón directo a la versión Unreleased)
-│   ├── simulagoal/            → Página de SimulaGoal + game/ (jugable en la web)
-│   └── iris-games/            → Página de iRiS Games + game/ (jugable en la web)
-├── dev/                       → 🛠️ Panel interno (noindex, solo accesible por dirección)
-├── legal/                     → ⚖️ Legal: Términos, Privacidad, DMCA y Cookies
-├── anuncios/                  → Canales de anuncios, escritos en Markdown
-│   ├── dopamina/posts/        → ✍️ Anuncios de Dopamina (.md)
-│   ├── trade-up/posts/        → ✍️ Anuncios de Trade Up (.md)
-│   └── juegos/posts/          → ✍️ Anuncios de Juegos en general (.md)
-└── assets/                    → Estilos, scripts e imágenes compartidos
+/ → Inicio con 4 destacados (Slop Central bloqueado)
+/games/all/ → Catálogo 6 juegos
+/games/dopamina/ → Hub + /game/ jugable
+/games/fine-at-skibidi/ → FNAS Unreleased → web oficial externa
+/games/iris-games/ → Hub + /game/ jugable (Deteriorado)
+/games/simulagoal/ → Hub + /game/ jugable
+/games/trade-up/ → Servidores cerrados, link a anuncios
+/games/slop-central/ → Bloqueado, anuncio de lo que viene
+/anuncios/ → 7 canales (cards) + feed 3 últimos
+/anuncios/{canal}/posts/ → .md AAAA-MM-DD-titulo + posts.json fallback
+/assets/css/style.css → Liquid Glass sutil + md-layout minimalista izq
+/assets/js/site.js → movimiento, sombra header, transición páginas, consola-only watermark
+/assets/js/markdown.js → mini-markdown seguro + selector lateral minimalista
+/assets/js/analytics.js → banner cookies accesible + carga diferida GA4
+/legal/ → index + 4 narrados extensos
+404.html → 404 con header/footer y sugerencias
+robots.txt, sitemap.xml, manifest.json, humans.txt, .nojekyll
 ```
 
-> **FNAS (Fine at Skibiry)** tiene su página en esta web
-> (`games/fine-at-skibidi/`), pero **las partidas se abren en su web oficial**
-> (<https://pineappleva.github.io/FNAS/>), desarrollada en
-> [`PineappleVA/FNAS`](https://github.com/PineappleVA/FNAS): el código del juego
-> no se duplica aquí.
+## ✍️ Publicar anuncio (producción)
 
-## Estado de la migración
+1. Crea `AAAA-MM-DD-titulo.md` en `anuncios/{canal}/posts/` (fecha real = fecha anuncio; ej. vuelta clases 15/09/2026, cuenta X 13/09/2026)
+2. Escribe Markdown: `# Título` + párrafos, **negrita**, listas `-`, enlaces `[texto](https://…)`, `> cita`
+3. Añade el nombre a `posts.json` del canal (fallback si API GitHub falla)
+4. Push a `main` → GitHub Pages despliega ~1 min. El canal detecta automáticamente vía API, ordena reverse y muestra selector lateral.
 
-| Juego | Estado | Procedencia del código |
-| --- | --- | --- |
-| 🧠 Dopamina | ✅ Migrado | [`jaime-gaming/dopamina`](https://github.com/jaime-gaming/dopamina) (`dopamina.html`) |
-| 🎬 FNAS (Fine at Skibiry) | ✅ Migrado | Página propia aquí; el juego se sirve desde su web oficial ([repo](https://github.com/PineappleVA/FNAS)) |
-| 📈 Trade Up | 🔴 Servidores cerrados | Sin versión jugable; página informativa hasta su regreso |
-| ⚽ SimulaGoal | ✅ Migrado | Archivos HTML aportados por el equipo (`SimulaGoal.html`) |
-| 🎮 iRiS Games | ✅ Migrado | Archivos HTML aportados por el equipo (`iRiS Games.html`) |
+Selector: 190px izq, transparente, solo borde izq 2px activo naranja, título .84rem + meta fecha .68rem, no ocupa centro, `max-width main 760px`. En móvil carrusel horizontal pills.
 
-Retirados a petición del equipo: **Novel Reader**, **Block Ñast** y la **Beta de FNAS**.
+## ⚖️ Legal
 
-Además se han migrado los contenidos estáticos: página de inicio, catálogo,
-Términos y Condiciones de Dopamina y los anuncios (Update Watch de Dopamina y
-«HEMOS VUELTO» de Trade Up), ahora en formato **Markdown**.
+- `/legal/` → hub sin resumen rápido (eliminado por petición)
+- `/legal/terminos/` → relato narrado, qué es y qué no, catálogo, uso aceptable, PI + watermark consola, enlaces externos, zonas baja moderación, progreso local, seguridad anti-iframe Self-XSS, dinero/analítica, fallos, menores, cambios, ley española Valladolid, canales oficiales
+- `/legal/privacidad/` → minimización radical, dónde viven datos (localStorage), consola no rastrea, GA4 opcional detallado, terceros GitHub Pages, bases RGPD, conservación, derechos, menores, medidas, cambios
+- `/legal/cookies/` → esenciales vs analíticas, tabla, banner flujo, GA4 config, cómo borrar, terceros, menores, cambios
+- `/legal/dmca/` → qué protegemos, notificación completa, dónde enviar, qué hacemos, contra-notificación, reincidentes watermark pruebas, fair use FNAS, abuso 512(f)
 
-## ✍️ Anuncios en Markdown
+Contacto legal único: **pineapplevacorp@gmail.com** · X oficial: **x.com/pineapplevacorp**
 
-Cada canal de anuncios tiene su carpeta `posts/`. Para publicar un anuncio:
+## 🔒 Licencia
 
-1. Crea un archivo `AAAA-MM-DD-titulo.md` (la fecha ordena: el más reciente primero).
-2. Escríbelo en Markdown: `# Título`, `**negrita**`, `*cursiva*`, listas con `-`,
-   enlaces `[texto](https://…)`, citas con `>` e imágenes `![alt](https://…)`.
-3. Súbelo a la carpeta del canal (`anuncios/<canal>/posts/`) y espera ~1 minuto.
+MIT + cláusula anti-plagio watermark (ver `LICENSE`). Estructura pensada para seguir detectable como MIT por GitHub. Marca visual eliminada de web general por invasiva, queda en consola + invisible en juegos. No quitar marcas.
 
-La página del canal **detecta los archivos nuevos automáticamente** (API de GitHub);
-no hay que editar el HTML. Si la API no responde, usa como respaldo el manifiesto
-`posts.json` de cada carpeta. Renderizado en `assets/js/markdown.js`.
+## 🚀 Producción checklist
 
-## 📁 Directorios por juego (cómo actualizar y añadir juegos)
-
-Cada juego tiene **su propia carpeta (directorio)** en el repositorio y una
-**página de detalles** (ficha) con un botón «Jugar» que abre el juego
-directamente en una pestaña nueva. Convención de publicación:
-
-- **Actualizar un juego publicado (Dopamina, SimulaGoal, iRiS Games):** sube o
-  reemplaza el archivo `game/index.html` de su carpeta con la nueva versión.
-  El botón «Jugar aquí» siempre apunta a ella.
-- **Versiones históricas:** no son públicas; los visitantes solo juegan a la
-  última (`game/index.html`). Guarda las copias antiguas fuera del repo o con
-  otro nombre, a tu gusto.
-- **Publicar Trade Up cuando vuelva:** súbelo como `games/trade-up/game/index.html`
-  y añade el botón de juego en su ficha.
-- **Actualizar FNAS:** se gestiona en su propio repositorio
-  [`PineappleVA/FNAS`](https://github.com/PineappleVA/FNAS).
-- **Dar de alta un juego nuevo:** crea su carpeta dentro de `games/`, copia dentro
-  una ficha basada en cualquier existente (ajusta título e icono) y añade su
-  tarjeta en `games/all/index.html`.
-- **Panel Dev (`/dev/`):** accesos directos a todas las carpetas, guías de
-  publicación (juegos y anuncios), estado de la migración y gestión del
-  despliegue. No hay enlaces a él en la web pública: se abre escribiendo su
-  dirección.
-
-> ⚠️ Los canales de anuncios leen la rama `main`: los anuncios nuevos aparecen
-> tras el despliegue de GitHub Pages (~1 minuto).
-
-## Notas técnicas
-
-- Sitio 100% estático (HTML + CSS + JS). El archivo `.nojekyll` evita el procesado
-  Jekyll de GitHub Pages.
-- Movimiento sobrio en `assets/js/site.js` + `assets/css/style.css`
-  (entrada breve de bloques al hacer scroll, sombra de cabecera y
-  **transiciones de página**: fundido al entrar/salir entre páginas internas,
-  y fundido de entrada al abrir un juego), desactivado con
-  `prefers-reduced-motion`.
-- Anuncios Markdown: `assets/js/markdown.js` (mini-renderizador propio, sin
-  dependencias, con escape de HTML).
-- Las rutas son relativas para que el sitio funcione tanto en `/Games/`
-  (GitHub Pages) como en local (`python3 -m http.server`).
-- El formulario «Dopamina Player Review» sigue alojado en Google Forms y se
-  enlaza desde el hub de Dopamina.
-- **Google Analytics 4** (`G-X56Z41NJLW`) con consentimiento RGPD: el banner de
-  cookies (`assets/js/analytics.js`, autocontenido) carga GA solo si el usuario
-  acepta; la elección se guarda en `localStorage` (`pg-cookie-consent`) y tiene
-  IP anonimizada. Se sirve en todas las páginas, incluidos los juegos.
-- Sección legal en `/legal/`: Términos y Condiciones del Sitio, Política de
-  Privacidad (RGPD), Protección DMCA (con aviso fan-made de FNAS) y Política de
-  Cookies, enlazadas desde el pie de todas las páginas. Redactadas en estilo
-  narrado. Contacto legal: **pineapplevacorp@gmail.com**.
-- Estilo «Liquid Glass» sutil: cabecera, tarjetas, botones secundarios, avisos
-  del banner de cookies y filas de directorio usan superficies translúcidas con
-  `backdrop-filter` (con respaldo sólido para navegadores sin soporte).
-- Guardado de progreso en `localStorage` (todo local, nunca sale del navegador):
-  Dopamina (`dopamina_autosave`, se restaura sola al abrir el juego), iRiS Games
-  (`iris-save-v1`: juegos completados, máquinas desbloqueadas, economía de slots
-  y récord de dardos) y SimulaGoal (`sg-save-v2`: torneo en curso). El reset de
-  Dopamina solo borra sus propias claves.
+- [x] SEO: canonical, OG, Twitter, JSON-LD, sitemap, robots, theme-color, manifest, apple-touch-icon
+- [x] Accesibilidad: skip link, aria, alt + width/height, focus visible, reduced-motion
+- [x] Performance: defer JS, preconnect gtag, system fonts, no Jekyll, imágenes con loading eager/lazy
+- [x] Seguridad: rel noopener noreferrer, escapeHtml markdown, anonymize_ip GA4, anti-iframe, Self-XSS
+- [x] UX: transición páginas 190ms, sombra header, reveal 8px 350ms, 404 con sugerencias, feed fade, selector minimalista izq
+- [x] Legal narrado extenso 15/09/2026, sin resumen rápido
+- [x] Anuncios fechas reales: cuenta X 13/09/2026, vuelta clases 15/09/2026
+- [x] Watermark solo consola, juegos muestran watermark extra
+- [x] PWA ready
 
 ---
 
-Hecho con 🍍 en Valladolid · *Making things a little bit better*
+Hecho con 🍍 en Valladolid — *Making things a little bit better* — 2026

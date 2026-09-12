@@ -1,0 +1,17 @@
+/* TEAM */
+  Colectivo: Pineapple (Valladolid, España)
+  Contacto: pineapplevacorp@gmail.com
+  X: https://x.com/pineapplevacorp
+  GitHub: https://github.com/PineappleVA
+  YouTube: https://www.youtube.com/@pacorp-oficial
+  Lema: Making things a little bit better
+
+/* SITE */
+  Última actualización: 2026-09-15
+  Build: 2026-09-15-console-only
+  Stack: HTML + CSS + JS estático, GitHub Pages, .nojekyll
+  Analítica: GA4 G-X56Z41NJLW solo con consentimiento
+  Watermark: solo consola + invisible en juegos, visual eliminado por invasivo
+
+/* THANKS */
+  Gracias por jugar. 🍍

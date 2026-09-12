@@ -107,7 +107,7 @@
 
   var CONTACT = "pineapplevacorp@gmail.com";
   var X_URL = "https://x.com/pineapplevacorp";
-  var BUILD = "2026-09-15-console-only";
+  var BUILD = "2026-09-15-prod";
   var BASE = (function(){
     try {
       var m = location.pathname.match(/^\/Games\//);

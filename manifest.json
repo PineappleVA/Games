@@ -1,0 +1,25 @@
+{
+  "name": "Pineapple Games",
+  "short_name": "Pineapple",
+  "description": "Los juegos del equipo Pineapple en un solo sitio: Dopamina, SimulaGoal, iRiS Games, FNAS, Trade Up y Slop Central.",
+  "start_url": "/Games/",
+  "scope": "/Games/",
+  "display": "standalone",
+  "background_color": "#131007",
+  "theme_color": "#f5a623",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "assets/img/pineapple.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/img/pineapple.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
