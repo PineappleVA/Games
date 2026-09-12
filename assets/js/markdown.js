@@ -164,7 +164,7 @@
     var sidebar = document.createElement("nav");
     sidebar.className = "md-sidebar";
     sidebar.setAttribute("aria-label", "Selector de noticias");
-    sidebar.innerHTML = '<div class="md-sidebar-head"><span class="md-sidebar-title">📰 Noticias</span><span class="md-sidebar-count">0</span></div><div class="md-sidebar-list"></div>';
+    sidebar.innerHTML = '<div class="md-sidebar-head"><span class="md-sidebar-title">Noticias</span></div><div class="md-sidebar-list"></div>';
 
     var main = document.createElement("div");
     main.className = "md-main";
@@ -196,7 +196,8 @@
       btn.type = "button";
       btn.className = "md-sidebar-item" + (idx === 0 ? " active" : "");
       btn.setAttribute("data-idx", String(idx));
-      btn.innerHTML = '<span class="line"><span class="dot"></span><span class="title">' + escapeHtml(title) + '</span></span><span class="meta">📅 ' + (date || "—") + ' · ' + escapeHtml(fallback.slice(0, 40)) + '</span>';
+      // minimalista: solo título + fecha corta
+      btn.innerHTML = '<span class="line"><span class="title">' + escapeHtml(title) + '</span></span><span class="meta">' + escapeHtml(date || "") + '</span>';
 
       btn.addEventListener("click", function () {
         var target = document.getElementById("md-post-" + idx);
