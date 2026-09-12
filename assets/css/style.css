@@ -305,33 +305,32 @@ article.post em { color: var(--text-dim); }
   border: none;
   background: none;
   font: inherit;
-  color: transparent; /* la O está, pero no se ve: conserva el ancho natural */
+  color: transparent; /* la O está, pero invisible: conserva métricas */
   cursor: pointer;
-  vertical-align: baseline;
-  width: .78em;
-  height: 1em;
+  line-height: 1;
+  width: .92em;   /* mismo ancho que la O */
+  height: .92em;  /* mismo alto que la O */
+  vertical-align: -0.06em; /* alinea con baseline como la O real */
 }
 
 .dopa-o::before {
   content: "";
   position: absolute;
-  left: 50%;
-  top: .18em;
-  width: .72em;
-  height: .72em;
+  inset: 0; /* ocupa exactamente el hueco de la O */
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  transform: translateX(-50%);
   background: radial-gradient(circle at 35% 30%, #ff8bb7 0%, #ff4081 55%, #d61c60 100%);
   box-shadow: 0 0 .45em rgba(255, 64, 129, .55), inset 0 0 0 .12em rgba(255, 255, 255, .18);
   transition: transform .15s ease, box-shadow .15s ease;
 }
 
 .dopa-o:hover::before {
-  transform: translateX(-50%) scale(1.1);
+  transform: scale(1.1);
   box-shadow: 0 0 .85em rgba(255, 128, 171, .8), 0 0 1.3em rgba(255, 128, 171, .35), inset 0 0 0 .12em rgba(255, 255, 255, .18);
 }
 
-.dopa-o:active::before { transform: translateX(-50%) scale(.86); }
+.dopa-o:active::before { transform: scale(.86); }
 
 .dopa-o:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 
