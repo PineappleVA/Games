@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cookies · Pineapple Games</title>
-  <meta name="description" content="Política de Cookies actualizada de Pineapple Games.">
+  <meta name="description" content="Política de Cookies extensa de Pineapple Games. Actualizado 15 septiembre 2026.">
   <link rel="icon" type="image/png" href="../../assets/img/pineapple.png">
   <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
@@ -30,47 +30,69 @@
 
     <article class="post">
       <h1>Política de Cookies</h1>
-      <span class="date">Pineapple Games · Última actualización: 15 de septiembre de 2026</span>
+      <span class="date">Pineapple Games · Última actualización: 15 de septiembre de 2026 · Versión 3.0</span>
 
-      <div class="notice info">
-        <h3>Contacto</h3>
-        <p><a href="mailto:pineapplevacorp@gmail.com">pineapplevacorp@gmail.com</a> · X: <a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener">x.com/pineapplevacorp</a></p>
-      </div>
-
-      <h2>Qué usamos</h2>
-      <p>Muy pocas. Cookies clásicas + <code>localStorage</code>. Dos familias:</p>
+      <h2>1. Qué son y qué usamos</h2>
+      <p>Usamos cookies clásicas (pequeños ficheros que guarda tu navegador) y tecnologías similares como <code>localStorage</code>. En Pineapple intentamos usar las mínimas posibles. Dos familias:</p>
       <ul>
-        <li><strong>Esenciales:</strong> progreso de juegos y tu elección de cookies. Sin ellas no funcionaría. No necesitan consentimiento y nunca salen de tu dispositivo.</li>
-        <li><strong>Analíticas (opcional):</strong> Google Analytics 4 solo si aceptas en el banner. Sin aceptar, no se carga nada.</li>
+        <li><strong>Esenciales / técnicas:</strong> imprescindibles para que la web y los juegos funcionen (guardar partida, recordar tu elección de cookies). No necesitan consentimiento y nunca salen de tu dispositivo</li>
+        <li><strong>Analíticas opcionales:</strong> Google Analytics 4 solo si aceptas en el banner. Sin aceptar, no se carga nada</li>
       </ul>
+      <p>No usamos cookies publicitarias, de remarketing, de afiliados ni de redes sociales embebidas.</p>
 
-      <h2>Lista completa</h2>
+      <h2>2. Lista completa y detallada</h2>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Nombre</th><th>Tipo</th><th>Finalidad</th><th>Duración</th><th>Titular</th></tr></thead>
+          <thead><tr><th>Nombre</th><th>Tipo</th><th>Finalidad</th><th>Duración</th><th>Titular</th><th>Base</th></tr></thead>
           <tbody>
-            <tr><td><code>pg-cookie-consent</code></td><td>Esencial (localStorage)</td><td>Recuerda si aceptaste analíticas</td><td>Hasta borrar</td><td>Pineapple</td></tr>
-            <tr><td><code>dopamina_autosave</code>, <code>iris-save-v1</code>, <code>sg-save-v2</code></td><td>Esencial (localStorage)</td><td>Progreso de Dopamina, iRiS, SimulaGoal</td><td>Hasta borrar</td><td>Pineapple</td></tr>
-            <tr><td><code>_ga</code>, <code>_ga_X56Z41NJLW</code></td><td>Analítica</td><td>GA4: estadísticas anonimizadas</td><td>2 años</td><td>Google</td></tr>
+            <tr><td><code>pg-cookie-consent</code></td><td>Esencial (localStorage)</td><td>Recuerda si aceptaste analíticas (valor: accepted / rejected)</td><td>Persistente hasta borrar datos del sitio</td><td>Pineapple</td><td>Interés legítimo + cumplimiento legal</td></tr>
+            <tr><td><code>dopamina_autosave</code></td><td>Esencial (localStorage)</td><td>Progreso de Dopamina: monedas, mejoras, eventos</td><td>Hasta borrar</td><td>Pineapple</td><td>Ejecución del servicio</td></tr>
+            <tr><td><code>iris-save-v1</code></td><td>Esencial (localStorage)</td><td>Progreso iRiS Games</td><td>Hasta borrar</td><td>Pineapple</td><td>Ejecución</td></tr>
+            <tr><td><code>sg-save-v2</code></td><td>Esencial (localStorage)</td><td>Progreso SimulaGoal</td><td>Hasta borrar</td><td>Pineapple</td><td>Ejecución</td></tr>
+            <tr><td><code>slop-*</code> (futuro)</td><td>Esencial (localStorage)</td><td>Progreso Slop Central cuando abra</td><td>Hasta borrar</td><td>Pineapple</td><td>Ejecución</td></tr>
+            <tr><td><code>_ga</code></td><td>Analítica</td><td>GA4: distingue usuarios</td><td>2 años</td><td>Google</td><td>Consentimiento</td></tr>
+            <tr><td><code>_ga_X56Z41NJLW</code></td><td>Analítica</td><td>GA4: mantiene estado de sesión</td><td>2 años</td><td>Google</td><td>Consentimiento</td></tr>
           </tbody>
         </table>
       </div>
-      <p><em>Nota:</em> el watermark visual de esquina se eliminó por invasivo. La marca en consola no usa cookies ni almacenamiento.</p>
+      <p><em>Nota watermark:</em> la marca visual de esquina se eliminó por invasiva el 15/09/2026. La marca en consola no usa cookies ni almacenamiento, es solo <code>console.log</code>.</p>
 
-      <h2>Banner</h2>
-      <p>Aparece la primera vez en cualquier página, incluidos juegos. "Aceptar" carga GA, "Solo esenciales" no. Tu elección vive en localStorage, no en nuestros servidores. Si cambias de navegador/dispositivo o borras datos, vuelve a aparecer.</p>
+      <h2>3. Banner y consentimiento</h2>
+      <p>Aparece la primera vez en cualquier página, incluidos juegos. Opciones:</p>
+      <ul>
+        <li><strong>Aceptar:</strong> carga GA4 y guarda <code>pg-cookie-consent=accepted</code></li>
+        <li><strong>Solo esenciales:</strong> no carga GA4 y guarda <code>rejected</code></li>
+        <li><strong>Ignorar / cerrar:</strong> equivale a solo esenciales hasta que elijas</li>
+      </ul>
+      <p>Tu elección vive en <code>localStorage</code>, no en nuestros servidores. Si cambias de navegador, dispositivo, usas incógnito o borras datos, vuelve a aparecer. Puedes cambiar de opinión borrando datos del sitio.</p>
 
-      <h2>GA4</h2>
-      <p>Google Analytics 4 (<code>G-X56Z41NJLW</code>) de Google Ireland Limited, con IP anonimizada, sin publicidad ni remarketing. Detalles en <a href="../privacidad/">Privacidad</a> y <a href="https://policies.google.com/technologies/cookies?hl=es" target="_blank" rel="noopener">política de Google</a>.</p>
+      <h2>4. Google Analytics 4 en detalle</h2>
+      <p>Proveedor: Google Ireland Limited, Gordon House, Barrow Street, Dublín 4, Irlanda. ID <code>G-X56Z41NJLW</code>. Configuración:</p>
+      <ul>
+        <li>IP anonimizada (último octeto a 0)</li>
+        <li>Sin User-ID propio, sin publicidad, sin audiencias de remarketing</li>
+        <li>Eventos: page_view, session_start, scroll, click en enlaces externos, tiempo</li>
+        <li>Retención: 14 meses</li>
+        <li>Transferencia internacional a EEUU bajo Cláusulas Contractuales Tipo de Google</li>
+      </ul>
+      <p>Más info: <a href="https://policies.google.com/technologies/cookies?hl=es" target="_blank" rel="noopener">política de cookies de Google</a> y <a href="https://policies.google.com/privacy?hl=es" target="_blank" rel="noopener">privacidad de Google</a>.</p>
 
-      <h2>Borrar / cambiar de opinión</h2>
-      <p>Borra datos del sitio en tu navegador (Chrome, Firefox, Safari, Edge permiten por sitio). Desaparecen analíticas + elección + progreso de juegos (mismo almacenamiento). Para bloquear GA en todas las webs: <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">extensión oficial de Google</a>.</p>
+      <h2>5. Cómo borrar y gestionar</h2>
+      <p><strong>Desde el navegador:</strong> Chrome: Configuración &gt; Privacidad &gt; Datos de sitios &gt; busca <code>pineappleva.github.io</code> &gt; Borrar. Firefox, Safari, Edge permiten similar por sitio. Al borrar, desaparecen analíticas + elección + progreso de juegos (mismo almacenamiento).</p>
+      <p><strong>Bloquear GA en todas las webs:</strong> instala <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">extensión oficial de inhabilitación de GA</a> de Google.</p>
+      <p><strong>Do Not Track:</strong> respetamos la señal DNT como indicio, pero la decisión real es tu elección en banner.</p>
 
-      <h2>Cambios futuros</h2>
-      <p>Si añadimos cookies nuevas, actualizamos esta página antes y pedimos consentimiento de nuevo si la ley lo exige.</p>
+      <h2>6. Cookies de terceros que no controlamos</h2>
+      <p>GitHub Pages puede establecer cookies técnicas propias para entrega de contenido (ej. <code>_gh_sess</code>). YouTube, X y Google Forms, si los visitas desde nuestros enlaces, usarán sus propias cookies según sus políticas. Nosotros solo respondemos de lo que pasa en <code>pineappleva.github.io/Games</code>.</p>
 
-      <h2>Contacto</h2>
-      <p><a href="mailto:pineapplevacorp@gmail.com">pineapplevacorp@gmail.com</a></p>
+      <h2>7. Menores</h2>
+      <p>Si eres menor de 14 años, recomendamos usar solo esenciales y hacerlo con supervisión. No recogemos conscientemente datos de menores vía cookies más allá de lo esencial.</p>
+
+      <h2>8. Actualizaciones</h2>
+      <p>Si añadimos cookies nuevas (ej. para Slop Central), actualizamos esta página antes y pedimos nuevo consentimiento si la ley lo exige. Versión vigente siempre aquí con fecha 15/09/2026.</p>
+
+      <h2>9. Contacto</h2>
+      <p><a href="mailto:pineapplevacorp@gmail.com">pineapplevacorp@gmail.com</a> · X: <a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener">x.com/pineapplevacorp</a> (anunciado 13/09/2026)</p>
     </article>
   </main>
 
