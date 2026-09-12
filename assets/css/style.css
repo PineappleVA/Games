@@ -300,19 +300,23 @@ article.post em { color: var(--text-dim); }
 /* ---------- Easter egg: la O de DOPAMINA es la bolita del juego ---------- */
 .dopa-o {
   position: relative;
+  display: inline-block;
   padding: 0;
   border: none;
   background: none;
   font: inherit;
-  color: transparent; /* la O está, pero no se ve: conserva el ancho natural de la palabra */
+  color: transparent; /* la O está, pero no se ve: conserva el ancho natural */
   cursor: pointer;
+  vertical-align: baseline;
+  width: .78em;
+  height: 1em;
 }
 
 .dopa-o::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: .31em;
+  top: .18em;
   width: .72em;
   height: .72em;
   border-radius: 50%;
