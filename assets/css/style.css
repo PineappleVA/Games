@@ -744,18 +744,18 @@ h2.section-title { letter-spacing: -.01em; }
 
 /* ============================================================
    Marca de agua + seguridad
-   - Watermark visual en todas las páginas
-   - Resistente: si se borra, se restaura (vía JS)
+   - Watermark SOLO en juegos (inyectado por site.js si /games/)
+   - Diagonal + esquina, resistente
    ============================================================ */
 .pg-watermark {
   position: fixed;
   bottom: 10px;
   right: 14px;
   z-index: 9999;
-  font-size: .68rem;
+  font-size: .72rem;
   letter-spacing: .06em;
   color: var(--text-dim);
-  opacity: .09;
+  opacity: .14;
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
@@ -772,12 +772,12 @@ h2.section-title { letter-spacing: -.01em; }
   font-weight: 900;
   letter-spacing: -.03em;
   color: var(--brand);
-  opacity: .028;
+  opacity: .06;
   pointer-events: none;
   white-space: nowrap;
 }
 
 @media print {
-  .pg-watermark { opacity: .18; }
-  .pg-watermark::before { opacity: .06; }
+  .pg-watermark { opacity: .22; }
+  .pg-watermark::before { opacity: .09; }
 }
