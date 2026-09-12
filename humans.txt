@@ -7,11 +7,8 @@
   Lema: Making things a little bit better
 
 /* SITE */
-  Última actualización: 2026-09-15
-  Build: 2026-09-15-console-only
-  Stack: HTML + CSS + JS estático, GitHub Pages, .nojekyll
-  Analítica: GA4 G-X56Z41NJLW solo con consentimiento
-  Watermark: solo consola + invisible en juegos, visual eliminado por invasivo
+  Web: https://pineappleva.github.io/Games/
+  Stack: HTML + CSS + JS estático, GitHub Pages
 
 /* THANKS */
   Gracias por jugar. 🍍

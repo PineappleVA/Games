@@ -21,44 +21,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 --------------------------------------------------------------------------------
-ADDITIONAL TERMS – WATERMARK AND ANTI-PLAGIARISM PROTECTION (Pineapple Games)
-Production Build: 2026-09-15-prod — Console-only watermark
+ADDITIONAL TERMS – WATERMARK AND ANTI-PLAGIARISM PROTECTION
 
-1. Watermark Protection (Production):
-   This codebase includes anti-plagiarism marks:
-   - Visual watermark removed from general web on 2026-09-15 for being invasive.
-     It remains only inside game pages (/games/*) where appropriate, with contact
-     pineapplevacorp@gmail.com and official X https://x.com/pineapplevacorp
-   - Console watermark and security warnings printed on every page load via
-     assets/js/site.js (BUILD 2026-09-15-prod), including build info, origin,
-     href and legal references. This is not tracking, only informative.
-   - Invisible watermarks and integrity checks inside each game (Dopamina,
-     Trade Up, FNAS, SimulaGoal, iRiS Games, S.A.R.A., Slop Central)
-   - On copy event, console.clear() + legal links warning
+1. Protection:
+   This project includes console warnings and invisible marks inside games to
+   protect against plagiarism. These are part of the integrity protection.
 
 2. No Removal:
-   You may not remove, obscure, or alter any console watermark, invisible game
-   marks, or attribution. The visual corner/diagonal mark was removed by us
-   for UX, but the remaining console + invisible protections are part of the
-   integrity protection and must stay.
+   You may not remove, obscure, or alter any watermark or attribution that
+   protects the original authorship.
 
 3. Anti-Plagiarism:
    Copying code, assets, or game logic without permission violates:
    - Terms: https://pineappleva.github.io/Games/legal/terminos/
    - DMCA: https://pineappleva.github.io/Games/legal/dmca/
-   - Privacy: https://pineappleva.github.io/Games/legal/privacidad/
-   - Cookies: https://pineappleva.github.io/Games/legal/cookies/
-   - This LICENSE (MIT + this clause)
-   If you want to reuse any part for a project, video, or similar, contact us
-   first at pineapplevacorp@gmail.com — we usually say yes when asked politely
-   with attribution.
+   - This LICENSE
+   If you want to reuse any part, contact pineapplevacorp@gmail.com first.
 
-4. Security Notice:
-   Console prints Self-XSS warning. Do not paste code you do not understand.
-   For vulnerability reports: pineapplevacorp@gmail.com
-   Official X: https://x.com/pineapplevacorp (announced 13/09/2026)
-
-5. License Detection:
-   This file is structured to remain detectable by GitHub as MIT License
-   (standard MIT text at top), with these additional terms appended. MIT
-   permissions still apply, subject to watermark preservation above.
+4. Security:
+   Console prints a Self-XSS warning. Do not paste code you do not understand.
+   For reports: pineapplevacorp@gmail.com
+   Official X: https://x.com/pineapplevacorp
