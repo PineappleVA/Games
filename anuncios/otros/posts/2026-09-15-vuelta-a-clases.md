@@ -1,6 +1,7 @@
-# Vuelta a clases 2026
+# Las clases vuelven, y nosotros también 🎒
 
-¡Hola! Se acabó el verano y toca volver a madrugar. Las clases vuelven y nosotros con ellas, así que aquí va el repaso de siempre: cómo está cada juego de cara a este curso.
+¡Hola piñas!
+Septiembre ya está aquí, se acabó el verano y toca volver a madrugar. Las clases vuelven y nosotros con ellas, así que aquí va el repaso de siempre: cómo está cada juego de cara a este curso.
 
 ## Cómo está cada juego
 
@@ -22,12 +23,14 @@ Durante el verano pasó a Deteriorado. Se queda jugable tal cual está y no va a
 **Slop Central 🤖**
 Sigue bloqueado hasta que esté listo. Cuando abra, aparecerá en Juegos y lo contaremos en su canal de anuncios.
 
-## Este curso
+## Nuevo curso, misma idea 🚀
 
-La idea no cambia: entrar, jugar un rato entre clase y clase y volver a los apuntes con la cabeza despejada.
+Queremos que Pineapple Games sea el sitio donde desconectar 5 minutos entre clase y clase. Entra, juega un rato y vuelve a los apuntes con la cabeza despejada.
 
-Gracias por seguir por ahí después del verano, con exámenes y madrugones. Ahora nos toca a nosotros devolver las ganas.
+Gracias por seguir ahí después del verano, entre exámenes y madrugones. 
 
-¡A por el curso! 💛
+Ahora nos toca a nosotros devolveros esa energía y demostraros que también volvemos a clase con más ganas que nunca.
+
+¡A por el curso! 💛🍍
 
 *— El equipo de Pineapple*
