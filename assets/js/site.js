@@ -97,19 +97,18 @@
 })();
 
 /* ============================================================
-   Pineapple Games — Marca de agua + consola + seguridad
-   - Watermark SOLO en juegos
+   Pineapple Games — Consola + seguridad (sin watermark visual)
+   - Sin marca de agua visual (se quitó por invasiva)
    - Print en consola siempre + aviso si copias código (con enlaces legales)
-   - Seguridad básica: anti-iframe, self-XSS warning, re-inyección
+   - En juegos, la consola también muestra watermark
    ============================================================ */
 (function () {
   "use strict";
 
   var CONTACT = "pineapplevacorp@gmail.com";
   var X_URL = "https://x.com/pineapplevacorp";
-  var BUILD = "2026-09-12-watermark-v2";
+  var BUILD = "2026-09-15-console-only";
   var BASE = (function(){
-    // Detecta base /Games/ para GitHub Pages
     try {
       var m = location.pathname.match(/^\/Games\//);
       return m ? "/Games/" : "/";
@@ -118,39 +117,8 @@
 
   function isGamePage() {
     try {
-      var p = location.pathname;
-      // Solo en /games/ (hubs y juegos jugables)
-      return /\/games\//i.test(p);
+      return /\/games\//i.test(location.pathname);
     } catch(e) { return false; }
-  }
-
-  function injectWatermark() {
-    if (!isGamePage()) return; // Solo en juegos
-    if (document.querySelector(".pg-watermark")) return;
-    var wm = document.createElement("div");
-    wm.className = "pg-watermark";
-    wm.setAttribute("aria-hidden", "true");
-    wm.textContent = "Pineapple Games • " + CONTACT + " • " + X_URL.replace(/^https?:\/\//, "");
-    (document.body || document.documentElement).appendChild(wm);
-
-    // Seguridad: si alguien borra la marca, se restaura (solo en juegos)
-    try {
-      var obs = new MutationObserver(function (muts) {
-        for (var i = 0; i < muts.length; i++) {
-          var m = muts[i];
-          for (var j = 0; j < m.removedNodes.length; j++) {
-            var n = m.removedNodes[j];
-            if (n === wm || (n.nodeType === 1 && n.contains && n.contains(wm))) {
-              if (!document.querySelector(".pg-watermark") && isGamePage()) {
-                document.body.appendChild(wm);
-                console.warn("[Pineapple] Watermark de juego restaurado — protección anti-plagio");
-              }
-            }
-          }
-        }
-      });
-      obs.observe(document.body, { childList: true, subtree: false });
-    } catch (e) {}
   }
 
   function printConsole() {
@@ -168,9 +136,15 @@
       console.log("%c⚠️ SEGURIDAD — No pegues código aquí", sWarn);
       console.log("%cSi alguien te pidió que copiaras/pegases algo para 'hackear' o 'desbloquear' algo, es una estafa (Self-XSS). Nunca pegues código que no entiendas.", s2);
       console.log("%cSi copias el código de esta web sin permiso estás incumpliendo:", sWarn);
-      console.log("%c• Términos y Condiciones: " + location.origin + BASE + "legal/terminos/\n• DMCA / Copyright: " + location.origin + BASE + "legal/dmca/\n• Privacidad: " + location.origin + BASE + "legal/privacidad/\n• Cookies: " + location.origin + BASE + "legal/cookies/\n• Licencia MIT + cláusula anti-plagio (ver LICENSE en GitHub)\n• Contacto legal: " + CONTACT, sLink);
+      console.log("%c• Términos y Condiciones: " + location.origin + BASE + "legal/terminos/\n• DMCA / Copyright: " + location.origin + BASE + "legal/dmca/\n• Privacidad: " + location.origin + BASE + "legal/privacidad/\n• Cookies: " + location.origin + BASE + "legal/cookies/\n• Licencia MIT + cláusula anti-plagio (ver LICENSE)\n• Contacto legal: " + CONTACT, sLink);
       console.log("%c" + "Pineapple Games | origin=" + location.origin + " | href=" + location.href + " | " + BUILD, sDim);
-      console.log("%cPINEAPPLE WATERMARK — Protección anti-plagio activa en juegos · " + CONTACT, "color:#f5a623;opacity:.7;font-size:10px;letter-spacing:.08em");
+
+      if (isGamePage()) {
+        console.log("%c🎮 WATERMARK DE JUEGO — Protección anti-plagio activa", "background:#211c11;color:#f5a623;font-weight:800;padding:4px 10px;border-radius:6px;font-size:12px");
+        console.log("%cEste juego incluye marcas de agua invisibles y logs de integridad. Copiarlo sin permiso viola Términos y DMCA. Para reutilizar, escribe a " + CONTACT, sLink);
+      } else {
+        console.log("%cPINEAPPLE WATERMARK — Protección anti-plagio activa (solo consola) · " + CONTACT, "color:#f5a623;opacity:.7;font-size:10px;letter-spacing:.08em");
+      }
     } catch (e) {}
   }
 
@@ -181,8 +155,8 @@
       console.clear();
       console.log("%c🚨 Has copiado código de Pineapple Games", sWarn);
       console.log("%cCopiar código sin permiso incumple nuestras normas. Estás obligado a respetar:", sLink);
-      console.log("%c• Términos: " + location.origin + BASE + "legal/terminos/\n• DMCA: " + location.origin + BASE + "legal/dmca/\n• Licencia: https://github.com/PineappleVA/Games/blob/main/LICENSE (MIT + cláusula watermark anti-plagio)\n• Si quieres reutilizar algo, escribe a " + CONTACT + " — solemos decir que sí si se pide con educación.\n• X/Twitter oficial: " + X_URL, sLink);
-      console.log("%c" + "Pineapple Games | watermark activo solo en juegos | " + BUILD, "color:#b8ad95;font-size:10px");
+      console.log("%c• Términos: " + location.origin + BASE + "legal/terminos/\n• DMCA: " + location.origin + BASE + "legal/dmca/\n• Privacidad: " + location.origin + BASE + "legal/privacidad/\n• Licencia: https://github.com/PineappleVA/Games/blob/main/LICENSE (MIT + cláusula watermark anti-plagio)\n• Si quieres reutilizar algo, escribe a " + CONTACT + " — solemos decir que sí si se pide con educación.\n• X/Twitter oficial: " + X_URL + "\n• Contacto: " + CONTACT, sLink);
+      console.log("%c" + "Pineapple Games | " + (isGamePage() ? "juego" : "web") + " | watermark consola activo | " + BUILD, "color:#b8ad95;font-size:10px");
     } catch (e) {}
   }
 
@@ -205,7 +179,7 @@
         if (wDiff > threshold || hDiff > threshold) {
           if (!window.__pgDevtoolsWarned) {
             window.__pgDevtoolsWarned = true;
-            console.log("%c👀 DevTools detectado — recuerda: copiar código sin permiso incumple Términos y DMCA", "color:#f8d348;font-weight:700");
+            console.log("%c👀 DevTools detectado — recuerda: copiar código sin permiso incumple Términos y DMCA: " + location.origin + BASE + "legal/terminos/ y " + location.origin + BASE + "legal/dmca/", "color:#f8d348;font-weight:700");
           }
         }
       };
@@ -216,24 +190,14 @@
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
-      injectWatermark();
       printConsole();
       securityChecks();
     });
   } else {
-    injectWatermark();
     printConsole();
     securityChecks();
   }
 
-  // Solo en juegos: re-inyecta si se borra
-  setInterval(function () {
-    if (isGamePage() && !document.querySelector(".pg-watermark")) {
-      injectWatermark();
-    }
-  }, 4000);
-
-  // Aviso en consola si copias
   try {
     document.addEventListener("copy", onCopy);
   } catch (e3) {}
