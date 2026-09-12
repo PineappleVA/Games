@@ -741,3 +741,43 @@ h2.section-title { letter-spacing: -.01em; }
   .table-wrap th { background: var(--card); }
   .table-wrap td { background: var(--bg-soft); }
 }
+
+/* ============================================================
+   Marca de agua + seguridad
+   - Watermark visual en todas las páginas
+   - Resistente: si se borra, se restaura (vía JS)
+   ============================================================ */
+.pg-watermark {
+  position: fixed;
+  bottom: 10px;
+  right: 14px;
+  z-index: 9999;
+  font-size: .68rem;
+  letter-spacing: .06em;
+  color: var(--text-dim);
+  opacity: .09;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.pg-watermark::before {
+  content: "PINEAPPLE GAMES";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-28deg);
+  font-size: clamp(3.2rem, 13vw, 8.5rem);
+  font-weight: 900;
+  letter-spacing: -.03em;
+  color: var(--brand);
+  opacity: .028;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+@media print {
+  .pg-watermark { opacity: .18; }
+  .pg-watermark::before { opacity: .06; }
+}
