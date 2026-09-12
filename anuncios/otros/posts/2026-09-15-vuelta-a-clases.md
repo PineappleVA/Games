@@ -24,7 +24,7 @@ Aquí viene la parte fea: SimulaGoal es el que más nos ha costado mantener y el
 Durante el verano, iRiS Games pasó a **Deteriorado**. Eso significa que **no recibirá más actualizaciones, o si, quién sabe**. Por ahora se queda jugable tal cual está, con sus monedas, su tragaperras y sus secretos. Si algún día nos da por volver, os enteraréis aquí.
 
 **🤖 Slop Central**
-La nueva zona bloqueada sigue en construcción. No la abrimos hasta que esté bien, pero va a traer **mucho contenido nuevo, bueno y actualizado**. Cuando abra, lo veréis en Juegos y en su propio canal.
+Sigue bloqueado. Lo abriremos cuando esté listo. Cuando abra, lo veréis en Juegos y en su propio canal.
 
 ## 🚀 Nuevo curso, misma idea
 

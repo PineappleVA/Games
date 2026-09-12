@@ -17,7 +17,7 @@ Los juegos del equipo Pineapple en un solo sitio.
 - **Fine At Skibidi (FNAS)** — Terror fan-made, web oficial externa
 - **SimulaGoal** — Simulación de fútbol
 - **iRiS Games** — Arcade con varios minijuegos
-- **S.A.R.A.** y **Slop Central** — Próximamente
+- **Slop Central** — Próximamente
 
 Todos gratuitos, sin registro. Tu progreso se guarda en tu propio navegador.
 
