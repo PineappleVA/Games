@@ -247,10 +247,14 @@
         var art = document.createElement("article");
         art.className = "post md-post";
         var date = postDate(p.name);
+        var raw = String(p.md || "");
+        var previewMd = raw.length > 320 ? raw.slice(0, 320).replace(/\s+\S*$/, "") + "..." : raw;
+        var previewHtml = renderMarkdown(previewMd);
         art.innerHTML =
           '<p class="md-feed-meta">📣 <a href="' + p.ch.href + '">' +
           escapeHtml(p.ch.name) + "</a>" + (date ? " · 📅 " + date : "") + "</p>" +
-          renderMarkdown(p.md);
+          '<div class="md-feed-preview-wrap"><div class="md-feed-preview">' + previewHtml + '</div><div class="md-feed-fade"></div></div>' +
+          '<a class="btn small md-feed-more" href="' + p.ch.href + '">Léelo completo en ' + escapeHtml(p.ch.name) + ' →</a>';
         feed.appendChild(art);
       });
     });
