@@ -308,29 +308,30 @@ article.post em { color: var(--text-dim); }
   color: transparent; /* la O está, pero invisible: conserva métricas */
   cursor: pointer;
   line-height: 1;
-  width: .92em;   /* mismo ancho que la O */
-  height: .92em;  /* mismo alto que la O */
-  vertical-align: -0.06em; /* alinea con baseline como la O real */
+  width: 1.18em;   /* más grande que la O */
+  height: 1.18em;
+  vertical-align: -0.22em; /* un poco más abajo */
+  margin: 0 -0.04em; /* compensa el ancho extra para no separar letras */
 }
 
 .dopa-o::before {
   content: "";
   position: absolute;
-  inset: 0; /* ocupa exactamente el hueco de la O */
+  inset: 0; /* ocupa exactamente el hueco ampliado */
   width: 100%;
   height: 100%;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #ff8bb7 0%, #ff4081 55%, #d61c60 100%);
-  box-shadow: 0 0 .45em rgba(255, 64, 129, .55), inset 0 0 0 .12em rgba(255, 255, 255, .18);
+  box-shadow: 0 0 .55em rgba(255, 64, 129, .6), inset 0 0 0 .13em rgba(255, 255, 255, .2);
   transition: transform .15s ease, box-shadow .15s ease;
 }
 
 .dopa-o:hover::before {
   transform: scale(1.1);
-  box-shadow: 0 0 .85em rgba(255, 128, 171, .8), 0 0 1.3em rgba(255, 128, 171, .35), inset 0 0 0 .12em rgba(255, 255, 255, .18);
+  box-shadow: 0 0 .95em rgba(255, 128, 171, .85), 0 0 1.4em rgba(255, 128, 171, .4), inset 0 0 0 .13em rgba(255, 255, 255, .2);
 }
 
-.dopa-o:active::before { transform: scale(.86); }
+.dopa-o:active::before { transform: scale(.9); }
 
 .dopa-o:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 

@@ -5,7 +5,8 @@
 a GitHub Pages.
 
 🌐 **Web pública:** <https://pineappleva.github.io/Games/>
-🛠️ **Panel interno:** <https://pineappleva.github.io/Games/dev/> (sin enlaces en la web: solo por dirección, `noindex`)
+🐦 **Twitter/X oficial:** <https://x.com/pineapplevacorp> — Pineapple tiene su propio Twitter/X y es [x.com/pineapplevacorp](https://x.com/pineapplevacorp)
+📧 **Contacto:** [pineapplevacorp@gmail.com](mailto:pineapplevacorp@gmail.com)
 
 ## Estructura del sitio
 
@@ -112,7 +113,7 @@ directamente en una pestaña nueva. Convención de publicación:
 - Sección legal en `/legal/`: Términos y Condiciones del Sitio, Política de
   Privacidad (RGPD), Protección DMCA (con aviso fan-made de FNAS) y Política de
   Cookies, enlazadas desde el pie de todas las páginas. Redactadas en estilo
-  narrado. Contacto legal: **pacorp@gmail.com**.
+  narrado. Contacto legal: **pineapplevacorp@gmail.com**.
 - Estilo «Liquid Glass» sutil: cabecera, tarjetas, botones secundarios, avisos
   del banner de cookies y filas de directorio usan superficies translúcidas con
   `backdrop-filter` (con respaldo sólido para navegadores sin soporte).
