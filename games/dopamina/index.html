@@ -75,10 +75,8 @@
     <a class="back-link" href="../all/">← Volver a todos los juegos</a>
 
     <section class="hero">
-      <div class="orb orb-1" aria-hidden="true"></div>
-      <div class="orb orb-2" aria-hidden="true"></div>
-      <h1 data-animate="1">🧠 ¡Bienvenid@ a <span>D<button class="dopa-o" id="dopaO" type="button" title="¿…y si le das a la bolita? 🤫" aria-label="Easter egg: pulsa la bolita de Dopamina">O</button>PAMINA</span>!</h1>
-      <p data-animate="2"><span class="badge ok">Jugable</span> <span class="badge beta">b0.45</span></p>
+      <h1>🧠 ¡Bienvenid@ a <span>D<button class="dopa-o" id="dopaO" type="button" title="¿…y si le das a la bolita? 🤫" aria-label="Easter egg: pulsa la bolita de Dopamina">O</button>PAMINA</span>!</h1>
+      <p><span class="badge ok">Jugable</span> <span class="badge beta">b0.45</span></p>
     </section>
 
     <div class="notice info">
@@ -131,7 +129,6 @@
           <li><a href="../../games/simulagoal/">SimulaGoal</a></li>
           <li><a href="../../games/fine-at-skibidi/">FNAS</a></li>
           <li><a href="../../games/slop-central/">Slop Central</a></li>
-          <li><a href="../../games/iris-games/">🪦 iRiS Games</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Síguenos">
@@ -158,7 +155,7 @@
   (function () {
     var btn = document.getElementById("dopaO");
     if (!btn) return;
-    var motionOK = window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
+    var motionOK = !window.matchMedia || window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
     btn.addEventListener("click", function () {
       if (!motionOK) return;
       var r = btn.getBoundingClientRect();

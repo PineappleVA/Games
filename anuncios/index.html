@@ -74,25 +74,32 @@
   <main id="main" class="content">
     <a class="back-link" href="../">← Volver al inicio</a>
 
-    <section class="hero">
-      <div class="orb orb-1" aria-hidden="true"></div>
-      <div class="orb orb-2" aria-hidden="true"></div>
-      <h1 data-animate="1">📢 <span>Anuncios</span></h1>
-      <p data-animate="2">Lo último de cada proyecto, en su propio canal. Markdown, selector lateral minimalista y fade.</p>
-    </section>
+    <header class="blog-hero">
+      <p class="kicker">Anuncios · Pineapple Games</p>
+      <h1>📢 Anuncios</h1>
+      <p class="sub">Lo que vamos publicando, contado a mano: parches, novedades y estados de cada proyecto.
+      Cada canal tiene sus entradas ordenadas de la más reciente a la más antigua.</p>
+    </header>
 
-    <div class="cards">
-      <a class="card" href="./dopamina/"><span class="icon" aria-hidden="true">🧠</span><h3>Dopamina</h3><p>Updates, eventos y todo lo que se cocina en el clicker del equipo.</p></a>
-      <a class="card" href="./trade-up/"><span class="icon" aria-hidden="true">📈</span><h3>Trade Up</h3><p>El diario del regreso: cómo va el trabajo para traerlo de vuelta.</p></a>
-      <a class="card" href="./simulagoal/"><span class="icon" aria-hidden="true">⚽</span><h3>SimulaGoal</h3><p>Goles, torneos y penaltis: todo lo nuevo del simulador de mundiales.</p></a>
-      <a class="card" href="./imtlazarus-games/"><span class="icon" aria-hidden="true">🎮</span><h3>IMTLazarus Games</h3><p>El diario del arcade: novedades, secretos y la historia del juego.</p></a>
-      <a class="card" href="./fine-at-skibidi/"><span class="icon" aria-hidden="true">🎬</span><h3>FNAS</h3><p>Five Nights at Skibidi's: parches, noches y la versión completa.</p></a>
-      <a class="card locked" href="./slop-central/"><span class="icon" aria-hidden="true">🤖</span><span class="badge locked">🔒 Bloqueado</span><h3>Slop Central</h3><p>Nueva zona bloqueada con contenido nuevo, bueno y actualizado. Próximamente.</p></a>
-      <a class="card" href="./otros/"><span class="icon" aria-hidden="true">📚</span><h3>Otros</h3><p>Noticias generales: vuelta a clases 15/09/2026, cuenta X 13/09/2026, estados y sorpresas.</p></a>
+    <div class="md-toolbar">
+      <h2>Últimos anuncios</h2>
+      <span class="md-hint">De todos los canales</span>
     </div>
 
-    <h2 class="section-title">📰 Últimos anuncios</h2>
-    <div class="md-feed" data-md-channels="🧠 Dopamina|dopamina;📈 Trade Up|trade-up;⚽ SimulaGoal|simulagoal;🎮 IMTLazarus Games|imtlazarus-games;🎬 FNAS|fine-at-skibidi;🤖 Slop Central|slop-central;📚 Otros|otros" data-md-limit="3"></div>
+    <div class="md-feed" data-md-base="./"
+         data-md-channels="🧠 Dopamina|dopamina;📈 Trade Up|trade-up;⚽ SimulaGoal|simulagoal;🎮 IMTLazarus Games|imtlazarus-games;🎬 FNAS|fine-at-skibidi;🤖 Slop Central|slop-central;📚 Otros|otros"
+         data-md-limit="6"></div>
+
+    <h2 class="section-title">Canales</h2>
+    <div class="cards">
+      <a class="card slim" href="./dopamina/"><span class="icon" aria-hidden="true">🧠</span><h3>Dopamina</h3><p>Updates, eventos y todo lo que se cocina en el clicker.</p></a>
+      <a class="card slim" href="./trade-up/"><span class="icon" aria-hidden="true">📈</span><h3>Trade Up</h3><p>El diario del regreso: cómo va el trabajo para traerlo de vuelta.</p></a>
+      <a class="card slim" href="./simulagoal/"><span class="icon" aria-hidden="true">⚽</span><h3>SimulaGoal</h3><p>Goles, torneos y penaltis del simulador de mundiales.</p></a>
+      <a class="card slim" href="./imtlazarus-games/"><span class="icon" aria-hidden="true">🎮</span><h3>IMTLazarus Games</h3><p>Novedades, arreglos y secretos del arcade.</p></a>
+      <a class="card slim" href="./fine-at-skibidi/"><span class="icon" aria-hidden="true">🎬</span><h3>FNAS</h3><p>Five Nights at Skibidi's: parches, noches y versión completa.</p></a>
+      <a class="card slim locked" href="./slop-central/"><span class="icon" aria-hidden="true">🤖</span><h3>Slop Central</h3><p>Contenido nuevo, bueno y actualizado. Próximamente.</p></a>
+      <a class="card slim" href="./otros/"><span class="icon" aria-hidden="true">📚</span><h3>Otros</h3><p>Noticias generales: estados, lanzamientos y sorpresas.</p></a>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -123,7 +130,6 @@
           <li><a href="../games/simulagoal/">SimulaGoal</a></li>
           <li><a href="../games/fine-at-skibidi/">FNAS</a></li>
           <li><a href="../games/slop-central/">Slop Central</a></li>
-          <li><a href="../games/iris-games/">🪦 iRiS Games</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Síguenos">

@@ -72,16 +72,52 @@
   </header>
 
   <main id="main" class="content">
-    <a class="back-link" href="../">← Volver a Anuncios</a>
+  <section id="listView">
+    <header class="blog-hero">
+      <div class="orb orb-1" aria-hidden="true"></div>
+      <p class="kicker">Anuncios · Pineapple Games</p>
+      <h1>⚽ SimulaGoal</h1>
+      <p class="sub">Goles, torneos y penaltis: todo lo nuevo del simulador. <span id="mdCount" class="hero-count"></span> y contando.</p>
+    </header>
 
-    <h2 class="section-title">⚽ SimulaGoal</h2>
-
-    <div class="notice info">
-      <h3>Noticias de SimulaGoal</h3>
-      <p>Goles, torneos y penaltis: todo lo nuevo del simulador.</p>
+    <div class="md-toolbar">
+      <h2>Entradas</h2>
+      <span class="md-hint">De la más reciente a la más antigua</span>
     </div>
 
-    <div class="md-posts" data-md-dir="./posts" data-api-dir="anuncios/simulagoal/posts"></div>
+    <div class="md-list" data-md-dir="./posts" data-api-dir="anuncios/simulagoal/posts">
+      <div class="skel-card skel-featured" aria-hidden="true"></div>
+      <div class="skel-card" aria-hidden="true"></div>
+      <div class="skel-card" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="post-view" id="postView" hidden>
+    <header class="post-hero">
+      <div class="orb orb-1" aria-hidden="true"></div>
+      <p class="kicker">Anuncios · Pineapple Games</p>
+      <h1 id="postTitle">Cargando…</h1>
+      <p class="post-hero-meta" id="postMeta" hidden></p>
+    </header>
+
+    <a class="back-link" href="./">← Volver a los anuncios</a>
+
+    <article class="md-post single" id="mdPost" data-md-dir="./posts" data-api-dir="anuncios/simulagoal/posts">
+      <div class="skel-post" aria-hidden="true">
+        <div class="skel-line w60"></div>
+        <div class="skel-line"></div>
+        <div class="skel-line"></div>
+        <div class="skel-line w45"></div>
+      </div>
+    </article>
+
+    <div class="post-actions">
+      <button id="shareBtn" class="btn small ghost" type="button">Copiar enlace</button>
+      <a class="btn small ghost" href="./">Todas las entradas</a>
+    </div>
+
+    <nav class="post-pager" id="postPager" hidden aria-label="Más anuncios del canal"></nav>
+  </section>
   </main>
 
   <footer class="site-footer">
@@ -112,7 +148,6 @@
           <li><a href="../../games/simulagoal/">SimulaGoal</a></li>
           <li><a href="../../games/fine-at-skibidi/">FNAS</a></li>
           <li><a href="../../games/slop-central/">Slop Central</a></li>
-          <li><a href="../../games/iris-games/">🪦 iRiS Games</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Síguenos">
