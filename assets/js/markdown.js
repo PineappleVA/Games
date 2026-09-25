@@ -181,7 +181,9 @@
   function viaTrees(apiDir) {
     var url = "https://api.github.com/repos/" + ORG + "/" + REPO + "/git/trees/" + BRANCH +
               "?recursive=1&t=" + Math.floor(Date.now() / 60000);
-    var cacheKey = "pg-tree-" + BRANCH;
+    /* OJO: la clave lleva el directorio. Antes era una sola para todo el
+       sitio y una lista vacía (o de otro canal) pisaba la de los demás. */
+    var cacheKey = "pg-tree-" + BRANCH + ":" + apiDir;
     try {
       var cached = sessionStorage.getItem(cacheKey);
       if (cached && Date.now() - JSON.parse(cached).t < 300000) return Promise.resolve(JSON.parse(cached).v);
@@ -216,16 +218,21 @@
           date: String(file).slice(0, 10),
           dir: apiDir.replace(/\/$/, "")
         };
-      }).filter(function (p) { return p.file; });
+      }).filter(function (p) { return p.file; })
+        /* siempre de la más reciente a la más antigua, dé como dé el manifiesto */
+        .sort(function (a, b) { return b.file.localeCompare(a.file); });
     });
   }
 
   function fetchPosts(localDir, apiDir) {
     if (!apiDir) return viaManifest(localDir, localDir);
-    return viaTrees(apiDir)
+    /* Primero el manifiesto del propio canal: es el que siempre coincide
+       con los archivos publicados. La API de GitHub se queda como
+       respaldo, para no mezclar entradas que aún no existen aquí. */
+    return viaManifest(localDir, apiDir)
       .then(function (posts) { return { posts: posts, optimistic: false, apiDir: apiDir }; })
       .catch(function () {
-        return viaManifest(localDir, apiDir).then(function (posts) {
+        return viaTrees(apiDir).then(function (posts) {
           return { posts: posts, optimistic: true, apiDir: apiDir };
         });
       });
@@ -344,6 +351,10 @@
         '<p style="margin-top:.6rem"><a href="./">← Volver a los anuncios</a></p></div>';
       if (titleEl) titleEl.textContent = "Anuncio no encontrado";
       if (metaEl) metaEl.setAttribute("hidden", "");
+      /* sin botones de compartir ni paginador: aquí no hay nada que compartir */
+      var actions = document.querySelector(".post-actions");
+      if (actions) actions.setAttribute("hidden", "");
+      if (pagerEl) pagerEl.setAttribute("hidden", "");
     }
 
     if (!isValid) {

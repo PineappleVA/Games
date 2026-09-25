@@ -2,14 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>
+    /* La web vive en /Games/ (GitHub Pages), pero también tiene que funcionar
+       servida desde la raíz. Un <base> fijado aquí evita que el CSS y el JS
+       fallen cuando la página 404 se sirve desde otra ruta. */
+    (function () {
+      var b = document.createElement('base');
+      b.href = location.pathname.indexOf('/Games/') === 0 ? '/Games/' : './';
+      document.head.appendChild(b);
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 · Página no encontrada · Pineapple Games</title>
   <meta name="description" content="Página no encontrada en Pineapple Games.">
   <meta name="theme-color" content="#f5a623">
   <meta name="robots" content="noindex">
-  <link rel="icon" type="image/png" href="/Games/assets/img/pineapple.png">
-  <link rel="apple-touch-icon" href="/Games/assets/img/pineapple.png">
-  <link rel="manifest" href="/Games/manifest.json">
+  <link rel="icon" type="image/png" href="assets/img/pineapple.png">
+  <link rel="apple-touch-icon" href="assets/img/pineapple.png">
+  <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <script>
     /* Tema: se aplica ANTES de pintar para evitar parpadeo.
@@ -28,7 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/Games/assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <style>
     .notfound {
       min-height: 68vh;
@@ -45,31 +55,18 @@
       line-height: .9;
       letter-spacing: -.04em;
       margin: 0;
-      color: var(--brand);
+      color: var(--brand-text, var(--brand));
     }
     .notfound p { font-size: 1.15rem; color: var(--text-dim); margin: .2rem 0 .6rem; max-width: 520px; }
     .notfound .btn-row { justify-content: center; }
   </style>
-  <script>
-    (function(){
-      var t=new Image();
-      t.onerror=function(){
-        document.querySelectorAll('link[href^="/Games/"], a[href^="/Games/"], img[src^="/Games/"], script[src^="/Games/"]').forEach(function(el){
-          var a=el.hasAttribute('href')?'href':'src';
-          var v=el.getAttribute(a);
-          if(v) el.setAttribute(a, v.replace(/^\/Games\//, './'));
-        });
-      };
-      t.src='/Games/assets/img/pineapple.png';
-    })();
-  </script>
 </head>
 <body>
 <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href="/Games/" aria-label="Pineapple Games — inicio">
-        <img src="/Games/assets/img/pineapple.png" alt="Logo Pineapple Games - piña" width="34" height="34" loading="eager">
+      <a class="brand" href="./" aria-label="Pineapple Games — inicio">
+        <img src="assets/img/pineapple.png" alt="Logo Pineapple Games - piña" width="34" height="34" loading="eager">
         <span>Pineapple Games<small>Making things a little bit better</small></span>
       </a>
       <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="siteNav" aria-label="Abrir menú">
@@ -77,9 +74,9 @@
       </button>
       <nav id="siteNav" class="main-nav" aria-label="Navegación principal">
         <ul>
-          <li><a href="/Games/">Inicio</a></li>
-          <li><a href="/Games/games/all/">Todos los juegos</a></li>
-          <li><a href="/Games/anuncios/">Anuncios</a></li>
+          <li><a href="./">Inicio</a></li>
+          <li><a href="games/all/">Todos los juegos</a></li>
+          <li><a href="anuncios/">Anuncios</a></li>
           <li><a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           <li><a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener noreferrer">X</a></li>
         </ul>
@@ -95,21 +92,21 @@
     <h1>404</h1>
     <p>¿Te has perdido? Esa página no existe o se movió. Pero tenemos seis juegos esperando.</p>
     <div class="btn-row">
-      <a class="btn primary big" href="/Games/">Volver al inicio</a>
-      <a class="btn big" href="/Games/games/all/">Ver juegos</a>
-      <a class="btn big" href="/Games/anuncios/">Anuncios</a>
+      <a class="btn primary big" href="./">Volver al inicio</a>
+      <a class="btn big" href="games/all/">Ver juegos</a>
+      <a class="btn big" href="anuncios/">Anuncios</a>
     </div>
     <div class="notice info" style="max-width:520px;margin-top:1rem;">
       <h3>¿Buscabas algo?</h3>
-      <p>Prueba: <a href="/Games/games/dopamina/">Dopamina</a> · <a href="/Games/games/fine-at-skibidi/">FNAS</a> · <a href="/Games/games/imtlazarus-games/">IMTLazarus Games</a> · <a href="/Games/games/iris-games/">iRiS Games (archivo)</a> · <a href="/Games/anuncios/otros/">Otros</a> · <a href="/Games/legal/">Legal</a></p>
+      <p>Prueba: <a href="games/dopamina/">Dopamina</a> · <a href="games/fine-at-skibidi/">FNAS</a> · <a href="games/imtlazarus-games/">IMTLazarus Games</a> · <a href="games/iris-games/">iRiS Games (archivo)</a> · <a href="anuncios/otros/">Otros</a> · <a href="legal/">Legal</a></p>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <div class="footer-brand">
-        <a class="brand" href="/Games/">
-          <img src="/Games/assets/img/pineapple.png" alt="" width="38" height="38" loading="lazy">
+        <a class="brand" href="./">
+          <img src="assets/img/pineapple.png" alt="" width="38" height="38" loading="lazy">
           <span>Pineapple Games<small>Making things a little bit better</small></span>
         </a>
         <p class="footer-note">Hecho con 🍍 en Valladolid.<br>
@@ -118,21 +115,21 @@
       <nav class="footer-col" aria-label="Explora">
         <h3>Explora</h3>
         <ul>
-          <li><a href="/Games/">Inicio</a></li>
-          <li><a href="/Games/games/all/">Todos los juegos</a></li>
-          <li><a href="/Games/anuncios/">Anuncios</a></li>
-          <li><a href="/Games/games/imtlazarus-games/">IMTLazarus Games</a></li>
-          <li><a href="/Games/legal/">Legal</a></li>
+          <li><a href="./">Inicio</a></li>
+          <li><a href="games/all/">Todos los juegos</a></li>
+          <li><a href="anuncios/">Anuncios</a></li>
+          <li><a href="games/imtlazarus-games/">IMTLazarus Games</a></li>
+          <li><a href="legal/">Legal</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Juegos">
         <h3>Juegos</h3>
         <ul>
-          <li><a href="/Games/games/dopamina/">Dopamina</a></li>
-          <li><a href="/Games/games/trade-up/">Trade Up</a></li>
-          <li><a href="/Games/games/simulagoal/">SimulaGoal</a></li>
-          <li><a href="/Games/games/fine-at-skibidi/">FNAS</a></li>
-          <li><a href="/Games/games/slop-central/">Slop Central</a></li>
+          <li><a href="games/dopamina/">Dopamina</a></li>
+          <li><a href="games/trade-up/">Trade Up</a></li>
+          <li><a href="games/simulagoal/">SimulaGoal</a></li>
+          <li><a href="games/fine-at-skibidi/">FNAS</a></li>
+          <li><a href="games/slop-central/">Slop Central</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Síguenos">
@@ -147,15 +144,15 @@
     </div>
     <div class="wrap footer-bottom">
       <p>© <span id="year">2026</span> Pineapple · <span translate="no">Making things a little bit better</span></p>
-      <p><a href="/Games/legal/terminos/">Términos</a> · <a href="/Games/legal/privacidad/">Privacidad</a> · <a href="/Games/legal/dmca/">DMCA</a> · <a href="/Games/legal/cookies/">Cookies</a></p>
+      <p><a href="legal/terminos/">Términos</a> · <a href="legal/privacidad/">Privacidad</a> · <a href="legal/dmca/">DMCA</a> · <a href="legal/cookies/">Cookies</a></p>
     </div>
     <div class="wave wave-footer" aria-hidden="true">
       <div class="wave-track"><svg viewBox="0 0 1440 120" preserveAspectRatio="none" focusable="false" aria-hidden="true"><defs><linearGradient id="wgrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0"><stop offset="0" stop-color="#f5a623"/><stop offset="0.25" stop-color="#ffd166"/><stop offset="0.5" stop-color="#f5a623"/><stop offset="0.75" stop-color="#ffd166"/><stop offset="1" stop-color="#f5a623"/></linearGradient></defs><path d="M0,79.1 L48,81.9 L96,76.3 L144,64.6 L192,51.1 L240,40.9 L288,38.1 L336,43.7 L384,55.4 L432,68.9 L480,79.1 L528,81.9 L576,76.3 L624,64.6 L672,51.1 L720,40.9 L768,38.1 L816,43.7 L864,55.4 L912,68.9 L960,79.1 L1008,81.9 L1056,76.3 L1104,64.6 L1152,51.1 L1200,40.9 L1248,38.1 L1296,43.7 L1344,55.4 L1392,68.9 L1440,79.1 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".28"/><path d="M0,60.0 L48,77.6 L96,88.5 L144,88.5 L192,77.6 L240,60.0 L288,42.4 L336,31.5 L384,31.5 L432,42.4 L480,60.0 L528,77.6 L576,88.5 L624,88.5 L672,77.6 L720,60.0 L768,42.4 L816,31.5 L864,31.5 L912,42.4 L960,60.0 L1008,77.6 L1056,88.5 L1104,88.5 L1152,77.6 L1200,60.0 L1248,42.4 L1296,31.5 L1344,31.5 L1392,42.4 L1440,60.0 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".9"/></svg><svg viewBox="0 0 1440 120" preserveAspectRatio="none" focusable="false" aria-hidden="true"><path d="M0,79.1 L48,81.9 L96,76.3 L144,64.6 L192,51.1 L240,40.9 L288,38.1 L336,43.7 L384,55.4 L432,68.9 L480,79.1 L528,81.9 L576,76.3 L624,64.6 L672,51.1 L720,40.9 L768,38.1 L816,43.7 L864,55.4 L912,68.9 L960,79.1 L1008,81.9 L1056,76.3 L1104,64.6 L1152,51.1 L1200,40.9 L1248,38.1 L1296,43.7 L1344,55.4 L1392,68.9 L1440,79.1 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".28"/><path d="M0,60.0 L48,77.6 L96,88.5 L144,88.5 L192,77.6 L240,60.0 L288,42.4 L336,31.5 L384,31.5 L432,42.4 L480,60.0 L528,77.6 L576,88.5 L624,88.5 L672,77.6 L720,60.0 L768,42.4 L816,31.5 L864,31.5 L912,42.4 L960,60.0 L1008,77.6 L1056,88.5 L1104,88.5 L1152,77.6 L1200,60.0 L1248,42.4 L1296,31.5 L1344,31.5 L1392,42.4 L1440,60.0 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".9"/></svg></div>
     </div>
   </footer>
 
-  <script src="/Games/assets/js/site.js" defer></script>
-  <script src="/Games/assets/js/analytics.js" defer></script>
+  <script src="assets/js/site.js" defer></script>
+  <script src="assets/js/analytics.js" defer></script>
   <button id="toTop" class="to-top" type="button" aria-label="Volver arriba" title="Volver arriba">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
   </button>
