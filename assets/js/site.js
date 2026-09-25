@@ -1,4 +1,130 @@
-/* Pineapple Games — Movimiento y seguridad */
+/* Pineapple Games — Sitio: tema, navegación, movimiento y seguridad
+   ------------------------------------------------------------
+   Misma base que https://pineappleva.github.io/ (clave de tema
+   'pa-theme'): botón de tema claro/oscuro, menú móvil, barra de
+   progreso, volver arriba, aparición al hacer scroll y contadores.
+   Los juegos no cargan este archivo. */
+
+document.documentElement.classList.add("js");
+
+/* ---------- Tema claro/oscuro ----------
+   El tema ya viene aplicado por el script inline del <head>
+   (localStorage 'pa-theme' → prefers-color-scheme → oscuro).
+   Aquí solo vive el botón que lo alterna y lo recuerda. */
+(function () {
+  "use strict";
+  var themeToggle = document.getElementById("themeToggle");
+  if (!themeToggle) return;
+  themeToggle.addEventListener("click", function () {
+    var current = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+    var next = current === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("pa-theme", next); } catch (e) {}
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", next === "light" ? "#ffffff" : "#131007");
+  });
+})();
+
+/* ---------- Menú móvil ---------- */
+(function () {
+  "use strict";
+  var navToggle = document.getElementById("navToggle");
+  var siteNav = document.getElementById("siteNav");
+  if (!navToggle || !siteNav) return;
+  navToggle.addEventListener("click", function () {
+    var open = siteNav.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    navToggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+  });
+  siteNav.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest("a")) {
+      siteNav.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+})();
+
+/* ---------- Desplegable (por si alguna página lo usa) ---------- */
+(function () {
+  "use strict";
+  Array.prototype.forEach.call(document.querySelectorAll(".dropdown"), function (dd) {
+    var btn = dd.querySelector(".drop-btn");
+    var menu = dd.querySelector(".dropdown-menu");
+    if (!btn || !menu) return;
+    function setOpen(open) {
+      if (open) {
+        menu.removeAttribute("hidden");
+        btn.setAttribute("aria-expanded", "true");
+        dd.setAttribute("data-open", "true");
+      } else {
+        menu.setAttribute("hidden", "");
+        btn.setAttribute("aria-expanded", "false");
+        dd.setAttribute("data-open", "false");
+      }
+    }
+    btn.addEventListener("click", function (e) { e.stopPropagation(); setOpen(menu.hasAttribute("hidden")); });
+    document.addEventListener("click", function (e) { if (!dd.contains(e.target)) setOpen(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") setOpen(false); });
+  });
+})();
+
+/* ---------- Barra de progreso, vuelta arriba y contadores ---------- */
+(function () {
+  "use strict";
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var year = document.getElementById("year");
+  if (year) year.textContent = String(new Date().getFullYear());
+
+  var progressBar = document.getElementById("progressBar");
+  var header = document.querySelector(".site-header");
+  var toTop = document.getElementById("toTop");
+
+  function onScroll() {
+    var y = window.scrollY || document.documentElement.scrollTop;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    if (progressBar) progressBar.style.transform = "scaleX(" + (max > 0 ? Math.min(y / max, 1) : 0) + ")";
+    if (header) header.classList.toggle("scrolled", y > 8);
+    if (toTop) toTop.classList.toggle("show", y > 480);
+  }
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  if (toTop) {
+    toTop.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    });
+  }
+
+  function animateCounter(el) {
+    var target = parseInt(el.getAttribute("data-count"), 10);
+    if (isNaN(target)) return;
+    if (reduced || !("requestAnimationFrame" in window)) { el.textContent = String(target); return; }
+    var dur = 1300, start = null;
+    function frame(ts) {
+      if (start === null) start = ts;
+      var t = Math.min((ts - start) / dur, 1);
+      el.textContent = String(Math.round((1 - Math.pow(1 - t, 3)) * target));
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  var counters = document.querySelectorAll("[data-count]");
+  if (counters.length) {
+    if ("IntersectionObserver" in window && !reduced) {
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { animateCounter(entry.target); obs.unobserve(entry.target); }
+        });
+      }, { threshold: 0.4 });
+      Array.prototype.forEach.call(counters, function (el) { obs.observe(el); });
+    } else {
+      Array.prototype.forEach.call(counters, animateCounter);
+    }
+  }
+})();
+
+/* ---------- Movimiento y seguridad ---------- */
 (function () {
   "use strict";
   var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
