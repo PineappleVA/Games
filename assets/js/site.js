@@ -146,6 +146,13 @@ document.documentElement.classList.add("js");
       });
     }, { threshold: 0.1, rootMargin: "0px 0px -12px 0px" });
     targets.forEach(function (el) { io.observe(el); });
+    /* Red de seguridad: si algo falla o el observador no llega a disparar,
+       nada se queda invisible. A los 2,5 s aparece todo lo que falte. */
+    setTimeout(function () {
+      targets.forEach(function (el) {
+        if (!el.classList.contains("in")) { el.classList.add("in"); io.unobserve(el); }
+      });
+    }, 2500);
   }
   var header = document.querySelector(".site-header");
   if (header) {
