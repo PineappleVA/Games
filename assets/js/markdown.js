@@ -1,26 +1,31 @@
 /* ============================================================
-   Pineapple Games — Anuncios en Markdown + Selector lateral
+   Pineapple Games — Anuncios en Markdown (formato blog)
+   ------------------------------------------------------------
+   Cada canal de anuncios vive en su carpeta con un subdirectorio
+   `posts/`. Basta con subir un archivo `AAAA-MM-DD-titulo.md`
+   para que aparezca publicado, lo más reciente primero.
 
-   Renderiza anuncios escritos en Markdown. Cada canal de anuncios
-   tiene una carpeta `posts/`; basta con subir un archivo
-   `AAAA-MM-DD-titulo.md` para que aparezca publicado
-   automáticamente (los más recientes primero).
+   Dos modos, igual que el blog de pineappleva.github.io:
 
-   Uso en HTML:
-     <div class="md-posts" data-md-dir="./posts"
-          data-api-dir="anuncios/dopamina/posts"></div>
+   1) LISTADO (la propia página del canal)
+        <div class="md-list" data-md-dir="./posts"
+             data-api-dir="anuncios/<canal>/posts"></div>
+      Pinta tarjetas con portada de color. Cada tarjeta abre la
+      entrada en su propia dirección: ./?p=<slug>
 
-   - data-md-dir  → carpeta local (relativa a la página) con los .md
-   - data-api-dir → misma carpeta dentro del repo (para listarla con
-                    la API de GitHub y no tener que editar nada más)
-   Si la API no está disponible (pre-merge, sin conexión, límite de
-   peticiones), se usa `posts.json` de la carpeta como manifiesto.
+   2) ENTRADA (./?p=<slug>)
+      La misma página muestra el artículo completo con su héroe,
+      fecha, tiempo de lectura, botón de copiar enlace y navegación
+      anterior/siguiente. El <h1> del markdown se usa como titular,
+      no se repite en el cuerpo.
 
-   Selector lateral estilo Grok:
-   - Crea un layout .md-layout con .md-sidebar (lista) + .md-main
-   - Cada post tiene id md-post-0, md-post-1...
-   - Click en sidebar → scroll suave + highlight
-   - IntersectionObserver → activa item visible
+   Además, el índice de Anuncios usa el modo FEED:
+        <div class="md-feed" data-md-base="./"
+             data-md-channels="…|slug;…"></div>
+      que mezcla las últimas entradas de todos los canales.
+
+   Si la API de GitHub no está disponible se usa `posts.json` de
+   cada carpeta como manifiesto.
    ============================================================ */
 (function () {
   "use strict";
@@ -28,8 +33,12 @@
   var ORG = "PineappleVA";
   var REPO = "Games";
   var BRANCH = "main";
+  var RAW_BASE = "https://raw.githubusercontent.com/" + ORG + "/" + REPO + "/" + BRANCH + "/";
 
-  /* ---------- Mini-renderizador Markdown (subconjunto seguro) ---------- */
+  var MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+  var COVERS = ["cov-amber", "cov-blue", "cov-green", "cov-violet", "cov-sunset", "cov-rose"];
+
+  /* ---------- Mini-renderizador de Markdown (subconjunto seguro) ---------- */
 
   function escapeHtml(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -38,8 +47,9 @@
   function renderInline(s) {
     s = s.replace(/!\[([^\]]*)\]\((https?:[^)\s]+)\)/g, '<img src="$2" alt="$1" loading="lazy">');
     s = s.replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    s = s.replace(/\[([^\]]+)\]\(([^)\s]+\.md)\)/g, "$1");
     s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-    s = s.replace(/(^|[^*])\*([^\*\n]+)\*/g, "$1<em>$2</em>");
+    s = s.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
     s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
     return s;
   }
@@ -51,56 +61,50 @@
     function flushPara() {
       if (para.length) { html += "<p>" + para.map(renderInline).join("<br>") + "</p>"; para = []; }
     }
-    function flushList() {
-      if (list) { html += "</" + list + ">"; list = null; }
-    }
+    function flushList() { if (list) { html += "</" + list + ">"; list = null; } }
     function flushQuote() {
       if (quote.length) { html += "<blockquote>" + quote.map(renderInline).join("<br>") + "</blockquote>"; quote = []; }
     }
     function flushAll() { flushPara(); flushList(); flushQuote(); }
 
     for (var i = 0; i < lines.length; i++) {
-      var line = lines[i], t = line.trim(), m;
+      var line = lines[i], t = line.trim();
 
       if (/^```/.test(t)) {
-        if (inCode) {
-          html += "<pre><code>" + escapeHtml(codeBuf.join("\n")) + "</code></pre>";
-          codeBuf = []; inCode = false;
-        } else { flushAll(); inCode = true; }
+        if (inCode) { html += "<pre><code>" + escapeHtml(codeBuf.join("\n")) + "</code></pre>"; codeBuf = []; inCode = false; }
+        else { flushAll(); inCode = true; }
         continue;
       }
       if (inCode) { codeBuf.push(line); continue; }
-      if (t === "") { flushAll(); continue; }
-      if (/^(-{3,}|\*{3,})$/.test(t)) { flushAll(); html += "<hr>"; continue; }
 
-      if ((m = t.match(/^(#{1,4})\s+(.*)$/))) {
-        flushAll();
-        html += "<h" + m[1].length + ">" + renderInline(escapeHtml(m[2])) + "</h" + m[1].length + ">";
+      if (!t) { flushAll(); continue; }
+      if (/^(-{3,}|\*{3,}|_{3,})$/.test(t)) { flushAll(); html += "<hr>"; continue; }
+
+      var h = t.match(/^(#{1,4})\s+(.*)$/);
+      if (h) { flushAll(); html += "<h" + h[1].length + ">" + renderInline(h[2]) + "</h" + h[1].length + ">"; continue; }
+
+      if (/^>\s?/.test(t)) { flushPara(); flushList(); quote.push(t.replace(/^>\s?/, "")); continue; }
+      if (/^[-*+]\s+/.test(t)) {
+        flushPara(); flushQuote();
+        if (list !== "ul") { flushList(); html += "<ul>"; list = "ul"; }
+        html += "<li>" + renderInline(t.replace(/^[-*+]\s+/, "")) + "</li>";
         continue;
       }
-      if ((m = t.match(/^>\s?(.*)$/))) {
-        flushPara(); flushList();
-        quote.push(escapeHtml(m[1])); continue;
-      }
-      if ((m = t.match(/^[-*•]\s+(.*)$/))) {
+      if (/^\d+[.)]\s+/.test(t)) {
         flushPara(); flushQuote();
-        if (list !== "ul") { flushList(); list = "ul"; html += "<ul>"; }
-        html += "<li>" + renderInline(escapeHtml(m[1])) + "</li>"; continue;
-      }
-      if ((m = t.match(/^\d+[.)]\s+(.*)$/))) {
-        flushPara(); flushQuote();
-        if (list !== "ol") { flushList(); list = "ol"; html += "<ol>"; }
-        html += "<li>" + renderInline(escapeHtml(m[1])) + "</li>"; continue;
+        if (list !== "ol") { flushList(); html += "<ol>"; list = "ol"; }
+        html += "<li>" + renderInline(t.replace(/^\d+[.)]\s+/, "")) + "</li>";
+        continue;
       }
       flushList(); flushQuote();
-      para.push(escapeHtml(t));
+      para.push(t);
     }
     if (inCode) html += "<pre><code>" + escapeHtml(codeBuf.join("\n")) + "</code></pre>";
     flushAll();
     return html;
   }
 
-  /* ---------- Helpers ---------- */
+  /* ---------- Utilidades de las entradas ---------- */
 
   function fetchText(url) {
     return fetch(encodeURI(url)).then(function (r) {
@@ -109,295 +113,358 @@
     });
   }
 
-  function postDate(name) {
-    var m = String(name).match(/^(\d{4})-(\d{2})-(\d{2})-/);
-    return m ? Number(m[3]) + "/" + Number(m[2]) + "/" + m[1] : null;
+  function slugOf(file) { return String(file).replace(/\.md$/i, ""); }
+
+  /* 2026-09-24-titulo.md → "24 sep 2026" */
+  function postDate(file) {
+    var m = String(file).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return "";
+    return parseInt(m[3], 10) + " " + MESES[parseInt(m[2], 10) - 1] + " " + m[1];
   }
+
+  function readingMinutes(md) {
+    var words = String(md).trim().split(/\s+/).length;
+    return Math.max(1, Math.round(words / 180));
+  }
+
+  function stripFirstHeading(md) {
+    var lines = String(md).replace(/\r\n/g, "\n").split("\n");
+    for (var i = 0; i < lines.length; i++) {
+      if (/^#{1,3}\s+/.test(lines[i].trim())) return lines.slice(0, i).concat(lines.slice(i + 1)).join("\n");
+    }
+    return md;
+  }
+
+  function cleanInline(s) { return String(s).replace(/[*_`\[\]]+/g, "").replace(/\s+/g, " ").trim(); }
 
   function extractTitle(md) {
     var lines = String(md).split("\n");
     for (var i = 0; i < lines.length; i++) {
-      var t = lines[i].trim();
-      var m = t.match(/^#{1,3}\s+(.*)$/);
-      if (m) {
-        return m[1].replace(/^[#\s]+/, "").replace(/[*_`]+/g, "").trim().slice(0, 80);
-      }
+      var m = lines[i].trim().match(/^#{1,3}\s+(.*)$/);
+      if (m) return cleanInline(m[1]).slice(0, 110);
     }
     for (var j = 0; j < lines.length; j++) {
-      var t2 = lines[j].trim();
-      if (t2 && t2.length > 3 && !/^[-*#>!]/.test(t2)) {
-        return t2.replace(/[*_`\[\]]+/g, "").trim().slice(0, 70);
-      }
+      var t = lines[j].trim();
+      if (t && t.length > 3 && !/^[-*#>!]/.test(t)) return cleanInline(t).slice(0, 100);
     }
     return "";
   }
 
-  function buildPost(name, md, idx) {
-    var art = document.createElement("article");
-    art.className = "post md-post";
-    art.id = "md-post-" + idx;
-    var date = postDate(name);
-    art.innerHTML = (date ? '<span class="date">📅 Fecha: ' + date + "</span>" : "") + renderMarkdown(md);
-    return art;
-  }
-
-  function loadPosts(files, resolveLocal) {
-    if (!files.length) return Promise.reject(new Error("sin archivos"));
-    var sorted = files.slice().sort().reverse(); // AAAA-MM-DD: más reciente primero
-    return Promise.all(sorted.map(function (f) {
-      return fetchText(resolveLocal(f)).then(function (md) { return { name: f, md: md }; });
-    }));
-  }
-
-  function ensureLayout(box) {
-    if (box.closest && box.closest(".md-layout")) {
-      var lay = box.closest(".md-layout");
-      return {
-        layout: lay,
-        sidebar: lay.querySelector(".md-sidebar"),
-        main: lay.querySelector(".md-main")
-      };
+  function extractExcerpt(md) {
+    var lines = String(md).replace(/\r\n/g, "\n").split("\n"), buf = [], started = false;
+    for (var i = 0; i < lines.length; i++) {
+      var t = lines[i].trim();
+      if (/^#{1,4}\s/.test(t)) continue;
+      if (!t) { if (started && buf.length) break; continue; }
+      if (/^(-{3,}|>|\||```)/.test(t)) continue;
+      started = true;
+      buf.push(t.replace(/[#*_`>]/g, "").replace(/\[([^\]]+)\]\([^)]*\)/g, "$1"));
+      if (buf.join(" ").length > 220) break;
     }
-    var layout = document.createElement("div");
-    layout.className = "md-layout";
-
-    var sidebar = document.createElement("nav");
-    sidebar.className = "md-sidebar";
-    sidebar.setAttribute("aria-label", "Selector de noticias");
-    sidebar.innerHTML = '<div class="md-sidebar-head"><span class="md-sidebar-title">Noticias</span></div><div class="md-sidebar-list"></div>';
-
-    var main = document.createElement("div");
-    main.className = "md-main";
-
-    box.parentNode.insertBefore(layout, box);
-    layout.appendChild(sidebar);
-    layout.appendChild(main);
-    main.appendChild(box);
-
-    return { layout: layout, sidebar: sidebar, main: main };
+    var out = buf.join(" ").replace(/\s+/g, " ").trim();
+    if (out.length > 200) out = out.slice(0, 197).replace(/\s+\S*$/, "") + "…";
+    return out;
   }
 
-  function buildSidebar(box, posts) {
-    var info = ensureLayout(box);
-    var sidebar = info.sidebar;
-    if (!sidebar) return;
-    var list = sidebar.querySelector(".md-sidebar-list");
-    var countEl = sidebar.querySelector(".md-sidebar-count");
-    if (!list) return;
-    list.innerHTML = "";
-    if (countEl) countEl.textContent = posts.length + " noticias";
+  function coverClass(slug) {
+    var h = 0, str = String(slug);
+    for (var i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+    return COVERS[h % COVERS.length];
+  }
 
-    posts.forEach(function (p, idx) {
-      var rawTitle = extractTitle(p.md);
-      var fallback = p.name.replace(/\.md$/i, "").replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/-/g, " ");
-      var title = rawTitle || fallback;
-      var date = postDate(p.name) || "";
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "md-sidebar-item" + (idx === 0 ? " active" : "");
-      btn.setAttribute("data-idx", String(idx));
-      // minimalista: solo título + fecha corta
-      btn.innerHTML = '<span class="line"><span class="title">' + escapeHtml(title) + '</span></span><span class="meta">' + escapeHtml(date || "") + '</span>';
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
 
-      btn.addEventListener("click", function () {
-        var target = document.getElementById("md-post-" + idx);
-        if (!target) return;
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-        var all = list.querySelectorAll(".md-sidebar-item");
-        for (var k = 0; k < all.length; k++) all[k].classList.remove("active");
-        btn.classList.add("active");
-        target.classList.add("is-highlight");
-        setTimeout(function () { target.classList.remove("is-highlight"); }, 900);
-        if (window.history && history.replaceState) {
-          try { history.replaceState(null, "", "#" + target.id); } catch (e) {}
-        }
-      });
+  function postTitle(post) { return post.title || post.slug.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/-/g, " "); }
 
-      list.appendChild(btn);
-    });
+  /* ---------- Descubrir entradas ---------- */
 
-    // Observador para marcar activo al hacer scroll
+  function viaTrees(apiDir) {
+    var url = "https://api.github.com/repos/" + ORG + "/" + REPO + "/git/trees/" + BRANCH +
+              "?recursive=1&t=" + Math.floor(Date.now() / 60000);
+    /* OJO: la clave lleva el directorio. Antes era una sola para todo el
+       sitio y una lista vacía (o de otro canal) pisaba la de los demás. */
+    var cacheKey = "pg-tree-" + BRANCH + ":" + apiDir;
     try {
-      if ("IntersectionObserver" in window) {
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              var id = entry.target.id;
-              var m = id.match(/md-post-(\d+)/);
-              if (!m) return;
-              var i = parseInt(m[1], 10);
-              var items = list.querySelectorAll(".md-sidebar-item");
-              for (var q = 0; q < items.length; q++) items[q].classList.remove("active");
-              if (items[i]) {
-                items[i].classList.add("active");
-                // Mantener visible el activo en sidebar (desktop)
-                try {
-                  if (window.innerWidth > 900) {
-                    items[i].scrollIntoView({ block: "nearest", behavior: "smooth" });
-                  }
-                } catch (e2) {}
-              }
+      var cached = sessionStorage.getItem(cacheKey);
+      if (cached && Date.now() - JSON.parse(cached).t < 300000) return Promise.resolve(JSON.parse(cached).v);
+    } catch (e) {}
+
+    return fetch(url, { headers: { Accept: "application/vnd.github+json" } })
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function (tree) {
+        var prefix = apiDir.replace(/\/$/, "") + "/";
+        var files = (tree.tree || [])
+          .filter(function (it) { return it.type === "blob" && it.path.indexOf(prefix) === 0; })
+          .map(function (it) { return it.path.slice(prefix.length); })
+          .filter(function (p) { return /\.md$/i.test(p) && p.indexOf("/") === -1; })
+          .sort().reverse();
+        var posts = files.map(function (file) {
+          return { file: file, slug: slugOf(file), date: String(file).slice(0, 10), dir: apiDir.replace(/\/$/, "") };
+        });
+        try { sessionStorage.setItem(cacheKey, JSON.stringify({ t: Date.now(), v: posts })); } catch (e) {}
+        return posts;
+      });
+  }
+
+  function viaManifest(localDir, apiDir) {
+    return fetchText(localDir + "/posts.json").then(function (text) {
+      var raw = JSON.parse(text);
+      var arr = Array.isArray(raw) ? raw : (raw.posts || []);
+      return arr.map(function (entry) {
+        var file = typeof entry === "string" ? entry : (entry.file || entry.md || "");
+        return {
+          file: file,
+          slug: (typeof entry === "object" && entry.slug) ? entry.slug : slugOf(file),
+          date: String(file).slice(0, 10),
+          dir: apiDir.replace(/\/$/, "")
+        };
+      }).filter(function (p) { return p.file; })
+        /* siempre de la más reciente a la más antigua, dé como dé el manifiesto */
+        .sort(function (a, b) { return b.file.localeCompare(a.file); });
+    });
+  }
+
+  function fetchPosts(localDir, apiDir) {
+    if (!apiDir) return viaManifest(localDir, localDir);
+    /* Primero el manifiesto del propio canal: es el que siempre coincide
+       con los archivos publicados. La API de GitHub se queda como
+       respaldo, para no mezclar entradas que aún no existen aquí. */
+    return viaManifest(localDir, apiDir)
+      .then(function (posts) { return { posts: posts, optimistic: false, apiDir: apiDir }; })
+      .catch(function () {
+        return viaTrees(apiDir).then(function (posts) {
+          return { posts: posts, optimistic: true, apiDir: apiDir };
+        });
+      });
+  }
+
+  function readPost(post, localDir, apiDir) {
+    var local = localDir + "/" + post.file;
+    return fetchText(local)
+      .catch(function () { return fetchText(RAW_BASE + apiDir + "/" + post.file); })
+      .then(function (md) {
+        /* el titular sale del primer encabezado del markdown */
+        return Object.assign({}, post, { md: md, title: extractTitle(md), excerpt: extractExcerpt(md) });
+      });
+  }
+
+  /* ---------- Tarjetas ---------- */
+
+  function cardOf(post, idx, opts) {
+    var a = document.createElement("a");
+    a.className = "post-card" + (opts.featured ? " featured" : "");
+    a.href = opts.href;
+    a.style.animationDelay = (idx * 70) + "ms";
+
+    var cover = document.createElement("span");
+    cover.className = "post-cover " + coverClass(post.slug);
+    cover.setAttribute("aria-hidden", "true");
+    cover.innerHTML = '<span class="cov-no">№ ' + pad2(idx + 1) + "</span><span class=\"cov-pine\">🍍</span>";
+
+    var body = document.createElement("div");
+    body.className = "post-card-body";
+    var head = document.createElement("span");
+    head.className = "post-card-head";
+    var pills = "";
+    if (opts.channelLabel) pills += '<span class="pill pill-brand">' + escapeHtml(opts.channelLabel) + "</span>";
+    else if (opts.featured) pills += '<span class="pill pill-brand">Última entrada</span>';
+    if (post.date) pills += '<span class="pill">' + escapeHtml(postDate(post.file)) + "</span>";
+    pills += '<span class="pill">' + readingMinutes(post.md) + " min</span>";
+    head.innerHTML = pills;
+
+    var h3 = document.createElement("h3");
+    h3.textContent = postTitle(post);
+    var p = document.createElement("p");
+    p.textContent = post.excerpt || extractExcerpt(post.md);
+    var meta = document.createElement("div");
+    meta.className = "post-card-meta";
+    meta.innerHTML = "<span>Por Pineapple</span><span class=\"post-card-more\">Leer la entrada →</span>";
+
+    body.appendChild(head); body.appendChild(h3);
+    if (p.textContent) body.appendChild(p);
+    body.appendChild(meta);
+    a.appendChild(cover); a.appendChild(body);
+    return a;
+  }
+
+  function emptyNotice(text) {
+    var div = document.createElement("div");
+    div.className = "notice";
+    div.style.gridColumn = "1 / -1";
+    div.innerHTML = "<h3>Todavía no hay nada por aquí</h3><p>" + escapeHtml(text) + "</p>";
+    return div;
+  }
+
+  /* ---------- 1) Listado del canal ---------- */
+
+  var listEl = document.querySelector(".md-list, .md-posts");
+  if (listEl) {
+    var listLocal = (listEl.getAttribute("data-md-dir") || "./posts").replace(/\/+$/, "");
+    var listApi = listEl.getAttribute("data-api-dir") || "";
+    var countEl = document.getElementById("mdCount");
+
+    fetchPosts(listLocal, listApi).then(function (res) {
+      if (!res.posts.length) throw new Error("vacío");
+      return Promise.all(res.posts.map(function (post) {
+        return readPost(post, listLocal, res.apiDir).catch(function () { return null; });
+      }));
+    }).then(function (items) {
+      items = (items || []).filter(Boolean).sort(function (a, b) { return b.file.localeCompare(a.file); });
+      if (!items.length) throw new Error("sin entradas");
+      listEl.innerHTML = "";
+      items.forEach(function (post, idx) {
+        listEl.appendChild(cardOf(post, idx, {
+          featured: idx === 0,
+          href: "./?p=" + encodeURIComponent(post.slug)
+        }));
+      });
+      if (countEl) countEl.textContent = items.length + (items.length === 1 ? " entrada" : " entradas");
+    }).catch(function () {
+      if (countEl) countEl.textContent = "0 entradas";
+      listEl.innerHTML = "";
+      listEl.appendChild(emptyNotice("Cuando publiquemos algo, aparecerá aquí automáticamente."));
+    });
+  }
+
+  /* ---------- 2) Entrada suelta (./?p=slug) ---------- */
+
+  var postEl = document.getElementById("mdPost");
+  if (postEl) {
+    var listView = document.getElementById("listView");
+    var postView = document.getElementById("postView");
+    if (new URLSearchParams(location.search).get("p")) {
+      if (listView) listView.setAttribute("hidden", "");
+      if (postView) postView.removeAttribute("hidden");
+    }
+    var postLocal = (postEl.getAttribute("data-md-dir") || "./posts").replace(/\/+$/, "");
+    var postApi = postEl.getAttribute("data-api-dir") || "";
+    var slug = (new URLSearchParams(location.search).get("p") || "").trim().replace(/\.md$/i, "");
+    var isValid = /^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(slug);
+
+    var titleEl = document.getElementById("postTitle");
+    var metaEl = document.getElementById("postMeta");
+    var pagerEl = document.getElementById("postPager");
+    var shareBtn = document.getElementById("shareBtn");
+
+    function fail(msg) {
+      postEl.innerHTML = '<div class="notice"><h3>Este anuncio no aparece</h3><p>' + escapeHtml(msg) + "</p>" +
+        '<p style="margin-top:.6rem"><a href="./">← Volver a los anuncios</a></p></div>';
+      if (titleEl) titleEl.textContent = "Anuncio no encontrado";
+      if (metaEl) metaEl.setAttribute("hidden", "");
+      /* sin botones de compartir ni paginador: aquí no hay nada que compartir */
+      var actions = document.querySelector(".post-actions");
+      if (actions) actions.setAttribute("hidden", "");
+      if (pagerEl) pagerEl.setAttribute("hidden", "");
+    }
+
+    if (!isValid) {
+      fail("No hay ningún anuncio con esta dirección.");
+    } else {
+      fetchPosts(postLocal, postApi).then(function (res) {
+        var idx = -1;
+        for (var i = 0; i < res.posts.length; i++) {
+          if (res.posts[i].slug === slug) { idx = i; break; }
+        }
+        if (idx < 0) throw new Error("no está");
+        return readPost(res.posts[idx], postLocal, res.apiDir).then(function (post) {
+          return { post: post, posts: res.posts, idx: idx, apiDir: res.apiDir };
+        });
+      }).then(function (data) {
+        var post = data.post, md = post.md;
+
+        /* el <h1> del markdown pasa al héroe: no se repite en el cuerpo */
+        postEl.innerHTML = renderMarkdown(stripFirstHeading(md));
+        if (titleEl) titleEl.textContent = postTitle(post);
+        document.title = postTitle(post) + " · Anuncios · Pineapple Games";
+
+        if (metaEl) {
+          metaEl.innerHTML =
+            (post.date ? '<span class="pill">' + escapeHtml(postDate(post.file)) + "</span>" : "") +
+            '<span class="pill">' + readingMinutes(md) + " min</span>" +
+            '<span class="pill author">Por Pineapple</span>';
+          metaEl.removeAttribute("hidden");
+        }
+
+        /* canonical y og con la dirección de la entrada */
+        var desc = post.excerpt || extractExcerpt(md);
+        var canon = document.querySelector('link[rel="canonical"]');
+        if (canon) canon.setAttribute("href", location.origin + location.pathname + "?p=" + encodeURIComponent(post.slug));
+        var metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && desc) metaDesc.setAttribute("content", desc);
+
+        if (shareBtn && !shareBtn.dataset.bound) {
+          shareBtn.dataset.bound = "1";
+          shareBtn.addEventListener("click", function () {
+            var url = location.href;
+            function done() {
+              var old = shareBtn.textContent;
+              shareBtn.textContent = "¡Copiado!";
+              setTimeout(function () { shareBtn.textContent = old; }, 1600);
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(url).then(done, function () { window.prompt("Copia el enlace:", url); });
+            } else {
+              window.prompt("Copia el enlace:", url);
             }
           });
-        }, { rootMargin: "-25% 0px -65% 0px", threshold: 0.1 });
-
-        posts.forEach(function (_, idx) {
-          var el = document.getElementById("md-post-" + idx);
-          if (el) io.observe(el);
-        });
-      }
-    } catch (e) {}
-
-    // Si hay hash inicial, saltar
-    try {
-      if (location.hash && /^#md-post-\d+/.test(location.hash)) {
-        var targetHash = document.querySelector(location.hash);
-        if (targetHash) {
-          setTimeout(function () { targetHash.scrollIntoView({ behavior: "smooth", block: "start" }); }, 200);
         }
-      }
-    } catch (e3) {}
-  }
 
-  function renderAll(box, posts) {
-    box.innerHTML = "";
-    posts.forEach(function (p, idx) {
-      box.appendChild(buildPost(p.name, p.md, idx));
-    });
-    buildSidebar(box, posts);
-  }
-
-  function renderEmpty(box) {
-    box.innerHTML =
-      '<div class="notice info"><h3>Por ahora, aquí no hay nada que ver</h3>' +
-      "<p>Cuando publiquemos novedades en este canal, aparecerán aquí automáticamente.</p></div>";
-    // Limpiar sidebar si existe
-    try {
-      var lay = box.closest(".md-layout");
-      if (lay) {
-        var c = lay.querySelector(".md-sidebar-count");
-        var l = lay.querySelector(".md-sidebar-list");
-        if (c) c.textContent = "0 noticias";
-        if (l) l.innerHTML = '<div class="notice" style="padding:.6rem .7rem;font-size:.85rem;">Sin noticias</div>';
-      }
-    } catch (e) {}
-  }
-
-  /* ---------- Inicialización de canales ---------- */
-  document.querySelectorAll(".md-posts").forEach(function (box) {
-    var localDir = (box.getAttribute("data-md-dir") || "./posts").replace(/\/$/, "");
-    var apiDir = box.getAttribute("data-api-dir") || "";
-
-    // Preparar layout antes de cargar
-    ensureLayout(box);
-    box.innerHTML = '<p class="md-loading">Cargando anuncios…</p>';
-
-    function viaApi() {
-      if (!apiDir) return Promise.reject(new Error("sin api"));
-      var url = "https://api.github.com/repos/" + ORG + "/" + REPO + "/contents/" +
-        apiDir.split("/").map(encodeURIComponent).join("/") + "?ref=" + encodeURIComponent(BRANCH);
-      return fetch(url, { headers: { Accept: "application/vnd.github+json" } })
-        .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-        .then(function (items) {
-          var files = (Array.isArray(items) ? items : [])
-            .filter(function (it) {
-              return it.type === "file" && /\.md$/i.test(it.name) &&
-                it.name.toLowerCase() !== "readme.md" && it.name.charAt(0) !== ".";
-            })
-            .map(function (it) { return it.name; });
-          return loadPosts(files, function (name) {
-            return "https://raw.githubusercontent.com/" + ORG + "/" + REPO + "/" +
-              encodeURIComponent(BRANCH) + "/" + apiDir + "/" + name;
-          });
-        });
-    }
-
-    function viaManifest() {
-      return fetchText(localDir + "/posts.json").then(function (text) {
-        var files = (JSON.parse(text).posts || []);
-        return loadPosts(files, function (name) { return localDir + "/" + name; });
+        /* anterior (más reciente) / siguiente (más antigua) */
+        if (pagerEl) {
+          var newer = data.idx > 0 ? data.posts[data.idx - 1] : null;
+          var older = data.idx < data.posts.length - 1 ? data.posts[data.idx + 1] : null;
+          if (newer || older) {
+            function pagerCard(p, label, cls) {
+              return '<a class="pager-card ' + cls + '" href="./?p=' + encodeURIComponent(p.slug) + '">' +
+                     '<span class="dir">' + label + '</span><span class="t">' +
+                     escapeHtml(p.title || p.slug.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/-/g, " ")) + "</span></a>";
+            }
+            pagerEl.innerHTML =
+              (newer ? pagerCard(newer, "← Más reciente", "prev") : "<span></span>") +
+              (older ? pagerCard(older, "Más antigua →", "next") : "<span></span>");
+            pagerEl.removeAttribute("hidden");
+          }
+        }
+      }).catch(function () {
+        fail("Puede que se haya borrado, renombrado o que la dirección esté mal escrita.");
       });
     }
+  }
 
-    viaApi()
-      .catch(viaManifest)
-      .then(function (posts) { renderAll(box, posts); })
-      .catch(function () { renderEmpty(box); });
-  });
+  /* ---------- 3) Feed del índice de Anuncios ---------- */
 
-  /* ---------- Feed combinado de últimos anuncios ---------- */
-  document.querySelectorAll(".md-feed[data-md-channels]").forEach(function (feed) {
-    var channels = feed.getAttribute("data-md-channels").split(";")
-      .map(function (chunk) {
-        var p = chunk.split("|");
-        if (p.length < 2 || !p[1] || !p[1].trim()) return null;
-        var slug = p[1].trim().replace(/\/+$/, "");
-        return {
-          name: p[0].trim(),
-          apiDir: "anuncios/" + slug + "/posts",
-          localDir: "./" + slug + "/posts",
-          href: "./" + slug + "/"
-        };
-      })
-      .filter(function (ch) { return ch && ch.name; });
-    if (!channels.length) return;
+  var feedEl = document.querySelector(".md-feed");
+  if (feedEl) {
+    var spec = feedEl.getAttribute("data-md-channels") || "";
+    var limit = parseInt(feedEl.getAttribute("data-md-limit"), 10) || 3;
+    var channels = spec.split(";").map(function (part) {
+      var bits = part.split("|");
+      return { label: bits[0], dir: (bits[1] || "").trim() };
+    }).filter(function (c) { return c.dir; });
 
-    var limit = parseInt(feed.getAttribute("data-md-limit") || "3", 10) || 3;
-    var perChannel = 2;
+    var apiFor = function (dir) { return "anuncios/" + dir + "/posts"; };
+    var base = (feedEl.getAttribute("data-md-base") || "./").replace(/\/+$/, "") + "/";
 
-    function listChannel(ch) {
-      var url = "https://api.github.com/repos/" + ORG + "/" + REPO + "/contents/" +
-        ch.apiDir.split("/").map(encodeURIComponent).join("/") + "?ref=" + encodeURIComponent(BRANCH);
-      return fetch(url, { headers: { Accept: "application/vnd.github+json" } })
-        .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-        .then(function (items) {
-          return (Array.isArray(items) ? items : [])
-            .filter(function (it) {
-              return it.type === "file" && /\.md$/i.test(it.name) &&
-                it.name.toLowerCase() !== "readme.md" && it.name.charAt(0) !== ".";
-            })
-            .map(function (it) { return it.name; });
-        })
-        .catch(function () {
-          return fetchText(ch.localDir + "/posts.json").then(function (text) {
-            return JSON.parse(text).posts || [];
-          });
-        });
-    }
-
-    var jobs = channels.map(function (ch) {
-      return listChannel(ch).then(function (files) {
-        files.sort().reverse();
-        return Promise.all(files.slice(0, perChannel).map(function (name) {
-          return fetchText(ch.localDir + "/" + name)
-            .then(function (md) { return { ch: ch, name: name, md: md }; });
+    Promise.all(channels.map(function (ch) {
+      var localDir = (base + ch.dir + "/posts").replace(/^\.\//, "./");
+      return fetchPosts(localDir, apiFor(ch.dir)).then(function (res) {
+        /* dos entradas por canal bastan para elegir la más reciente */
+        return Promise.all(res.posts.slice(0, 2).map(function (post) {
+          return readPost(post, localDir, res.apiDir).then(function (full) {
+            return Object.assign({}, full, { channel: ch, href: base + ch.dir + "/?p=" + encodeURIComponent(full.slug) });
+          }).catch(function () { return null; });
         }));
       }).catch(function () { return []; });
-    });
-
-    Promise.all(jobs).then(function (groups) {
-      var posts = [];
-      groups.forEach(function (g) { posts = posts.concat(g); });
-      if (!posts.length) {
-        renderEmpty(feed);
-        return;
-      }
-      posts.sort(function (a, b) { return b.name.localeCompare(a.name); });
-      feed.innerHTML = "";
-      posts.slice(0, limit).forEach(function (p) {
-        var art = document.createElement("article");
-        art.className = "post md-post";
-        var date = postDate(p.name);
-        var raw = String(p.md || "");
-        var previewMd = raw.length > 320 ? raw.slice(0, 320).replace(/\s+\S*$/, "") + "..." : raw;
-        var previewHtml = renderMarkdown(previewMd);
-        art.innerHTML =
-          '<p class="md-feed-meta">📣 <a href="' + p.ch.href + '">' +
-          escapeHtml(p.ch.name) + "</a>" + (date ? " · 📅 " + date : "") + "</p>" +
-          '<div class="md-feed-preview-wrap"><div class="md-feed-preview">' + previewHtml + '</div><div class="md-feed-fade"></div></div>' +
-          '<a class="btn small md-feed-more" href="' + p.ch.href + '">Léelo completo en ' + escapeHtml(p.ch.name) + ' →</a>';
-        feed.appendChild(art);
+    })).then(function (groups) {
+      var all = [];
+      groups.forEach(function (g) { g.filter(Boolean).forEach(function (p) { all.push(p); }); });
+      all.sort(function (a, b) { return b.file.localeCompare(a.file); });
+      all = all.slice(0, Math.max(1, limit));
+      feedEl.innerHTML = "";
+      if (!all.length) { feedEl.appendChild(emptyNotice("Cuando publiquemos algo, aparecerá aquí.")); return; }
+      all.forEach(function (post, idx) {
+        feedEl.appendChild(cardOf(post, idx, { href: post.href, channelLabel: post.channel.label }));
       });
     });
-  });
+  }
 })();

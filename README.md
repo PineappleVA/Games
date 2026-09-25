@@ -16,7 +16,8 @@ Los juegos del equipo Pineapple en un solo sitio.
 - **Trade Up** — Intercambios y progresión
 - **Fine At Skibidi (FNAS)** — Terror fan-made, web oficial externa
 - **SimulaGoal** — Simulación de fútbol
-- **iRiS Games** — Arcade con varios minijuegos
+- **IMTLazarus Games** — Arcade con varios minijuegos (tragaperras, dardos, Win98 y secretos)
+- **iRiS Games** — 🪦 Archivo del arcade: la versión original (v4.0), congelada en [/games/iris-games/](./games/iris-games/)
 - **Slop Central** — Próximamente
 
 Todos gratuitos, sin registro. Tu progreso se guarda en tu propio navegador.

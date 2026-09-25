@@ -36,6 +36,9 @@
 
   function injectStyles() {
     if (document.getElementById("pg-consent-style")) return;
+    /* En los juegos (páginas sin cabecera del sitio) el aviso se va abajo a la
+       izquierda: abajo a la derecha tapa controles del propio juego. */
+    var enJuego = !document.querySelector(".site-header");
     var css =
       "#pg-consent{position:fixed;right:16px;bottom:16px;z-index:9999;max-width:420px;" +
       "background:linear-gradient(165deg,rgba(50,42,24,.88),rgba(33,28,17,.78));color:#f5f0e4;" +
@@ -57,7 +60,9 @@
       "#pg-consent button.primary{background:linear-gradient(135deg,#f5a623,#e8930c);border:none;color:#1a1206;box-shadow:none}" +
       "#pg-consent button:hover{filter:brightness(1.08)}" +
       "#pg-consent button:active{transform:scale(.98)}" +
-      "@media(max-width:640px){#pg-consent{left:12px;right:12px;bottom:12px;max-width:none}}";
+      "@media(max-width:640px){#pg-consent{left:12px;right:12px;bottom:12px;max-width:none}}" +
+      (enJuego ? "#pg-consent{left:16px;right:auto;bottom:16px;max-width:340px}" +
+                 "@media(max-width:640px){#pg-consent{left:12px;right:12px;bottom:12px;max-width:none}}" : "");
     var st = document.createElement("style");
     st.id = "pg-consent-style";
     st.textContent = css;

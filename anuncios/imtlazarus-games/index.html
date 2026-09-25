@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trade Up · Pineapple Games</title>
-  <meta name="description" content="Trade Up: servidores cerrados. El juego vuelve muy pronto.">
+  <title>Anuncios de IMTLazarus Games · Pineapple Games</title>
+  <meta name="description" content="Canal de anuncios de IMTLazarus Games: novedades, arreglos y secretos del arcade.">
   <meta name="author" content="Pineapple">
   <meta name="theme-color" content="#f5a623">
   <meta name="color-scheme" content="dark light">
-  <link rel="canonical" href="https://pineappleva.github.io/Games/games/trade-up/">
+  <link rel="canonical" href="https://pineappleva.github.io/Games/anuncios/imtlazarus-games/">
   <link rel="icon" type="image/png" href="../../assets/img/pineapple.png">
   <link rel="apple-touch-icon" href="../../assets/img/pineapple.png">
   <link rel="manifest" href="../../manifest.json">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Pineapple Games">
-  <meta property="og:title" content="Trade Up · Pineapple Games">
-  <meta property="og:description" content="Trade Up: servidores cerrados. El juego vuelve muy pronto.">
-  <meta property="og:url" content="https://pineappleva.github.io/Games/games/trade-up/">
+  <meta property="og:title" content="Anuncios de IMTLazarus Games · Pineapple Games">
+  <meta property="og:description" content="Canal de anuncios de IMTLazarus Games: novedades del arcade y su historia.">
+  <meta property="og:url" content="https://pineappleva.github.io/Games/anuncios/imtlazarus-games/">
   <meta property="og:image" content="https://pineappleva.github.io/Games/assets/img/pineapple.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:site" content="@pineapplevacorp">
-  <meta name="twitter:title" content="Trade Up · Pineapple Games">
-  <meta name="twitter:description" content="Trade Up: servidores cerrados. El juego vuelve muy pronto.">
+  <meta name="twitter:title" content="Anuncios de IMTLazarus Games · Pineapple Games">
+  <meta name="twitter:description" content="Canal de anuncios de IMTLazarus Games: novedades del arcade y su historia.">
   <meta name="twitter:image" content="https://pineappleva.github.io/Games/assets/img/pineapple.png">
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <script>
@@ -59,7 +59,7 @@
         <ul>
           <li><a href="../../">Inicio</a></li>
           <li><a href="../../games/all/">Todos los juegos</a></li>
-          <li><a href="../../anuncios/">Anuncios</a></li>
+          <li><a href="../../anuncios/" aria-current="page">Anuncios</a></li>
           <li><a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           <li><a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener noreferrer">X</a></li>
         </ul>
@@ -72,22 +72,53 @@
   </header>
 
   <main id="main" class="content">
-    <a class="back-link" href="../all/">← Volver a todos los juegos</a>
+  <section id="listView">
+    <header class="blog-hero">
+      <div class="orb orb-1" aria-hidden="true"></div>
+      <p class="kicker">Anuncios · Pineapple Games</p>
+      <h1>🎮 IMTLazarus Games</h1>
+      <p class="sub">Todo lo que pasa en el arcade: novedades, arreglos y algún que otro secreto. <span id="mdCount" class="hero-count"></span> y contando.</p>
+    </header>
 
-    <section class="hero">
-      <h1>📈 Trade <span>Up</span></h1>
-      <p><span class="badge closed">Servidores cerrados</span></p>
-    </section>
-
-    <div class="notice error">
-      <h3>🔴 Estado del juego</h3>
-      <p>Los servidores de Trade Up están cerrados y ahora mismo no se puede jugar.
-      Estamos trabajando en su regreso: cuando la nueva versión esté lista, la encontrarás aquí.</p>
+    <div class="md-toolbar">
+      <h2>Entradas</h2>
+      <span class="md-hint">De la más reciente a la más antigua</span>
     </div>
 
-    <div class="btn-row">
-      <a class="btn big" href="../../anuncios/trade-up/">Ver en Anuncios</a>
+    <div class="md-list" data-md-dir="./posts" data-api-dir="anuncios/imtlazarus-games/posts">
+      <div class="skel-card skel-featured" aria-hidden="true"></div>
+      <div class="skel-card" aria-hidden="true"></div>
+      <div class="skel-card" aria-hidden="true"></div>
     </div>
+
+  </section>
+
+  <section class="post-view" id="postView" hidden>
+    <header class="post-hero">
+      <div class="orb orb-1" aria-hidden="true"></div>
+      <p class="kicker">Anuncios · Pineapple Games</p>
+      <h1 id="postTitle">Cargando…</h1>
+      <p class="post-hero-meta" id="postMeta" hidden></p>
+    </header>
+
+    <a class="back-link" href="./">← Volver a los anuncios</a>
+
+    <article class="md-post single" id="mdPost" data-md-dir="./posts" data-api-dir="anuncios/imtlazarus-games/posts">
+      <div class="skel-post" aria-hidden="true">
+        <div class="skel-line w60"></div>
+        <div class="skel-line"></div>
+        <div class="skel-line"></div>
+        <div class="skel-line w45"></div>
+      </div>
+    </article>
+
+    <div class="post-actions">
+      <button id="shareBtn" class="btn small ghost" type="button">Copiar enlace</button>
+      <a class="btn small ghost" href="./">Todas las entradas</a>
+    </div>
+
+    <nav class="post-pager" id="postPager" hidden aria-label="Más anuncios del canal"></nav>
+  </section>
   </main>
 
   <footer class="site-footer">
@@ -140,6 +171,7 @@
   </footer>
 
   <script src="../../assets/js/site.js" defer></script>
+  <script src="../../assets/js/markdown.js" defer></script>
   <script src="../../assets/js/analytics.js" defer></script>
   <button id="toTop" class="to-top" type="button" aria-label="Volver arriba" title="Volver arriba">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>

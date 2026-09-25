@@ -7,7 +7,7 @@
   <meta name="description" content="Términos narrados y extensos de Pineapple Games. Actualizado 15 septiembre 2026.">
   <meta name="author" content="Pineapple">
   <meta name="theme-color" content="#f5a623">
-  <meta name="color-scheme" content="dark">
+  <meta name="color-scheme" content="dark light">
   <link rel="canonical" href="https://pineappleva.github.io/Games/legal/terminos/">
   <link rel="icon" type="image/png" href="../../assets/img/pineapple.png">
   <link rel="apple-touch-icon" href="../../assets/img/pineapple.png">
@@ -24,23 +24,50 @@
   <meta name="twitter:description" content="Términos narrados y extensos de Pineapple Games. Actualizado 15 septiembre 2026.">
   <meta name="twitter:image" content="https://pineappleva.github.io/Games/assets/img/pineapple.png">
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <script>
+    /* Tema: se aplica ANTES de pintar para evitar parpadeo.
+       Orden: localStorage('pa-theme') -> prefers-color-scheme -> oscuro */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('pa-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'light' ? '#ffffff' : '#131007');
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body>
-  <a href="#main" class="sr-only" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Saltar al contenido</a>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href="../../">
-        <img src="../../assets/img/pineapple.png" alt="Logo Pineapple" width="34" height="34" loading="eager">
+      <a class="brand" href="../../" aria-label="Pineapple Games — inicio">
+        <img src="../../assets/img/pineapple.png" alt="Logo Pineapple Games - piña" width="34" height="34" loading="eager">
         <span>Pineapple Games<small>Making things a little bit better</small></span>
       </a>
-      <nav class="main-nav">
-        <a href="../../">Inicio</a>
-        <a href="../../games/all/">Todos los juegos</a>
-        <a href="../../anuncios/">Anuncios</a>
-        <a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener noreferrer">YouTube</a>
-        <a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener noreferrer">X</a>
+      <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="siteNav" aria-label="Abrir menú">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <nav id="siteNav" class="main-nav" aria-label="Navegación principal">
+        <ul>
+          <li><a href="../../">Inicio</a></li>
+          <li><a href="../../games/all/">Todos los juegos</a></li>
+          <li><a href="../../anuncios/">Anuncios</a></li>
+          <li><a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+          <li><a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener noreferrer">X</a></li>
+        </ul>
       </nav>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambiar entre tema oscuro y claro" title="Cambiar tema">
+        <svg class="ico-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>
+        <svg class="ico-moon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
     </div>
   </header>
 
@@ -58,7 +85,7 @@
       <p>Tampoco somos la web oficial de las sagas a las que a veces homenajeamos. FNAS, por ejemplo, es un fan-game inspirado en FNAF. Lo hacemos por cariño, no para suplantar. Si en algún momento alguien siente que nos hemos pasado de la raya, preferimos que nos escriba y lo hablamos antes que entrar en líos. Para eso está nuestra página de <a href="../dmca/">DMCA</a>.</p>
 
       <h2>El catálogo hoy, contado como está</h2>
-      <p>A día de hoy conviven seis juegos, aunque uno de ellos aún no se puede abrir. Dopamina es el clicker que lo empezó todo, con su guardado en <code>dopamina_autosave</code>. Trade Up está con servidores cerrados, esperando a volver mejor. FNAS está en Unreleased aquí y completo en su web oficial externa. SimulaGoal es el Mundial con 120 selecciones y penaltis que guardan en <code>sg-save-v2</code>. iRiS Games pasó a Deteriorado durante el verano, se queda jugable pero sin updates previstas, con <code>iris-save-v1</code>. Y Slop Central está bloqueado con candado 🔒 hasta que lo terminemos.</p>
+      <p>A día de hoy conviven seis juegos, aunque uno de ellos aún no se puede abrir. Dopamina es el clicker que lo empezó todo, con su guardado en <code>dopamina_autosave</code>. Trade Up está con servidores cerrados, esperando a volver mejor. FNAS está en Unreleased aquí y completo en su web oficial externa. SimulaGoal es el Mundial con 120 selecciones y penaltis que guardan en <code>sg-save-v2</code>. iRiS Games pasó a Deteriorado durante el verano y en septiembre de 2026 cambió de nombre: ahora es IMTLazarus Games, que guarda en <code>imt-save-v1</code>, mientras que la versión original del arcade se conserva como archivo jugable en <code>/games/iris-games/</code> con <code>iris-save-v1</code>. Y Slop Central está bloqueado con candado 🔒 hasta que lo terminemos.</p>
       <p>Cada juego puede tener sus propias normas. Si Dopamina dice una cosa en sus términos propios y aquí decimos otra, manda lo que diga Dopamina para Dopamina. Es lógico: cada juego tiene su historia.</p>
 
       <h2>Cómo nos gusta que uses la web</h2>
@@ -89,7 +116,7 @@
       <p>La web es para público general y no pide registro. Si eres menor, úsala con la supervisión de tus padres o tutores, sobre todo por esas zonas con poca moderación y por la decisión de aceptar o no analítica. Si eres padre y crees que tu hijo nos ha escrito dando datos personales sin querer, escríbenos y lo borramos.</p>
 
       <h2>Cómo cambia esto con el tiempo</h2>
-      <p>Estos términos no son piedra. Cambian cuando cambia la web, la tecnología o la ley. Puede que mañana SimulaGoal acabe descartado, que iRiS siga en Deteriorado o que de repente vuelva, que Dopamina y Trade Up regresen, que FNAS reciba esa actualización que llevamos anunciando, que Slop Central por fin abra. Todo eso puede hacer que tengamos que reescribir parte de esto. La versión que vale es la que ves aquí con fecha. Si sigues usando la web después de un cambio, entendemos que aceptas la nueva versión.</p>
+      <p>Estos términos no son piedra. Cambian cuando cambia la web, la tecnología o la ley. Puede que mañana SimulaGoal acabe descartado, que el viejo iRiS Games se jubile del todo o que de repente vuelva, que Dopamina y Trade Up regresen, que FNAS reciba esa actualización que llevamos anunciando, que Slop Central por fin abra. Todo eso puede hacer que tengamos que reescribir parte de esto. La versión que vale es la que ves aquí con fecha. Si sigues usando la web después de un cambio, entendemos que aceptas la nueva versión.</p>
       <p>Si alguna frase de aquí fuera nula por lo que sea, el resto seguiría valiendo. No puedes ceder tus derechos sin permiso, pero nosotros sí podríamos cederlos si el colectivo se reorganiza. Es lo normal.</p>
 
       <h2>Dónde nos encontramos legalmente</h2>
@@ -103,23 +130,58 @@
   </main>
 
   <footer class="site-footer">
-    <div class="wrap">
-      <span>Hecho con 🍍 en Valladolid · <em>Making things a little bit better</em></span>
-      <span class="spacer"></span>
-      <a href="https://github.com/PineappleVA" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener noreferrer">YouTube</a>
-      <a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../../">
+          <img src="../../assets/img/pineapple.png" alt="" width="38" height="38" loading="lazy">
+          <span>Pineapple Games<small>Making things a little bit better</small></span>
+        </a>
+        <p class="footer-note">Hecho con 🍍 en Valladolid.<br>
+        Juegos web gratis, sin registro y con guardado local en tu navegador.</p>
+      </div>
+      <nav class="footer-col" aria-label="Explora">
+        <h3>Explora</h3>
+        <ul>
+          <li><a href="../../">Inicio</a></li>
+          <li><a href="../../games/all/">Todos los juegos</a></li>
+          <li><a href="../../anuncios/">Anuncios</a></li>
+          <li><a href="../../games/imtlazarus-games/">IMTLazarus Games</a></li>
+          <li><a href="../../legal/">Legal</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Juegos">
+        <h3>Juegos</h3>
+        <ul>
+          <li><a href="../../games/dopamina/">Dopamina</a></li>
+          <li><a href="../../games/trade-up/">Trade Up</a></li>
+          <li><a href="../../games/simulagoal/">SimulaGoal</a></li>
+          <li><a href="../../games/fine-at-skibidi/">FNAS</a></li>
+          <li><a href="../../games/slop-central/">Slop Central</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Síguenos">
+        <h3>Síguenos</h3>
+        <ul>
+          <li><a href="https://github.com/PineappleVA" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+          <li><a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener noreferrer">X (Twitter) ↗</a></li>
+          <li><a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener noreferrer">YouTube ↗</a></li>
+          <li><a href="mailto:pineapplevacorp@gmail.com">Email</a></li>
+        </ul>
+      </nav>
     </div>
-    <div class="wrap legal">
-      <span>© 2026 Pineapple</span>
-      <a href="./">Términos</a>
-      <a href="../privacidad/">Privacidad</a>
-      <a href="../dmca/">DMCA</a>
-      <a href="../cookies/">Cookies</a>
+    <div class="wrap footer-bottom">
+      <p>© <span id="year">2026</span> Pineapple · <span translate="no">Making things a little bit better</span></p>
+      <p><a href="../../legal/terminos/">Términos</a> · <a href="../../legal/privacidad/">Privacidad</a> · <a href="../../legal/dmca/">DMCA</a> · <a href="../../legal/cookies/">Cookies</a></p>
+    </div>
+    <div class="wave wave-footer" aria-hidden="true">
+      <div class="wave-track"><svg viewBox="0 0 1440 120" preserveAspectRatio="none" focusable="false" aria-hidden="true"><defs><linearGradient id="wgrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0"><stop offset="0" stop-color="#f5a623"/><stop offset="0.25" stop-color="#ffd166"/><stop offset="0.5" stop-color="#f5a623"/><stop offset="0.75" stop-color="#ffd166"/><stop offset="1" stop-color="#f5a623"/></linearGradient></defs><path d="M0,79.1 L48,81.9 L96,76.3 L144,64.6 L192,51.1 L240,40.9 L288,38.1 L336,43.7 L384,55.4 L432,68.9 L480,79.1 L528,81.9 L576,76.3 L624,64.6 L672,51.1 L720,40.9 L768,38.1 L816,43.7 L864,55.4 L912,68.9 L960,79.1 L1008,81.9 L1056,76.3 L1104,64.6 L1152,51.1 L1200,40.9 L1248,38.1 L1296,43.7 L1344,55.4 L1392,68.9 L1440,79.1 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".28"/><path d="M0,60.0 L48,77.6 L96,88.5 L144,88.5 L192,77.6 L240,60.0 L288,42.4 L336,31.5 L384,31.5 L432,42.4 L480,60.0 L528,77.6 L576,88.5 L624,88.5 L672,77.6 L720,60.0 L768,42.4 L816,31.5 L864,31.5 L912,42.4 L960,60.0 L1008,77.6 L1056,88.5 L1104,88.5 L1152,77.6 L1200,60.0 L1248,42.4 L1296,31.5 L1344,31.5 L1392,42.4 L1440,60.0 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".9"/></svg><svg viewBox="0 0 1440 120" preserveAspectRatio="none" focusable="false" aria-hidden="true"><path d="M0,79.1 L48,81.9 L96,76.3 L144,64.6 L192,51.1 L240,40.9 L288,38.1 L336,43.7 L384,55.4 L432,68.9 L480,79.1 L528,81.9 L576,76.3 L624,64.6 L672,51.1 L720,40.9 L768,38.1 L816,43.7 L864,55.4 L912,68.9 L960,79.1 L1008,81.9 L1056,76.3 L1104,64.6 L1152,51.1 L1200,40.9 L1248,38.1 L1296,43.7 L1344,55.4 L1392,68.9 L1440,79.1 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".28"/><path d="M0,60.0 L48,77.6 L96,88.5 L144,88.5 L192,77.6 L240,60.0 L288,42.4 L336,31.5 L384,31.5 L432,42.4 L480,60.0 L528,77.6 L576,88.5 L624,88.5 L672,77.6 L720,60.0 L768,42.4 L816,31.5 L864,31.5 L912,42.4 L960,60.0 L1008,77.6 L1056,88.5 L1104,88.5 L1152,77.6 L1200,60.0 L1248,42.4 L1296,31.5 L1344,31.5 L1392,42.4 L1440,60.0 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".9"/></svg></div>
     </div>
   </footer>
 
   <script src="../../assets/js/site.js" defer></script>
   <script src="../../assets/js/analytics.js" defer></script>
+  <button id="toTop" class="to-top" type="button" aria-label="Volver arriba" title="Volver arriba">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
 </body>
 </html>
