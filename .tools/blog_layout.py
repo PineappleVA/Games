@@ -81,6 +81,12 @@ def transform(path, check=False):
         return False
     block = main.group(0)
 
+    if 'id="listView"' in block:
+        # El canal ya lleva el diseño del blog. Volcarlo otra vez impondría el
+        # título y textos por defecto, borrando los personalizados.
+        print('  al día, se deja como está: ' + (('(check) ') if check else '') + path)
+        return False
+
     label_m = re.search(r'<h2 class="section-title">(.*?)</h2>', block, re.S)
     label = label_m.group(1).strip() if label_m else 'Anuncios'
 

@@ -35,6 +35,18 @@ Las novedades se publican en [/anuncios/](./anuncios/). Cada canal tiene sus not
 
 Documentos narrados, sin letra pequeña innecesaria. Si tienes dudas, escríbenos.
 
+## Tests
+
+El sitio entero tiene pruebas: HTML, enlaces, SEO, el blog de anuncios, el
+consentimiento de cookies (RGPD) y cada juego, más la paridad con la web
+publicada en https://pineappleva.github.io/Games/. Detalles en
+[tests/README.md](./tests/README.md).
+
+```bash
+npm install && npm test        # todo, sin internet
+PG_LIVE=1 npm run test:all     # y contra lo publicado (usa gh)
+```
+
 ## Licencia
 
 MIT + cláusula de protección anti-plagio (ver [LICENSE](./LICENSE)). Si quieres reutilizar algo, pregunta primero y normalmente diremos que sí con atribución.
