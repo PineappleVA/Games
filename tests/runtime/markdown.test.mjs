@@ -21,9 +21,12 @@ test('el listado del canal pinta las tarjetas, más nuevas primero', async () =>
   const hrefs = tarjetas.map((a) => a.getAttribute('href'));
   assert.deepEqual(
     hrefs.map((h) => h.replace('./?p=', '')),
-    ['2026-09-15-vuelta-a-clases', '2026-09-13-cuenta-x-oficial', '2026-09-04-bienvenida-nueva-web'],
-    'el orden debe ser de la más reciente a la más antigua',
+    ['vuelta-a-clases', 'cuenta-x-oficial', 'bienvenida-nueva-web'],
+    'cada tarjeta enlaza SOLO con el título (sin la fecha del archivo)',
   );
+  for (const href of hrefs) {
+    assert.doesNotMatch(href, /\?p=\d{4}-\d{2}-\d{2}-/, 'el enlace no debe llevar la fecha: ' + href);
+  }
 
   assert.ok(tarjetas[0].classList.contains('featured'), 'la más reciente va destacada');
   assert.match(tarjetas[0].textContent, /Última entrada/);
@@ -41,8 +44,8 @@ test('la entrada del canal cuenta de forma singular', async () => {
   p.close();
 });
 
-test('abrir ./?p=slug muestra la entrada y esconde el listado', async () => {
-  const p = await openPage(OTROS, { query: 'p=2026-09-04-bienvenida-nueva-web', settle: 500 });
+test('abrir ./?p=título muestra la entrada y esconde el listado', async () => {
+  const p = await openPage(OTROS, { query: 'p=bienvenida-nueva-web', settle: 500 });
   assert.ok(p.document.getElementById('listView').hasAttribute('hidden'), 'el listado debe ocultarse');
   assert.ok(!p.document.getElementById('postView').hasAttribute('hidden'), 'la entrada debe mostrarse');
 
@@ -56,28 +59,44 @@ test('abrir ./?p=slug muestra la entrada y esconde el listado', async () => {
 
   assert.match(p.document.title, /Bienvenida|nueva web/i, 'document.title debe llevar el titular');
   const canonical = p.document.querySelector('link[rel="canonical"]').getAttribute('href');
-  assert.match(canonical, /\?p=2026-09-04-bienvenida-nueva-web/, 'el canonical señala la entrada');
+  assert.match(canonical, /\?p=bienvenida-nueva-web/, 'el canonical señala la dirección limpia de la entrada');
+  assert.equal(p.window.location.search, '?p=bienvenida-nueva-web', 'la barra de direcciones muestra solo el título');
 
   const meta = p.text('#postMeta');
   assert.match(meta, /4 sep 2026/, 'la fecha de la entrada');
   assert.match(meta, /min/, 'los minutos de lectura');
 
-  /* el paginador: siendo la más antigua solo ofrece "Más reciente" */
+  /* el paginador: siendo la más antigua solo ofrece "Más reciente",
+     y también con el enlace limpio */
   const pager = p.document.getElementById('postPager');
   assert.ok(!pager.hasAttribute('hidden'), 'el paginador debe verse');
-  assert.ok(pager.querySelector('a.prev'), 'debería haber enlace a la entrada más reciente');
+  const prev = pager.querySelector('a.prev');
+  assert.ok(prev, 'debería haber enlace a la entrada más reciente');
+  assert.equal(prev.getAttribute('href'), './?p=cuenta-x-oficial', 'el paginador enlaza sin la fecha');
   assert.ok(!pager.querySelector('a.next') || !pager.querySelector('a.next').href, 'no hay más antigua que esta');
 
   assert.deepEqual(realErrors(p.errors), []);
   p.close();
 });
 
-test('el botón de copiar enlace funciona', async () => {
+test('los enlaces antiguos con fecha abren la entrada y se limpian solos', async () => {
+  /* Como en el blog de la web principal: ?p=AAAA-MM-DD-titulo sigue
+     abriendo la entrada y la dirección se queda limpia. */
   const p = await openPage(OTROS, { query: 'p=2026-09-04-bienvenida-nueva-web', settle: 500 });
+  const titular = read('anuncios/otros/posts/2026-09-04-bienvenida-nueva-web.md')
+    .split('\n').find((l) => /^#\s+/.test(l)).replace(/^#\s+/, '').trim();
+  assert.equal(p.text('#postTitle'), titular, 'la URL antigua debe abrir la entrada');
+  assert.equal(p.window.location.search, '?p=bienvenida-nueva-web', 'la dirección se limpia a solo el título');
+  p.close();
+});
+
+test('el botón de copiar enlace funciona (y copia el enlace limpio)', async () => {
+  const p = await openPage(OTROS, { query: 'p=bienvenida-nueva-web', settle: 500 });
   p.click('#shareBtn');
   await sleep(80);
   assert.ok(p.window.__copied, 'no se copió nada');
-  assert.match(p.window.__copied, /\?p=2026-09-04-bienvenida-nueva-web/, 'el enlace copiado no es el de la entrada');
+  assert.match(p.window.__copied, /\?p=bienvenida-nueva-web/, 'el enlace copiado es el limpio, solo el título');
+  assert.doesNotMatch(p.window.__copied, /\?p=\d{4}-\d{2}-\d{2}-/, 'no debe copiarse la dirección con fecha');
   assert.match(p.text('#shareBtn'), /¡Copiado!/, 'el botón no confirma');
   p.close();
 });
@@ -119,8 +138,9 @@ test('el feed del índice mezcla canales y respeta el límite', async () => {
   );
   assert.ok(canales.size >= 3, `el feed mezcla poco: ${[...canales].join(', ')}`);
 
-  /* primera tarjeta = la entrada más nueva de todo el sitio (24 sep 2026) */
-  assert.match(tarjetas[0].getAttribute('href'), /2026-09-24-imtlazarus-games/, 'la más nueva del sitio debe ir primera');
+  /* primera tarjeta = la entrada más nueva de todo el sitio (24 sep 2026),
+     enlazada también solo con el título */
+  assert.match(tarjetas[0].getAttribute('href'), /\?p=imtlazarus-games$/, 'la más nueva del sitio debe ir primera y sin fecha en el enlace');
   assert.match(tarjetas[0].textContent, /24 sep 2026/);
   p.close();
 });

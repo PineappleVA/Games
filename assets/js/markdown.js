@@ -11,13 +11,16 @@
         <div class="md-list" data-md-dir="./posts"
              data-api-dir="anuncios/<canal>/posts"></div>
       Pinta tarjetas con portada de color. Cada tarjeta abre la
-      entrada en su propia dirección: ./?p=<slug>
+      entrada en su dirección limpia: ./?p=<título-del-post>
+      (sin la fecha que lleva el nombre del archivo).
 
-   2) ENTRADA (./?p=<slug>)
+   2) ENTRADA (./?p=<título-del-post>)
       La misma página muestra el artículo completo con su héroe,
       fecha, tiempo de lectura, botón de copiar enlace y navegación
       anterior/siguiente. El <h1> del markdown se usa como titular,
-      no se repite en el cuerpo.
+      no se repite en el cuerpo. Si llegas por la dirección antigua,
+      con la fecha delante (?p=AAAA-MM-DD-titulo), la entrada se abre
+      igual y la barra de direcciones se limpia sola.
 
    Además, el índice de Anuncios usa el modo FEED:
         <div class="md-feed" data-md-base="./"
@@ -176,6 +179,12 @@
 
   function postTitle(post) { return post.title || post.slug.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/-/g, " "); }
 
+  /* Enlace limpio de la entrada: solo el título, sin la fecha del nombre
+     del archivo — como en el blog de pineappleva.github.io (/blog/<slug>).
+     Los enlaces antiguos con la fecha delante siguen funcionando: la
+     entrada se abre igual y la barra de direcciones se limpia sola. */
+  function linkSlugOf(slug) { return String(slug).replace(/^(\d{4})-(\d{2})-(\d{2})-/, "") || String(slug); }
+
   /* ---------- Descubrir entradas ---------- */
 
   function viaTrees(apiDir) {
@@ -315,7 +324,7 @@
       items.forEach(function (post, idx) {
         listEl.appendChild(cardOf(post, idx, {
           featured: idx === 0,
-          href: "./?p=" + encodeURIComponent(post.slug)
+          href: "./?p=" + encodeURIComponent(linkSlugOf(post.slug))
         }));
       });
       if (countEl) countEl.textContent = items.length + (items.length === 1 ? " entrada" : " entradas");
@@ -363,7 +372,9 @@
       fetchPosts(postLocal, postApi).then(function (res) {
         var idx = -1;
         for (var i = 0; i < res.posts.length; i++) {
-          if (res.posts[i].slug === slug) { idx = i; break; }
+          /* limpia (solo título) o antigua (con fecha): las dos abren */
+          var postSlug = res.posts[i].slug;
+          if (postSlug === slug || linkSlugOf(postSlug) === slug) { idx = i; break; }
         }
         if (idx < 0) throw new Error("no está");
         return readPost(res.posts[idx], postLocal, res.apiDir).then(function (post) {
@@ -385,10 +396,18 @@
           metaEl.removeAttribute("hidden");
         }
 
-        /* canonical y og con la dirección de la entrada */
+        /* canonical y og con la dirección limpia de la entrada */
+        var linkSlug = linkSlugOf(post.slug);
         var desc = post.excerpt || extractExcerpt(md);
         var canon = document.querySelector('link[rel="canonical"]');
-        if (canon) canon.setAttribute("href", location.origin + location.pathname + "?p=" + encodeURIComponent(post.slug));
+        if (canon) canon.setAttribute("href", location.origin + location.pathname + "?p=" + encodeURIComponent(linkSlug));
+        /* llegando con la fecha aún puesta, la barra de direcciones se limpia */
+        try {
+          var cleanUrl = location.pathname + "?p=" + encodeURIComponent(linkSlug);
+          if (location.pathname + location.search !== cleanUrl) {
+            history.replaceState(null, "", cleanUrl);
+          }
+        } catch (e) {}
         var metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc && desc) metaDesc.setAttribute("content", desc);
 
@@ -415,7 +434,7 @@
           var older = data.idx < data.posts.length - 1 ? data.posts[data.idx + 1] : null;
           if (newer || older) {
             function pagerCard(p, label, cls) {
-              return '<a class="pager-card ' + cls + '" href="./?p=' + encodeURIComponent(p.slug) + '">' +
+              return '<a class="pager-card ' + cls + '" href="./?p=' + encodeURIComponent(linkSlugOf(p.slug)) + '">' +
                      '<span class="dir">' + label + '</span><span class="t">' +
                      escapeHtml(p.title || p.slug.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/-/g, " ")) + "</span></a>";
             }
@@ -451,7 +470,7 @@
         /* dos entradas por canal bastan para elegir la más reciente */
         return Promise.all(res.posts.slice(0, 2).map(function (post) {
           return readPost(post, localDir, res.apiDir).then(function (full) {
-            return Object.assign({}, full, { channel: ch, href: base + ch.dir + "/?p=" + encodeURIComponent(full.slug) });
+            return Object.assign({}, full, { channel: ch, href: base + ch.dir + "/?p=" + encodeURIComponent(linkSlugOf(full.slug)) });
           }).catch(function () { return null; });
         }));
       }).catch(function () { return []; });
