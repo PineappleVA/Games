@@ -43,14 +43,7 @@ const ghFile = (repo, path) => {
 
 /* Archivos del sitio (que se publican) que en esta rama difieren de lo que
    está en producción, con el motivo. Al desplegar la rama, se vacía. */
-const CAMBIOS_PENDIENTES = {
-  '404.html': 'enlace «saltar al contenido» y <main id="main"> (accesibilidad)',
-  'games/all/index.html': '<h1> principal + etiquetas de Twitter',
-  'games/slop-central/index.html': 'segundo <h1> pasado a <h2>',
-  'games/dopamina/game/index.html': 'meta viewport para móvil',
-  'games/fine-at-skibidi/index.html': 'errata del título («Skibiry» → «Skibidi»)',
-  'assets/js/markdown.js': 'enlaces de entradas solo con el título (?p=titulo), como en la web principal',
-};
+const CAMBIOS_PENDIENTES = {};
 
 function deployedDiff() {
   sh('git', ['fetch', '--depth=200', 'origin', PAGES_BRANCH]);
