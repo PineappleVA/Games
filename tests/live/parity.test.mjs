@@ -49,18 +49,19 @@ const CAMBIOS_PENDIENTES = {
   'games/slop-central/index.html': 'segundo <h1> pasado a <h2>',
   'games/dopamina/game/index.html': 'meta viewport para móvil',
   'games/fine-at-skibidi/index.html': 'errata del título («Skibiry» → «Skibidi»)',
+  'assets/js/markdown.js': 'enlaces de entradas solo con el título (?p=titulo), como en la web principal',
 };
 
 function deployedDiff() {
   sh('git', ['fetch', '--depth=200', 'origin', PAGES_BRANCH]);
   const deployed = sh('git', ['ls-remote', 'origin', PAGES_BRANCH]).split('\t')[0];
-  /* Importa lo comprometido y también lo que hay sin guardar aún en el árbol:
-     así sirve igual en local que en CI (donde el árbol sale limpio). */
-  const committed = sh('git', ['diff', '--name-only', deployed, 'HEAD']).split('\n').filter(Boolean);
-  const working = sh('git', ['diff', '--name-only', deployed]).split('\n').filter(Boolean);
+  /* Compara lo publicado con el ESTADO FINAL del árbol (como quedaría la web
+     si se desplegara ahora), no con commits intermedios de la rama — así un
+     cambio hecho y luego revertido no confunde: vale en local y en CI. */
+  const tracked = sh('git', ['diff', '--name-only', deployed]).split('\n').filter(Boolean);
   const staged = sh('git', ['diff', '--name-only', '--cached', deployed]).split('\n').filter(Boolean);
   const untracked = sh('git', ['ls-files', '--others', '--exclude-standard']).split('\n').filter(Boolean);
-  const diff = [...new Set([...committed, ...working, ...staged, ...untracked])];
+  const diff = [...new Set([...tracked, ...staged, ...untracked])];
   return { deployed, diff };
 }
 
