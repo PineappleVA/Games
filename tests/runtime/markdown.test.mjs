@@ -138,10 +138,10 @@ test('el feed del índice mezcla canales y respeta el límite', async () => {
   );
   assert.ok(canales.size >= 3, `el feed mezcla poco: ${[...canales].join(', ')}`);
 
-  /* primera tarjeta = el anuncio de lanzamiento más reciente (5 oct 2026),
+  /* primera tarjeta = el anuncio de lanzamiento (7 oct 2026),
      enlazado también solo con el título */
   assert.match(tarjetas[0].getAttribute('href'), /tycoon-idle\/\?p=llega-tycoon-idle$/, 'la entrada más nueva debe ir primera y sin fecha en el enlace');
-  assert.match(tarjetas[0].textContent, /5 oct 2026/);
+  assert.match(tarjetas[0].textContent, /7 oct 2026/);
   p.close();
 });
 

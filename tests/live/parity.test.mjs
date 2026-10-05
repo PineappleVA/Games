@@ -47,7 +47,8 @@ const CAMBIOS_PENDIENTES = {
   '404.html': 'Actualiza el recuento del catálogo y añade un acceso al juego.',
   'anuncios/index.html': 'Añade el canal de Tycoon Idle al feed y al índice de anuncios.',
   'anuncios/tycoon-idle/index.html': 'Canal de anuncios con la plantilla actual de Pineapple Games.',
-  'anuncios/tycoon-idle/posts/2026-10-05-llega-tycoon-idle.md': 'Entrada ampliada de lanzamiento.',
+  'anuncios/tycoon-idle/posts/2026-10-05-llega-tycoon-idle.md': 'Retira el archivo con la fecha provisional anterior al lanzamiento.',
+  'anuncios/tycoon-idle/posts/2026-10-07-llega-tycoon-idle.md': 'Entrada ampliada de lanzamiento, fechada el día del estreno.',
   'anuncios/tycoon-idle/posts/posts.json': 'Manifiesto de la entrada de lanzamiento.',
   'games/all/index.html': 'Integra Tycoon Idle en el catálogo y conserva el orden solicitado.',
   'games/tycoon-idle/game/index.html': 'Juego autocontenido con consentimiento de cookies integrado.',
@@ -99,8 +100,10 @@ live('los cambios locales respecto a producción son solo tests y los arreglos a
   );
 
   const servidos = new Set(servedFiles());
-  const fantasmas = Object.keys(CAMBIOS_PENDIENTES).filter((a) => !servidos.has(a));
-  assert.deepEqual(fantasmas, [], `arreglos anotados ya no existen en el sitio: ${fantasmas.join(', ')}`);
+  /* Una entrada puede no existir ya porque la fecha de su archivo se haya
+     corregido: la eliminación también forma parte del diff esperado. */
+  const fantasmas = Object.keys(CAMBIOS_PENDIENTES).filter((a) => !servidos.has(a) && !diff.includes(a));
+  assert.deepEqual(fantasmas, [], `arreglos anotados no servidos ni eliminados: ${fantasmas.join(', ')}`);
 });
 
 live('no sobra ningún arreglo anotado (limpieza de CAMBIOS_PENDIENTES)', () => {

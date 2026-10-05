@@ -11,7 +11,7 @@ import { execFileSync } from 'node:child_process';
 import { htmlPages, read, readJson, exists, walk, ROOT } from '../helpers/env.mjs';
 import { parsePage } from '../helpers/html.mjs';
 
-const CANALES = ['dopamina', 'trade-up', 'fine-at-skibidi', 'imtlazarus-games', 'tycoon-idle', 'slop-central', 'simulagoal', 'otros'];
+const CANALES = ['dopamina', 'trade-up', 'fine-at-skibidi', 'imtlazarus-games', 'tycoon-idle', 'simulagoal', 'slop-central', 'otros'];
 const PAGINA_DE = (canal) => `anuncios/${canal}/index.html`;
 const MD_OK = /^\d{4}-\d{2}-\d{2}-[a-z0-9-]+\.md$/;
 

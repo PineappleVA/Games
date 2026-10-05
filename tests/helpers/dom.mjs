@@ -268,16 +268,36 @@ export async function openPage(relFile, opts = {}) {
     ],
   };
 
-  const dom = await JSDOM.fromURL(url, {
-    runScripts: opts.scripts === false ? undefined : 'dangerously',
-    resources,
-    pretendToBeVisual: true,
-    virtualConsole,
-    beforeParse(window) {
-      window.__testFile = relFile;
-      installStubs(window, opts, server, errors);
-    },
-  });
+  const beforeParse = (window) => {
+    window.__testFile = relFile;
+    installStubs(window, opts, server, errors);
+  };
+  let dom;
+  if (opts.inlineModulesAsClassic) {
+    /* jsdom no ejecuta <script type="module">. Los juegos autocontenidos que
+       no importan nada pueden probarse como script clásico al final del body,
+       respetando así la ejecución diferida del módulo real. */
+    const response = await fetch(url);
+    let html = await response.text();
+    const modules = [];
+    html = html.replace(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi, (tag, attrs, source) => {
+      if (!/\btype\s*=\s*["']module["']/i.test(attrs)) return tag;
+      if (/\bsrc\s*=/.test(attrs)) throw new Error(`${relFile}: el módulo de prueba debe estar inline`);
+      modules.push(source);
+      return '';
+    });
+    if (modules.length === 0) throw new Error(`${relFile}: no se encontró ningún módulo inline`);
+    html = html.replace(/<\/body>/i, `${modules.map((source) => `<script>${source}</script>`).join('\n')}\n</body>`);
+    dom = new JSDOM(html, { url, runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole, beforeParse });
+  } else {
+    dom = await JSDOM.fromURL(url, {
+      runScripts: opts.scripts === false ? undefined : 'dangerously',
+      resources,
+      pretendToBeVisual: true,
+      virtualConsole,
+      beforeParse,
+    });
+  }
 
   const { window } = dom;
 
