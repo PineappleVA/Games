@@ -1,0 +1,33 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+# Quita la parada congela si se acumulan: es la misma suite, no un despliegue.
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm test
+
+      - name: Paridad con la web publicada (solo al empujar)
+        if: github.event_name == 'push'
+        run: PG_LIVE=1 npm run test:live
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -342,8 +342,55 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;b
   @keyframes pgintro{from{opacity:1}to{opacity:0;visibility:hidden}}
 }
 </style>
+
+<style>
+  /* ── Aviso de versión: iRiS Games queda congelado como archivo (v4.0) ── */
+  #legacyOverlay{position:fixed;inset:0;z-index:9000;background:rgba(4,4,4,.9);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Share Tech Mono',monospace;}
+  #legacyOverlay.hide{display:none;}
+  .legacy-box{max-width:580px;width:100%;background:#0b0b0b;border:1px solid #2a2a2a;box-shadow:0 0 60px rgba(244,121,32,.12);padding:28px 26px;}
+  .legacy-tag{font-size:10px;letter-spacing:4px;color:#6b6b6b;text-transform:uppercase;}
+  .legacy-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,5vw,40px);letter-spacing:4px;color:#f47920;margin:6px 0 4px;}
+  .legacy-sub{font-size:13px;line-height:1.9;color:#9a9a9a;}
+  .legacy-sub strong{color:#e6e6e6;}
+  .legacy-tomb{font-size:34px;line-height:1;margin-bottom:6px;}
+  .legacy-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
+  .legacy-btn{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;padding:12px 18px;border:1px solid #2a2a2a;color:#bdbdbd;background:transparent;cursor:pointer;transition:all .2s;display:inline-block;}
+  .legacy-btn:hover{border-color:#f47920;color:#f47920;}
+  .legacy-btn.primary{border-color:#f47920;color:#f47920;background:rgba(244,121,32,.07);}
+  .legacy-btn.primary:hover{background:#f47920;color:#080808;}
+  .legacy-foot{margin-top:16px;font-size:10px;letter-spacing:2px;color:#4a4a4a;}
+  .legacy-foot a{color:#7a7a7a;}
+</style>
 </head>
 <body>
+
+<!-- ── Archivo: este es el iRiS Games original (v4.0, 20/04/2026) congelado ── -->
+<div id="legacyOverlay">
+  <div class="legacy-box">
+    <div class="legacy-tomb" aria-hidden="true">🪦</div>
+    <div class="legacy-tag">Archivo · versión original congelada</div>
+    <div class="legacy-title">iRiS Games v4.0</div>
+    <p class="legacy-sub">
+      Estás jugando a la <strong>versión original</strong> de iRiS Games, tal y como quedó el 20/04/2026.
+      Se conserva aquí por memoria: su tragaperras, sus dardos, su muñeco de pruebas y su escritorio Win98 siguen intactos.
+    </p>
+    <p class="legacy-sub">
+      El arcade actual, con el mantenimiento y las novedades, es <strong>IMTLazarus Games</strong>.
+      Mismo control, mismos minijuegos, marca nueva.
+    </p>
+    <div class="legacy-btns">
+      <a class="legacy-btn primary" href="../../imtlazarus-games/game/">▶ Jugar a IMTLazarus Games</a>
+      <button class="legacy-btn" type="button" onclick="document.getElementById('legacyOverlay').classList.add('hide')">Seguir con la versión original</button>
+    </div>
+    <div class="legacy-foot">Pineapple Games · <a href="../../../anuncios/imtlazarus-games/">Lee el anuncio del cambio</a></div>
+  </div>
+</div>
+<script>
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { var o = document.getElementById('legacyOverlay'); if (o) o.classList.add('hide'); }
+  });
+</script>
+
 
 <!-- LOADER -->
 <div id="loader"><canvas id="loaderCv" width="200" height="200"></canvas></div>
