@@ -13,12 +13,13 @@ Los juegos del equipo Pineapple en un solo sitio.
 ## Juegos
 
 - **Dopamina** — Clicker con mejoras y guardado automático
-- **Tycoon Idle** — Tycoon incremental con 8 negocios, ingresos offline y tres niveles de renacimiento ([página](./games/tycoon-idle/))
 - **Trade Up** — Intercambios y progresión
 - **Fine At Skibidi (FNAS)** — Terror fan-made, web oficial externa
-- **SimulaGoal** — Simulación de fútbol
-- **iRiS Games** — Arcade con varios minijuegos
+- **IMTLazarus Games** — Arcade con varios minijuegos (tragaperras, dardos, Win98 y secretos)
+- **iRiS Games** — 🪦 Archivo del arcade: la versión original (v4.0), congelada en [/games/iris-games/](./games/iris-games/)
+- **Tycoon Idle** — Tycoon incremental con 8 negocios, ingresos offline y tres niveles de renacimiento ([página](./games/tycoon-idle/))
 - **Slop Central** — Próximamente
+- **SimulaGoal** — Simulación de fútbol
 
 Todos gratuitos, sin registro. Tu progreso se guarda en tu propio navegador.
 
@@ -34,6 +35,18 @@ Las novedades se publican en [/anuncios/](./anuncios/). Cada canal tiene sus not
 - [DMCA](./legal/dmca/)
 
 Documentos narrados, sin letra pequeña innecesaria. Si tienes dudas, escríbenos.
+
+## Tests
+
+El sitio entero tiene pruebas: HTML, enlaces, SEO, el blog de anuncios, el
+consentimiento de cookies (RGPD) y cada juego, más la paridad con la web
+publicada en https://pineappleva.github.io/Games/. Detalles en
+[tests/README.md](./tests/README.md).
+
+```bash
+npm install && npm test        # todo, sin internet
+PG_LIVE=1 npm run test:all     # y contra lo publicado (usa gh)
+```
 
 ## Licencia
 
