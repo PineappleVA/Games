@@ -13,6 +13,7 @@ Los juegos del equipo Pineapple en un solo sitio.
 ## Juegos
 
 - **Dopamina** — Clicker con mejoras y guardado automático
+- **Tycoon Idle** — Tycoon incremental con 8 negocios, ingresos offline y tres niveles de renacimiento ([página](./games/tycoon-idle/) · [repo](https://github.com/PineappleVA/tycoon-idle))
 - **Trade Up** — Intercambios y progresión
 - **Fine At Skibidi (FNAS)** — Terror fan-made, web oficial externa
 - **SimulaGoal** — Simulación de fútbol
