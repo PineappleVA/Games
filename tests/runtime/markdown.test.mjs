@@ -138,10 +138,10 @@ test('el feed del índice mezcla canales y respeta el límite', async () => {
   );
   assert.ok(canales.size >= 3, `el feed mezcla poco: ${[...canales].join(', ')}`);
 
-  /* primera tarjeta = la entrada más nueva de todo el sitio (24 sep 2026),
-     enlazada también solo con el título */
-  assert.match(tarjetas[0].getAttribute('href'), /\?p=imtlazarus-games$/, 'la más nueva del sitio debe ir primera y sin fecha en el enlace');
-  assert.match(tarjetas[0].textContent, /24 sep 2026/);
+  /* primera tarjeta = el anuncio de lanzamiento (7 oct 2026),
+     enlazado también solo con el título */
+  assert.match(tarjetas[0].getAttribute('href'), /tycoon-idle\/\?p=llega-tycoon-idle$/, 'la entrada más nueva debe ir primera y sin fecha en el enlace');
+  assert.match(tarjetas[0].textContent, /7 oct 2026/);
   p.close();
 });
 
@@ -217,10 +217,10 @@ test('los enlaces javascript: del markdown no se convierten en enlace', async ()
   p.close();
 });
 
-test('las 7 páginas de canal cargan y cuadran con lo publicado', async () => {
+test('las 8 páginas de canal cargan y cuadran con lo publicado', async () => {
   /* Recorrido completo: cada canal abre, no da errores y su contador coincide
      con su manifiesto. */
-  const canales = ['dopamina', 'trade-up', 'simulagoal', 'fine-at-skibidi', 'slop-central', 'imtlazarus-games', 'otros'];
+  const canales = ['dopamina', 'trade-up', 'fine-at-skibidi', 'imtlazarus-games', 'tycoon-idle', 'slop-central', 'simulagoal', 'otros'];
   for (const canal of canales) {
     const p = await openPage(`anuncios/${canal}/index.html`, { settle: 500 });
     const manifiesto = readJson(`anuncios/${canal}/posts/posts.json`);

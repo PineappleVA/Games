@@ -11,7 +11,7 @@ import { execFileSync } from 'node:child_process';
 import { htmlPages, read, readJson, exists, walk, ROOT } from '../helpers/env.mjs';
 import { parsePage } from '../helpers/html.mjs';
 
-const CANALES = ['dopamina', 'trade-up', 'simulagoal', 'fine-at-skibidi', 'slop-central', 'imtlazarus-games', 'otros'];
+const CANALES = ['dopamina', 'trade-up', 'fine-at-skibidi', 'imtlazarus-games', 'tycoon-idle', 'simulagoal', 'slop-central', 'otros'];
 const PAGINA_DE = (canal) => `anuncios/${canal}/index.html`;
 const MD_OK = /^\d{4}-\d{2}-\d{2}-[a-z0-9-]+\.md$/;
 
@@ -144,6 +144,14 @@ test('cada canal aparece enlazado desde el índice de anuncios', () => {
   for (const canal of CANALES) {
     assert.ok(hrefs.some((h) => h.includes(`./${canal}/`)), `anuncios/index.html no enlaza el canal ${canal}`);
   }
+});
+
+test('la tarjeta de Tycoon Idle en Anuncios no muestra la etiqueta Jugable', () => {
+  const { document } = parsePage('anuncios/index.html');
+  const card = document.querySelector('a.card[href="./tycoon-idle/"]');
+  assert.ok(card, 'falta la tarjeta del canal de Tycoon Idle');
+  assert.equal(card.querySelector('.badge'), null, 'la tarjeta de Anuncios no debe llevar una etiqueta de estado');
+  assert.doesNotMatch(card.textContent, /\bJugable\b/i);
 });
 
 test('los canales sin entradas lo dicen sin romperse', () => {

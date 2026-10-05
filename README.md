@@ -15,9 +15,10 @@ Los juegos del equipo Pineapple en un solo sitio.
 - **Dopamina** — Clicker con mejoras y guardado automático
 - **Trade Up** — Intercambios y progresión
 - **Fine At Skibidi (FNAS)** — Terror fan-made, web oficial externa
-- **SimulaGoal** — Simulación de fútbol
 - **IMTLazarus Games** — Arcade con varios minijuegos (tragaperras, dardos, Win98 y secretos)
 - **iRiS Games** — 🪦 Archivo del arcade: la versión original (v4.0), congelada en [/games/iris-games/](./games/iris-games/)
+- **Tycoon Idle** — Tycoon incremental con 8 negocios, ingresos offline y tres niveles de renacimiento ([página](./games/tycoon-idle/))
+- **SimulaGoal** — Simulación de fútbol
 - **Slop Central** — Próximamente
 
 Todos gratuitos, sin registro. Tu progreso se guarda en tu propio navegador.

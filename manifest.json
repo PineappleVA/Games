@@ -1,7 +1,7 @@
 {
   "name": "Pineapple Games",
   "short_name": "Pineapple",
-  "description": "Los juegos del equipo Pineapple en un solo sitio: Dopamina, SimulaGoal, IMTLazarus Games, FNAS, Trade Up y Slop Central.",
+  "description": "Juegos web gratuitos del equipo Pineapple, sin registro y con guardado local.",
   "start_url": "/Games/",
   "scope": "/Games/",
   "display": "standalone",

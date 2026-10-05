@@ -14,8 +14,8 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 CANALES = [
-    'dopamina', 'trade-up', 'simulagoal', 'fine-at-skibidi',
-    'slop-central', 'otros', 'imtlazarus-games',
+    'dopamina', 'trade-up', 'fine-at-skibidi', 'imtlazarus-games',
+    'tycoon-idle', 'slop-central', 'simulagoal', 'otros',
 ]
 
 KICKER = 'Anuncios · Pineapple Games'

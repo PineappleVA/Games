@@ -27,7 +27,10 @@ test('están todas las páginas del sitio', () => {
     'games/simulagoal/game/index.html',
     'games/slop-central/index.html',
     'games/trade-up/index.html',
+    'games/tycoon-idle/index.html',
+    'games/tycoon-idle/game/index.html',
     'anuncios/index.html',
+    'anuncios/tycoon-idle/index.html',
     'legal/index.html',
     'legal/terminos/index.html',
     'legal/privacidad/index.html',
@@ -140,8 +143,20 @@ test('los juegos son apps autónomas pero con lo mínimo en la cabeza', () => {
     assert.ok(document.querySelector('meta[name="viewport"]'), `${page}: falta viewport (se juega en el móvil)`);
     assert.ok(document.title.trim().length > 3, `${page}: título vacío`);
     const analytics = [...document.querySelectorAll('script[src]')].some((s) => s.getAttribute('src').includes('analytics.js'));
-    assert.ok(analytics, `${page}: falta analytics.js (consentimiento de cookies)`);
+    const bundledConsent = page === 'games/tycoon-idle/game/index.html'
+      && document.querySelector('#pg-consent-bundle')?.textContent.includes('pg-cookie-consent');
+    assert.ok(analytics || bundledConsent, `${page}: falta el consentimiento de cookies`);
   }
+});
+
+test('Tycoon Idle se distribuye como un único HTML autocontenido', () => {
+  const page = 'games/tycoon-idle/game/index.html';
+  const { document } = parsePage(page);
+  assert.ok(document.getElementById('root'), 'falta el punto de montaje del juego');
+  assert.ok(document.querySelector('script[type="module"]')?.textContent.length > 1000, 'falta el juego inline');
+  assert.ok(document.querySelector('#pg-consent-bundle'), 'falta el consentimiento inline');
+  assert.equal(document.querySelectorAll('script[src], link[href], img[src], iframe[src]').length, 0,
+    'el juego debe funcionar sin recursos enlazados desde archivos externos');
 });
 
 test('no hay enlaces vacíos, javascript: ni recursos inseguros', () => {

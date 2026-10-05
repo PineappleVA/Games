@@ -5,7 +5,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { openPage, closeSharedServer, realErrors, sleep } from '../helpers/dom.mjs';
+import { openPage, closeSharedServer, realErrors, sleep, waitFor } from '../helpers/dom.mjs';
 
 test.after(() => closeSharedServer());
 
@@ -51,6 +51,43 @@ test('Dopamina no toca datos que no sean suyos', async () => {
   p.close();
 });
 
+test('Tycoon Idle permite trabajar, comprar un negocio y guardar la partida', async () => {
+  /* jsdom no ejecuta módulos; el bundle de Tycoon no importa dependencias y se
+     mueve al final del body solo para esta prueba. */
+  const p = await openPage('games/tycoon-idle/game/index.html', { settle: 600, inlineModulesAsClassic: true });
+  try {
+    assert.equal(p.document.title, 'Tycoon Idle — Crea tu Imperio');
+    assert.ok(p.document.querySelector('#root [data-tour="tap"]'), 'falta el botón principal de trabajo');
+
+    const saltar = [...p.document.querySelectorAll('#root button')]
+      .find((button) => button.textContent.trim() === 'Saltar');
+    assert.ok(saltar, 'falta la opción para cerrar el tutorial inicial');
+    saltar.click();
+
+    for (let i = 0; i < 40; i++) p.click('#root [data-tour="tap"]');
+    await waitFor(() => [...p.document.querySelectorAll('#root button')]
+      .some((button) => /Comprar\s*x1/.test(button.textContent) && !button.disabled),
+    { timeout: 3000, label: 'dinero para comprar el primer negocio' });
+
+    const comprar = [...p.document.querySelectorAll('#root button')]
+      .find((button) => /Comprar\s*x1/.test(button.textContent) && !button.disabled);
+    assert.ok(comprar, 'el Puesto de Limonada debería poder comprarse tras trabajar');
+    comprar.click();
+    await sleep(120);
+
+    const limonada = p.document.querySelector('#root button[aria-label="Ver detalle de Puesto de Limonada"]');
+    assert.match(limonada?.textContent || '', /1 uds/, 'la compra debe añadir una unidad de negocio');
+
+    p.window.dispatchEvent(new p.window.Event('beforeunload'));
+    const partida = JSON.parse(p.window.localStorage.getItem('tycoon-save') || 'null');
+    assert.equal(partida?.businesses?.lemonade, 1, 'el guardado debe conservar el negocio comprado');
+    assert.ok(partida?.taps >= 40, 'el guardado debe conservar los toques');
+    assert.deepEqual(realErrors(p.errors), [], 'la partida no debe producir errores de JavaScript');
+  } finally {
+    p.close();
+  }
+});
+
 test('SimulaGoal carga y el Mundial puede empezar', async () => {
   const p = await openPage('games/simulagoal/game/index.html', { settle: 400 });
   const boton = p.document.getElementById('start-btn');
@@ -79,13 +116,15 @@ test('iRiS Games (archivo) sigue arrancando igual que quedó congelada', async (
 });
 
 test('todos los juegos enlazados en la web existen y cargan', async () => {
-  /* La web principal muestra 5 jugables + 1 bloqueado. Los enlaces ya se
-     validan en los tests estáticos; aquí aseguro que los "Jugar" llevan a
-     apps reales. */
+  /* El catálogo muestra 5 juegos jugables, Trade Up con los servidores
+     cerrados y Slop Central bloqueado. Los enlaces se comprueban aparte. */
   const p = await openPage('games/all/index.html', { settle: 300 });
-  const tarjetas = [...p.document.querySelectorAll('.card')];
-  assert.equal(tarjetas.length, 6, 'deberían verse las 6 tarjetas');
+  const tarjetas = [...p.document.querySelectorAll('.cards > .card, .cards > .card-split')];
+  assert.equal(tarjetas.length, 7, 'deberían verse las 7 tarjetas');
   const jugables = tarjetas.filter((c) => c.textContent.includes('Jugable')).length;
-  assert.equal(jugables, 4, 'cuatro tarjetas jugables (Dopamina, FNAS, SimulaGoal, IMTLazarus)');
+  assert.equal(jugables, 5, 'cinco tarjetas jugables, incluida Tycoon Idle');
+  const nombres = tarjetas.map((c) => c.querySelector('h3')?.textContent.trim());
+  assert.deepEqual(nombres, ['Dopamina', 'Trade Up', 'FNAS', 'IMTLazarus Games', 'Tycoon Idle', 'SimulaGoal', 'Slop Central']);
+  assert.ok(tarjetas[3].querySelector('a.tomb')?.textContent.includes('iRiS Games'), 'el archivo iRiS debe seguir en la tarjeta de IMTLazarus');
   p.close();
 });

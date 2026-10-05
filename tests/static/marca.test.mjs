@@ -84,6 +84,22 @@ test('la marca se llama siempre Pineapple Games', () => {
   }
 });
 
+test('la portada mantiene un mensaje general y Tycoon ocupa solo una tarjeta destacada', () => {
+  const { document } = parsePage('index.html');
+  const genericCopy = [
+    document.querySelector('meta[name="description"]')?.getAttribute('content') || '',
+    document.querySelector('meta[property="og:description"]')?.getAttribute('content') || '',
+    document.querySelector('meta[name="twitter:description"]')?.getAttribute('content') || '',
+    document.querySelector('.hero .lead')?.textContent || '',
+  ].join(' ');
+  assert.doesNotMatch(genericCopy, /Tycoon Idle/i, 'la descripción general de Pineapple no debe destacar un juego concreto');
+  assert.ok(document.querySelector('.cards > a.card[href="./games/tycoon-idle/"]'), 'Tycoon Idle debe ocupar un destacado de Inicio');
+  assert.equal(document.querySelector('.cards > a.card[href="./games/slop-central/"]'), null, 'Slop Central se sustituye en los destacados de Inicio');
+  assert.ok(document.querySelector('.cards > a.card[href="./games/dopamina/"]'), 'Dopamina sigue destacada');
+  const { document: catalogo } = parsePage('games/all/index.html');
+  assert.ok(catalogo.querySelector('.cards > a.card[href="../slop-central/"]'), 'Slop Central debe seguir en el catálogo');
+});
+
 test('las redes y el contacto son los de siempre', () => {
   for (const page of SITE_PAGES) {
     const { document } = parsePage(page);

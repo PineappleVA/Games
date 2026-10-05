@@ -3,29 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pineapple Games · Making things a little bit better</title>
-  <meta name="description" content="Juegos web del equipo Pineapple: gratuitos, sin registro y con guardado local en tu navegador.">
+  <title>Anuncios de Tycoon Idle · Pineapple Games</title>
+  <meta name="description" content="Canal de anuncios de Tycoon Idle: lanzamiento, mecánicas y novedades del juego de gestión incremental.">
   <meta name="author" content="Pineapple">
   <meta name="theme-color" content="#f5a623">
   <meta name="color-scheme" content="dark light">
-  <link rel="canonical" href="https://pineappleva.github.io/Games/">
-  <link rel="icon" type="image/png" href="./assets/img/pineapple.png">
-  <link rel="apple-touch-icon" href="./assets/img/pineapple.png">
-  <link rel="manifest" href="./manifest.json">
-  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-
+  <link rel="canonical" href="https://pineappleva.github.io/Games/anuncios/tycoon-idle/">
+  <link rel="icon" type="image/png" href="../../assets/img/pineapple.png">
+  <link rel="apple-touch-icon" href="../../assets/img/pineapple.png">
+  <link rel="manifest" href="../../manifest.json">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Pineapple Games">
-  <meta property="og:title" content="Pineapple Games · Making things a little bit better">
-  <meta property="og:description" content="Siete juegos web gratis y sin registro. Hechos en Valladolid.">
-  <meta property="og:url" content="https://pineappleva.github.io/Games/">
+  <meta property="og:title" content="Anuncios de Tycoon Idle · Pineapple Games">
+  <meta property="og:description" content="Canal de anuncios de Tycoon Idle: lanzamiento, mecánicas y novedades del juego de gestión incremental.">
+  <meta property="og:url" content="https://pineappleva.github.io/Games/anuncios/tycoon-idle/">
   <meta property="og:image" content="https://pineappleva.github.io/Games/assets/img/pineapple.png">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:site" content="@pineapplevacorp">
-  <meta name="twitter:title" content="Pineapple Games">
-  <meta name="twitter:description" content="Los juegos del equipo Pineapple en un solo sitio.">
+  <meta name="twitter:title" content="Anuncios de Tycoon Idle · Pineapple Games">
+  <meta name="twitter:description" content="Lanzamiento, mecánicas y novedades de Tycoon Idle.">
   <meta name="twitter:image" content="https://pineappleva.github.io/Games/assets/img/pineapple.png">
-
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <script>
     /* Tema: se aplica ANTES de pintar para evitar parpadeo.
        Orden: localStorage('pa-theme') -> prefers-color-scheme -> oscuro */
@@ -43,31 +41,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/style.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Pineapple Games",
-    "url": "https://pineappleva.github.io/Games/",
-    "logo": "https://pineappleva.github.io/Games/assets/img/pineapple.png",
-    "sameAs": [
-      "https://github.com/PineappleVA",
-      "https://www.youtube.com/@pacorp-oficial",
-      "https://x.com/pineapplevacorp"
-    ],
-    "description": "Colectivo de Valladolid. Juegos web gratuitos sin registro."
-  }
-  </script>
+  <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body>
 <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
   <a class="skip-link" href="#main">Saltar al contenido</a>
-
   <header class="site-header">
     <div class="wrap">
-      <a class="brand" href="./" aria-label="Pineapple Games — inicio">
-        <img src="./assets/img/pineapple.png" alt="Logo Pineapple Games - piña" width="34" height="34" loading="eager">
+      <a class="brand" href="../../" aria-label="Pineapple Games — inicio">
+        <img src="../../assets/img/pineapple.png" alt="Logo Pineapple Games - piña" width="34" height="34" loading="eager">
         <span>Pineapple Games<small>Making things a little bit better</small></span>
       </a>
       <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="siteNav" aria-label="Abrir menú">
@@ -75,9 +57,9 @@
       </button>
       <nav id="siteNav" class="main-nav" aria-label="Navegación principal">
         <ul>
-          <li><a href="./" aria-current="page">Inicio</a></li>
-          <li><a href="./games/all/">Todos los juegos</a></li>
-          <li><a href="./anuncios/">Anuncios</a></li>
+          <li><a href="../../">Inicio</a></li>
+          <li><a href="../../games/all/">Todos los juegos</a></li>
+          <li><a href="../../anuncios/" aria-current="page">Anuncios</a></li>
           <li><a href="https://www.youtube.com/@pacorp-oficial" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           <li><a href="https://x.com/pineapplevacorp" target="_blank" rel="noopener noreferrer">X</a></li>
         </ul>
@@ -90,67 +72,60 @@
   </header>
 
   <main id="main" class="content">
-    <section class="hero">
+  <section id="listView">
+    <header class="blog-hero">
       <div class="orb orb-1" aria-hidden="true"></div>
-      <div class="orb orb-2" aria-hidden="true"></div>
-      <img class="hero-logo" src="./assets/img/pineapple.png" alt="Logo de Pineapple Games: una piña" width="112" height="112" loading="eager" data-animate="1">
-      <h1 class="hero-h1" data-animate="2">
-        <span class="h1-hand">Los juegos del equipo,</span>
-        <span class="h1-display" translate="no">Pineapple <span class="grad">Games</span></span>
-      </h1>
-      <p class="lead" data-animate="3">
-        Siete juegos hechos en Valladolid. Gratis, sin registro y con la partida guardada en tu navegador.
-        Elige el tuyo y a jugar.
-      </p>
-      <div class="hero-actions" data-animate="4">
-        <a class="btn primary big" href="./games/all/">Ver todos los juegos</a>
-        <a class="btn ghost big" href="./anuncios/">📢 Anuncios</a>
-      </div>
-    </section>
+      <p class="kicker">Anuncios · Pineapple Games</p>
+      <h1>🏙️ Tycoon Idle</h1>
+      <p class="sub">Anuncios y notas del juego de gestión incremental. <span id="mdCount" class="hero-count"></span> y contando.</p>
+    </header>
 
-    <h2 class="section-title">🎮 Destacados</h2>
-    <div class="cards">
-      <a class="card" href="./games/dopamina/">
-        <span class="icon" aria-hidden="true">🧠</span>
-        <span class="badge ok">Jugable</span>
-        <h3>Dopamina</h3>
-        <p>El clicker que lo empezó todo: mejoras, skins, recompensas diarias y renacimientos. La partida se guarda sola.</p>
-      </a>
-      <a class="card" href="./games/fine-at-skibidi/">
-        <span class="icon" aria-hidden="true">🎬</span>
-        <span class="badge ok">Jugable</span>
-        <h3>FNAS</h3>
-        <p>Terror fan-made entre Five Nights at Freddy's y Skibidi Toilet. Su casa está aquí; el juego, en su web oficial.</p>
-      </a>
-      <div class="card card-split">
-        <span class="icon" aria-hidden="true">🎮</span>
-        <span class="badge ok">Jugable</span>
-        <h3>IMTLazarus Games</h3>
-        <p>El arcade casero: tragaperras, dardos, un muñeco de pruebas y un escritorio Win98 que da respeto.</p>
-        <div class="card-links">
-          <a class="primary" href="./games/imtlazarus-games/">▶ Jugar</a>
-          <a class="tomb" href="./games/iris-games/" title="Volver al iRiS Games original (archivo)">🪦 iRiS Games</a>
-        </div>
-      </div>
-      <a class="card" href="./games/tycoon-idle/">
-        <span class="icon" aria-hidden="true">🏙️</span>
-        <span class="badge ok">Jugable</span>
-        <h3>Tycoon Idle</h3>
-        <p>Clicker de gestión con negocios que producen mientras juegas y cuando vuelves a la partida.</p>
-      </a>
+    <div class="md-toolbar">
+      <h2>Entradas</h2>
+      <span class="md-hint">De la más reciente a la más antigua</span>
     </div>
 
-    <div class="btn-row">
-      <a class="btn primary big" href="./games/all/">Ver los 7 juegos</a>
-      <a class="btn ghost big" href="./anuncios/">📢 Anuncios</a>
+    <div class="md-list" data-md-dir="./posts" data-api-dir="anuncios/tycoon-idle/posts">
+      <div class="skel-card skel-featured" aria-hidden="true"></div>
+      <div class="skel-card" aria-hidden="true"></div>
+      <div class="skel-card" aria-hidden="true"></div>
     </div>
+
+  </section>
+
+  <section class="post-view" id="postView" hidden>
+    <header class="post-hero">
+      <div class="orb orb-1" aria-hidden="true"></div>
+      <p class="kicker">Anuncios · Pineapple Games</p>
+      <h1 id="postTitle">Cargando…</h1>
+      <p class="post-hero-meta" id="postMeta" hidden></p>
+    </header>
+
+    <a class="back-link" href="./">← Volver a los anuncios</a>
+
+    <article class="md-post single" id="mdPost" data-md-dir="./posts" data-api-dir="anuncios/tycoon-idle/posts">
+      <div class="skel-post" aria-hidden="true">
+        <div class="skel-line w60"></div>
+        <div class="skel-line"></div>
+        <div class="skel-line"></div>
+        <div class="skel-line w45"></div>
+      </div>
+    </article>
+
+    <div class="post-actions">
+      <button id="shareBtn" class="btn small ghost" type="button">Copiar enlace</button>
+      <a class="btn small ghost" href="./">Todas las entradas</a>
+    </div>
+
+    <nav class="post-pager" id="postPager" hidden aria-label="Más anuncios del canal"></nav>
+  </section>
   </main>
 
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <div class="footer-brand">
-        <a class="brand" href="./">
-          <img src="./assets/img/pineapple.png" alt="" width="38" height="38" loading="lazy">
+        <a class="brand" href="../../">
+          <img src="../../assets/img/pineapple.png" alt="" width="38" height="38" loading="lazy">
           <span>Pineapple Games<small>Making things a little bit better</small></span>
         </a>
         <p class="footer-note">Hecho con 🍍 en Valladolid.<br>
@@ -159,21 +134,21 @@
       <nav class="footer-col" aria-label="Explora">
         <h3>Explora</h3>
         <ul>
-          <li><a href="./">Inicio</a></li>
-          <li><a href="./games/all/">Todos los juegos</a></li>
-          <li><a href="./anuncios/">Anuncios</a></li>
-          <li><a href="./games/imtlazarus-games/">IMTLazarus Games</a></li>
-          <li><a href="./legal/">Legal</a></li>
+          <li><a href="../../">Inicio</a></li>
+          <li><a href="../../games/all/">Todos los juegos</a></li>
+          <li><a href="../../anuncios/">Anuncios</a></li>
+          <li><a href="../../games/imtlazarus-games/">IMTLazarus Games</a></li>
+          <li><a href="../../legal/">Legal</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Juegos">
         <h3>Juegos</h3>
         <ul>
-          <li><a href="./games/dopamina/">Dopamina</a></li>
-          <li><a href="./games/trade-up/">Trade Up</a></li>
-          <li><a href="./games/simulagoal/">SimulaGoal</a></li>
-          <li><a href="./games/fine-at-skibidi/">FNAS</a></li>
-          <li><a href="./games/slop-central/">Slop Central</a></li>
+          <li><a href="../../games/dopamina/">Dopamina</a></li>
+          <li><a href="../../games/trade-up/">Trade Up</a></li>
+          <li><a href="../../games/simulagoal/">SimulaGoal</a></li>
+          <li><a href="../../games/fine-at-skibidi/">FNAS</a></li>
+          <li><a href="../../games/slop-central/">Slop Central</a></li>
         </ul>
       </nav>
       <nav class="footer-col" aria-label="Síguenos">
@@ -188,15 +163,16 @@
     </div>
     <div class="wrap footer-bottom">
       <p>© <span id="year">2026</span> Pineapple · <span translate="no">Making things a little bit better</span></p>
-      <p><a href="./legal/terminos/">Términos</a> · <a href="./legal/privacidad/">Privacidad</a> · <a href="./legal/dmca/">DMCA</a> · <a href="./legal/cookies/">Cookies</a></p>
+      <p><a href="../../legal/terminos/">Términos</a> · <a href="../../legal/privacidad/">Privacidad</a> · <a href="../../legal/dmca/">DMCA</a> · <a href="../../legal/cookies/">Cookies</a></p>
     </div>
     <div class="wave wave-footer" aria-hidden="true">
       <div class="wave-track"><svg viewBox="0 0 1440 120" preserveAspectRatio="none" focusable="false" aria-hidden="true"><defs><linearGradient id="wgrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1440" y2="0"><stop offset="0" stop-color="#f5a623"/><stop offset="0.25" stop-color="#ffd166"/><stop offset="0.5" stop-color="#f5a623"/><stop offset="0.75" stop-color="#ffd166"/><stop offset="1" stop-color="#f5a623"/></linearGradient></defs><path d="M0,79.1 L48,81.9 L96,76.3 L144,64.6 L192,51.1 L240,40.9 L288,38.1 L336,43.7 L384,55.4 L432,68.9 L480,79.1 L528,81.9 L576,76.3 L624,64.6 L672,51.1 L720,40.9 L768,38.1 L816,43.7 L864,55.4 L912,68.9 L960,79.1 L1008,81.9 L1056,76.3 L1104,64.6 L1152,51.1 L1200,40.9 L1248,38.1 L1296,43.7 L1344,55.4 L1392,68.9 L1440,79.1 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".28"/><path d="M0,60.0 L48,77.6 L96,88.5 L144,88.5 L192,77.6 L240,60.0 L288,42.4 L336,31.5 L384,31.5 L432,42.4 L480,60.0 L528,77.6 L576,88.5 L624,88.5 L672,77.6 L720,60.0 L768,42.4 L816,31.5 L864,31.5 L912,42.4 L960,60.0 L1008,77.6 L1056,88.5 L1104,88.5 L1152,77.6 L1200,60.0 L1248,42.4 L1296,31.5 L1344,31.5 L1392,42.4 L1440,60.0 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".9"/></svg><svg viewBox="0 0 1440 120" preserveAspectRatio="none" focusable="false" aria-hidden="true"><path d="M0,79.1 L48,81.9 L96,76.3 L144,64.6 L192,51.1 L240,40.9 L288,38.1 L336,43.7 L384,55.4 L432,68.9 L480,79.1 L528,81.9 L576,76.3 L624,64.6 L672,51.1 L720,40.9 L768,38.1 L816,43.7 L864,55.4 L912,68.9 L960,79.1 L1008,81.9 L1056,76.3 L1104,64.6 L1152,51.1 L1200,40.9 L1248,38.1 L1296,43.7 L1344,55.4 L1392,68.9 L1440,79.1 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".28"/><path d="M0,60.0 L48,77.6 L96,88.5 L144,88.5 L192,77.6 L240,60.0 L288,42.4 L336,31.5 L384,31.5 L432,42.4 L480,60.0 L528,77.6 L576,88.5 L624,88.5 L672,77.6 L720,60.0 L768,42.4 L816,31.5 L864,31.5 L912,42.4 L960,60.0 L1008,77.6 L1056,88.5 L1104,88.5 L1152,77.6 L1200,60.0 L1248,42.4 L1296,31.5 L1344,31.5 L1392,42.4 L1440,60.0 L1440,120 L0,120 Z" fill="url(#wgrad)" opacity=".9"/></svg></div>
     </div>
   </footer>
 
-  <script src="./assets/js/site.js" defer></script>
-  <script src="./assets/js/analytics.js" defer></script>
+  <script src="../../assets/js/site.js" defer></script>
+  <script src="../../assets/js/markdown.js" defer></script>
+  <script src="../../assets/js/analytics.js" defer></script>
   <button id="toTop" class="to-top" type="button" aria-label="Volver arriba" title="Volver arriba">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
   </button>
