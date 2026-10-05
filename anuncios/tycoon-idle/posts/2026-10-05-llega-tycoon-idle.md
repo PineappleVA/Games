@@ -1,25 +1,44 @@
-# 💼 ¡Llega Tycoon Idle!
+# 💼 ¡Tycoon Idle ya está en Pineapple Games!
 
-Hoy se suma **Tycoon Idle** al catálogo de Pineapple Games: un juego incremental de gestión en el que empiezas con un pequeño puesto de limonada y puedes acabar lanzando un programa espacial. Ya puedes jugarlo desde la página de Pineapple Games.
+Presentamos **Tycoon Idle**, un juego incremental de gestión que puedes abrir directamente desde Pineapple Games. Empiezas tocando para conseguir tus primeros ingresos y reinvirtiéndolos en negocios cada vez mayores: desde un puesto de limonada hasta un programa espacial.
 
-## Construye tu imperio negocio a negocio
+## 🏙️ Construye tu imperio negocio a negocio
 
-Hay **8 negocios** que desbloquear: puesto de limonada, quiosco de periódicos, Donas Express, pizzería, flota de taxis, fábrica, rascacielos y programa espacial. Compra unidades, mejora su producción y deja que los mánagers automaticen parte del trabajo.
+Hay **ocho negocios** que descubrir y hacer crecer:
 
-Cada **25 unidades** de un mismo negocio alcanzas un hito que aumenta un **10 %** sus ingresos (hasta 20 hitos). También puedes asignar empleados a parcelas, encadenar toques para subir el combo y aprovechar los impulsos del maletín de suerte.
+- 🍋 Puesto de Limonada
+- 📰 Quiosco de Periódicos
+- 🍩 Donas Express
+- 🍕 Pizzería
+- 🚕 Flota de Taxis
+- 🏭 Fábrica
+- 🏢 Rascacielos
+- 🚀 Programa Espacial
 
-## Sigue progresando aunque cierres la página
+Compra más unidades, mejora su producción y desbloquea mánagers para automatizar compras. Cuando tengas parcelas, asigna empleados a los negocios: cada empleado aporta un **100 % adicional** de ingresos a su negocio.
 
-Tycoon Idle calcula las ganancias offline: al volver puedes reclamar el **25 %** de la producción durante un máximo de 24 horas. Si desbloqueas el Reloj Dimensional, ese tramo aumenta a 48 horas; después, la producción offline baja al 3 %.
+Cada **25 unidades** del mismo negocio alcanzan un hito y aumentan sus ingresos un **10 %**; puedes lograr hasta 20 hitos por negocio. Así, volver a invertir en los negocios que ya tienes también da frutos.
 
-La partida se guarda automáticamente en tu navegador. No necesitas cuenta y el progreso no se sube a un servidor.
+## 👆 Los toques también importan
 
-## Renace y vuelve más fuerte
+Los toques no se quedan atrás cuando crece tu imperio: encadénalos dentro de **1,6 segundos** para aumentar el combo hasta un **80 %**. Un **6 %** de los toques puede ser crítico y multiplicar su valor por **12**.
 
-El juego tiene **tres niveles de renacimiento** — inversores, cristales y estrellas — que convierten parte de tu progreso en nuevas ventajas permanentes. Además, sus **35 logros** aportan un 2 % permanente a los ingresos cada uno, hasta un máximo del 70 %.
+Cada 70–150 segundos puede aparecer un **maletín de suerte** y se queda unos 13 segundos. Si lo abres a tiempo, puedes conseguir **Fiebre** (×7 ingresos durante 30 segundos), **Toque de Midas** (×20 valor por toque durante 20 segundos) o 15 minutos de producción cobrados al instante.
 
-## Empieza a jugar
+## ⏳ Tus negocios siguen trabajando
 
-Abre [Tycoon Idle en Pineapple Games](https://pineappleva.github.io/Games/games/tycoon-idle/) y consulta allí la guía de mecánicas. El código y los detalles del proyecto están en el [repositorio público de Tycoon Idle](https://github.com/PineappleVA/tycoon-idle).
+Al regresar, puedes reclamar ganancias offline equivalentes al **25 % de la producción** durante un máximo de 24 horas. Si desbloqueas el **Reloj Dimensional**, ese periodo se amplía hasta 48 horas; pasado el límite, la producción offline se calcula al 3 %.
+
+La partida se guarda automáticamente en el almacenamiento local del navegador. No hace falta crear una cuenta y el progreso no se guarda en la nube: si borras los datos del sitio o cambias de navegador o dispositivo, la partida no se transfiere.
+
+## ⭐ Renace y vuelve más fuerte
+
+El progreso tiene **tres niveles de renacimiento**: inversores, cristales y estrellas. Cada etapa te ayuda a desbloquear funciones permanentes y a acelerar la siguiente vuelta. También hay **35 logros**; cada uno aporta un 2 % permanente a los ingresos, hasta un máximo del 70 %.
+
+En el nivel de las estrellas entra en juego **La Balanza**: el primer ascenso al Cielo está asegurado; después, cada intento tiene un 25 % de llegar al Cielo y un 75 % de caer al Infierno. Tras tres caídas al Infierno, puedes elegir tú el destino.
+
+## ▶ Empieza a jugar
+
+Entra en [la página de Tycoon Idle](https://pineappleva.github.io/Games/games/tycoon-idle/) y pulsa **Jugar** para abrir el juego. Allí tienes también un resumen de las mecánicas y las instrucciones para empezar.
 
 *— El equipo de Pineapple*
