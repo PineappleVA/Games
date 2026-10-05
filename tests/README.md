@@ -32,8 +32,8 @@ npm run serve        # http://localhost:8080/
 
 ## Detalles de interés
 
-- Lo publicado se compara con `git diff` contra la rama de GitHub Pages
-  (`arena/01a0d53d-games`). Las mejoras aún no desplegadas van anotadas en
+- Lo publicado se compara con `git diff` contra `main`, la rama configurada
+  como origen de GitHub Pages. Las mejoras aún no desplegadas van anotadas en
   `CAMBIOS_PENDIENTES` (`tests/live/parity.test.mjs`); al desplegar, hay que
   vaciar la lista.
 - jsdom no implementa todo (IntersectionObserver, matchMedia, canvas): los

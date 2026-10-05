@@ -41,9 +41,26 @@ const ghFile = (repo, path) => {
   return Buffer.from(content, 'base64').toString('utf8');
 };
 
-/* Archivos del sitio (que se publican) que en esta rama difieren de lo que
-   está en producción, con el motivo. Al desplegar la rama, se vacía. */
-const CAMBIOS_PENDIENTES = {};
+/* Archivos del sitio (que se publican) que difieren de la rama main usada
+   por GitHub Pages, con el motivo. Al desplegar la rama, se vacía. */
+const CAMBIOS_PENDIENTES = {
+  '404.html': 'Actualiza el recuento del catálogo y añade un acceso al juego.',
+  'anuncios/index.html': 'Añade el canal de Tycoon Idle al feed y al índice de anuncios.',
+  'anuncios/tycoon-idle/index.html': 'Canal de anuncios con la plantilla actual de Pineapple Games.',
+  'anuncios/tycoon-idle/posts/2026-10-05-llega-tycoon-idle.md': 'Entrada ampliada de lanzamiento.',
+  'anuncios/tycoon-idle/posts/posts.json': 'Manifiesto de la entrada de lanzamiento.',
+  'games/all/index.html': 'Integra Tycoon Idle en el catálogo y conserva el orden solicitado.',
+  'games/tycoon-idle/game/index.html': 'Juego autocontenido con consentimiento de cookies integrado.',
+  'games/tycoon-idle/index.html': 'Ficha del juego adaptada al tema y navegación actuales.',
+  'index.html': 'Destaca Tycoon Idle y actualiza el total sin cambiar el texto general de marca.',
+  'legal/cookies/index.html': 'Documenta las claves locales del juego y la fecha de revisión.',
+  'legal/dmca/index.html': 'Añade el juego al alcance de la protección de contenidos.',
+  'legal/index.html': 'Actualiza la fecha de revisión de los documentos legales.',
+  'legal/privacidad/index.html': 'Documenta el almacenamiento local utilizado por el juego.',
+  'legal/terminos/index.html': 'Actualiza el catálogo y las claves locales del juego.',
+  'manifest.json': 'Mantiene una descripción general de Pineapple sin promocionar un juego concreto.',
+  'sitemap.xml': 'Incluye las páginas del juego y su canal de anuncios.',
+};
 
 function deployedDiff() {
   sh('git', ['fetch', '--depth=200', 'origin', PAGES_BRANCH]);

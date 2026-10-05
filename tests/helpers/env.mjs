@@ -21,7 +21,7 @@ export const SITE_BASE = SITE_ORIGIN + '/Games/';
 export const HUB_ORIGIN = 'https://pineappleva.github.io';
 
 /** La rama desde la que GitHub Pages publica este repositorio. */
-export const PAGES_BRANCH = 'arena/01a0d53d-games';
+export const PAGES_BRANCH = 'main';
 
 /** Directorios que no forman parte del sitio publicado. */
 export const DEV_DIRS = new Set([
